@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@1,300&display=swap');
+.roadmap-bg{
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../images/LogoBlack.png');
+    background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 30%;
+  z-index: -9;
+}
+.roadmap{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+}
+
+.roadmap-main{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    background-color: rgba(102, 51, 153, 0.8);
+    color: rgba(255, 255, 255, 0.8);
+}
+.roadmap-main h2{
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+
+}
+
+.circle{
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50%;
+    border: thin solid white;
+    font-family: 'Open Sans Condensed', sans-serif;
+    
+}
+.circle span{
+    font-weight: 800;
+    filter: brightness(150%) !important;
+}
+
+.header-circles{
+    width: 17vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.circle1{
+    background-color: rgba(102, 51, 153);
+}
+
+.carousel{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Open Sans Condensed', sans-serif;
+    
+}
+.roadmap-item{
+    line-height: 2rem;
+}
+.roadmap-item p{
+    font-size: 1.3rem;
+}
+.roadmap-item h3{
+    font-size: 1.5rem;
+}
+.rec-arrow,
+.rec-dot{
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .rec-arrow{
+        display: block;
+        font-size: 1rem !important;
+        border: none !important;
+    }
+    .header-circles{
+        width: 60vw;
+    }
+     
+   }
+
+
