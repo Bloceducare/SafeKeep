@@ -66,7 +66,7 @@ loadFromChain()
     <h6 className="mb-n4"> Hide Balance less than eth </h6> 
      <input type="checkbox" className="margin"></input>
      
-     <Button variant="outline-secondary"  className= "box position pad "  style={{marginLeft:'auto'}} onClick={handleShow} >Create Vault</Button>{' '}
+   {/*  <Button variant="outline-secondary"  className= "box position pad "  style={{marginLeft:'auto'}} onClick={handleShow} >Create Vault</Button>{' '}
                 <Modal 
                   show={show}
                   onHide={handleClose}
@@ -74,7 +74,7 @@ loadFromChain()
                   keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        Create Your Token
+                        Create Vault
                     </Modal.Header>
                     <Modal.Body>
                     <Form.Group>
@@ -130,9 +130,9 @@ loadFromChain()
                         </Button>
                     </Modal.Footer>
 
-                </Modal>
+                </Modal> */}
 
-  </Container>
+</Container>
   
 <Container className="pt-5 pb-4">
   <Row>
@@ -311,7 +311,7 @@ loadFromChain()
        </Card>
 
        <br/>
-        <Card border="dark" style={{ width: '25rem', height: '13rem'} }>
+       {/*<Card border="dark" style={{ width: '25rem', height: '13rem'} }>
          <Card.Body>
          <div className="pt-5">
            <h4 className="head">Ping Countdown</h4>
@@ -322,7 +322,7 @@ loadFromChain()
           </div>
           <br />
          </Card.Body>
-       </Card>
+</Card>*/}
     </Col>
 
     
