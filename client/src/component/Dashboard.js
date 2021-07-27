@@ -258,7 +258,28 @@ loadFromChain()
 
  <br/>
 <div>
-   <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
+   
+<div/>
+  <br />
+ </div>
+ </Col>  
+ 
+ 
+  
+    <Col sm={5}> {/*2nd col begins */}
+
+
+       <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
+         <Card.Body>
+         <div className="pt-5">
+           <h4 className="head">Overall Balance</h4>
+           <h4 className="head pt-2">$1234.00</h4>
+          </div>
+         </Card.Body>
+       </Card>
+
+      <br /> 
+      <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
     
     <Card.Body>
     <Row>
@@ -279,26 +300,8 @@ loadFromChain()
         
     </Card.Body>
   </Card>
-<div/>
-  <br />
- </div>
- </Col>  
- 
- 
-  
-    <Col sm={5}>
-       <Card border="dark" style={{ width: '25rem', height: '13rem'} }>
-         <Card.Body>
-         <div className="pt-5">
-           <h4 className="head">Your Balance</h4>
-           <h4 className="head pt-2">$1234.00</h4>
-          </div>
-         </Card.Body>
-       </Card>
 
-       <br /> 
-
-       <Card border="dark" style={{ width: '25rem', height: '13rem'} }>
+       {/*<Card border="dark" style={{ width: '25rem', height: '13rem'} }>
          <Card.Body>
          <div className="pt-5">
            <h4 className="head">Back-up Address</h4>
@@ -311,6 +314,8 @@ loadFromChain()
        </Card>
 
        <br/>
+      */}
+  
        {/*<Card border="dark" style={{ width: '25rem', height: '13rem'} }>
          <Card.Body>
          <div className="pt-5">
