@@ -268,15 +268,24 @@ loadFromChain()
   
     <Col sm={5}> {/*2nd col begins */}
 
-
-       <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
-         <Card.Body>
-         <div className="pt-5">
-           <h4 className="head">Overall Balance</h4>
-           <h4 className="head pt-2">$1234.00</h4>
-          </div>
-         </Card.Body>
-       </Card>
+    <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
+    <Card.Body>
+    <Row>
+      <Col sm={7}>
+        <h4 className="pt-4 ">Token Balance</h4>
+      <h4>0.001 SFP</h4>
+       </Col>
+       <Col sm={5}>
+           <h4 className="pt-4 ">$184.00</h4>
+           <div border="dark"  className= "box color" style={{ width: '6rem', height: '2.5rem'}} >4.5%</div>
+       </Col>
+    </Row>
+    <div className="pt-3 mt-2">
+      <Button variant="outline-dark" style={{ width: '8rem'} } className=" mx-4" >Deposit</Button>{' '}
+      <Button variant="outline-dark" style={{ width: '8rem'} }>Withdraw</Button>
+     </div>  
+    </Card.Body>
+</Card>
 
       <br /> 
       <Card border="dark" style={{ width: '30rem', height: '13rem'} }>
