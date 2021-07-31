@@ -1,0 +1,38 @@
+.switch-btns .tab-btn{
+    border: none;
+    background-color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-bottom: thin solid green;
+    
+}
+.tab-btn{
+    cursor: pointer !important;
+   
+    
+    
+}
+.switch-btns button:hover{
+    border-bottom: thin solid green;
+
+}
+.switch-tabs{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+   z-index: 99;
+    
+}
+.switch-btns{
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    
+}

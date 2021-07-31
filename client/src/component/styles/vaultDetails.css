@@ -1,0 +1,95 @@
+
+.vaultDetails{
+    position: relative;
+    height: 90vh;
+    width: 100vw;
+}
+.card{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    height: auto;
+    width: 300px;
+    font-weight: 300;
+    padding-bottom: 2rem !important;
+    box-sizing: border-box;
+   
+}
+span{
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.owner-card{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:50px 100px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.backup-card{
+    padding: 25px 50px;
+    text-align: center;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+
+}
+
+.inheritors-card{
+    text-align: center;
+    padding: 25px 10px;
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+   
+}
+.inheritor-detail{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.update-btn{
+    height: 40px;
+    width: 100px;
+    border: none;
+    color: rgba(255, 255, 255);
+    background-color: teal;
+    font-size: 1rem;
+   
+    
+}
+.update-btn-div{
+    width: 100%;
+    
+}
+.ping-box{
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+    text-align: center;
+    padding: 25px 25px;
+}
+.update-ping{
+    background-color: rgb(0,128,0);
+}
+.balance-box{
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    text-align: center;
+    padding-top: 2rem !important;
+    
+
+}
+
+.heading{
+    font-weight: 400;
+}
+
+
+

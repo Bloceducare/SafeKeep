@@ -50,7 +50,17 @@ const Nav = (props) => {
         providerOptions // required
       });
       web3 = await connect(web3Modal);
-      props.setWeb3(web3);
+      const networkId =await web3.eth.net.getNetworkType();
+     if(networkId != "rinkeby"){
+      alert('kindly switch to rinkeby test network and refresh')
+
+      }
+      else{
+        props.setWeb3(web3);
+
+      }
+      
+      
     }
 
    // providerOPtions.portis.showWeb3Modal();
@@ -73,7 +83,7 @@ const Nav = (props) => {
   } */
  // const [page, setPage]= React.useState("dashboard");
 
-  let page = "dashboard";
+  let page = "options";
 
   const makePage = (displayPage)=> {
     displayPage = page;
