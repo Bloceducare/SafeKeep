@@ -59,10 +59,10 @@ async function authWalletConnect() {
         <>
     <button 
     onClick={() => authenticate({ signingMessage: "Sign in to Safekeep" })}
-    type="button" class="btn btn-outline-dark">Connect</button>
+    type="button" class="btn btn-outline-secondary text-white">Connect</button>
     <button 
     onClick={() => authWalletConnect()}
-    type="button" class="btn btn-outline-dark">Wallet Connect</button>
+    type="button" class="btn btn-outline-secondary text-white mx-2" >Wallet Connect</button>
 
    
     </>
@@ -91,6 +91,7 @@ async function authWalletConnect() {
               <Nav.Item>
                 <Nav.Link href="#home">Roadmap</Nav.Link>
               </Nav.Item>
+              {_authBtn}
             </Nav>
             </Navbar.Collapse>
           </Container>
