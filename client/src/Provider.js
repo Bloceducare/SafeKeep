@@ -6,8 +6,9 @@ import {appId, serverUrl} from './env'
 
 
 export const Provider =({children})=>{
+    console.log(appId, serverUrl)
     return (
-        <MoralisProvider appId={'77IfzDQc5dLFD3YbNKeuNrxHGe2c5OWGoMxgfLTU'} serverUrl={'https://ioc7ccqovdu5.grandmoralis.com:2053/server'}>
+        <MoralisProvider appId={'2aKGhOL0zRSPz2FhLpwrinb1Cdhdomgr4C5mXxrz'} serverUrl={'https://1j0s4bvecbdd.bigmoralis.com:2053/server'}>
      <ReduxProvider store={store}>
       <Router>
      {children}

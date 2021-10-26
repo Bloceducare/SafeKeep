@@ -1,38 +1,64 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@font-face {
+  font-family: "clash grotesk regular";
+  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff");
+  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff2") format("woff2"),
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+@font-face {
+  font-family: "clash grotesk bold";
+  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff");
+  font-family: "clash grotesk bold";
+  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff2") format("woff2"),
+  }
+
+@font-face {
+  font-family: "clash grotesk light";
+  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff");
+  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff2") format("woff2"),
+  }
+
+@font-face {
+  font-family: "clash grotesk medium";
+  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff");
+  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff2") format("woff2"),
+  }
+
+@font-face {
+  font-family: "clash grotesk semibold";
+  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff");
+  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff2") format("woff2"),
+  }
+
+
+
+  
+body {
+  font-family: clash grotesk regular, Arial, sans-serif;;
+  margin: 0;
+  background: black;
   color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.App-link {
-  color: #61dafb;
-}
+a:link { text-decoration: none; }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
+
+
+.opacity-7 {
+  opacity: 0.7;
 }

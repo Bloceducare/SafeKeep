@@ -2,7 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
 
-//https://github.com/abdulmalik97/moralis-react-authentication
+
+const LogoutButton = () => {
+  const { logout, isAuthenticating } = useMoralis();
+  return (
+    <button
+      onClick={() => logout()}
+      disabled={isAuthenticating}>
+      Logout
+    </button>
+  );
+};
 function Header() {
     const {   authenticate,
         isWeb3Enabled,
@@ -17,14 +27,14 @@ async function authWalletConnect() {
     const user = authenticate({
       provider: "walletconnect",
       chainId: 56,
-    //   mobileLinks: [
-    //     "metamask",
-    //     "trust",
-    //     "rainbow",
-    //     "argent",
-    //     "imtoken",
-    //     "pillar",
-    //   ],
+      mobileLinks: [
+        "metamask",
+        "trust",
+        "rainbow",
+        "argent",
+        "imtoken",
+        "pillar",
+      ],
       signingMessage: "Welcome!",
     });
     console.log(user);
@@ -33,7 +43,6 @@ async function authWalletConnect() {
   useEffect(() => {
     if (!isWeb3Enabled && isAuthenticated) {
       enableWeb3({ provider: "walletconnect", chainId: 56 });
-      console.log("web3 activated");
     }
   }, [isWeb3Enabled, isAuthenticated, enableWeb3]);
 
@@ -49,11 +58,15 @@ async function authWalletConnect() {
     <button 
     onClick={() => authenticate({ signingMessage: "Sign in to Safekeep" })}
     type="button" class="btn btn-outline-dark">Connect</button>
-    <button  onClick={() => authWalletConnect()} >Wallet</button> 
+    <button 
+    onClick={() => authWalletConnect()}
+    type="button" class="btn btn-outline-dark">Wallet Connect</button>
+
+   
     </>
     )
      :
-    'logout'
+    <LogoutButton />
   )
 
     return (  
