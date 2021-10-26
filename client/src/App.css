@@ -12,36 +12,34 @@
   font-family: "clash grotesk bold";
   src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff") format("woff"),
   url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff2") format("woff2"),
-  }
+}
 
 @font-face {
   font-family: "clash grotesk light";
   src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff");
   src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff") format("woff"),
   url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff2") format("woff2"),
-  }
+}
 
 @font-face {
   font-family: "clash grotesk medium";
   src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff");
   src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff") format("woff"),
   url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff2") format("woff2"),
-  }
+}
 
 @font-face {
   font-family: "clash grotesk semibold";
   src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff");
   src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff") format("woff"),
   url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff2") format("woff2"),
-  }
-
-
-
+}
   
 body {
   font-family: clash grotesk regular, Arial, sans-serif;;
   margin: 0;
-  background: black;
+  background: linear-gradient(#0B0D2E,#000);
+  background-repeat: no-repeat;
   color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

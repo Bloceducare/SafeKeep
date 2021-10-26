@@ -75,21 +75,24 @@ async function authWalletConnect() {
       <>
         <Navbar bg="dark" variant="dark" expand="md">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/home">
               <Logo src={`images/logo.png`} fluid/>{` `}
               SafeKeep         
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto justify-content-center">
+            <Nav className="me-auto justify-content-end">
               <Nav.Item>
-                <Nav.Link href="#home">Home</Nav.Link>
+                <Nav.Link href="/home">Home</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#home">About us</Nav.Link>
+                <Nav.Link href="/About">About us</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="#home">Roadmap</Nav.Link>
+                <Nav.Link href="/Roadmap">Roadmap</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="/Dashboard">Dashboard</Nav.Link>
               </Nav.Item>
               {_authBtn}
             </Nav>
