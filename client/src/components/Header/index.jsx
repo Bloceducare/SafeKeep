@@ -78,13 +78,12 @@ async function authWalletConnect() {
               <Nav.Item>
                 <Nav.Link href="#home">Roadmap</Nav.Link>
               </Nav.Item>
+              {_authBtn}
             </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
-      </>
-
-// {_authBtn}   
+      </>   
     )
 }
 
