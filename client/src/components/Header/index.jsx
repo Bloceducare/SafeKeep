@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
+import {Container,Navbar,Nav, Image} from "react-bootstrap"
+import { Logo } from './header.style';
 
 
 const LogoutButton = () => {
@@ -69,34 +71,33 @@ async function authWalletConnect() {
     <LogoutButton />
   )
 
-    return (  
-<nav className="d-flex align-items-center justify-content-between container p-3">
+    return (
+      <>
+        <Navbar bg="dark" variant="dark" expand="md">
+          <Container>
+            <Navbar.Brand href="#home">
+              <Logo src={`images/logo.png`} fluid/>{` `}
+              SafeKeep         
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto justify-content-center">
+              <Nav.Item>
+                <Nav.Link href="#home">Home</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#home">About us</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link href="#home">Roadmap</Nav.Link>
+              </Nav.Item>
+            </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </>
 
-    <div>Logo</div>
-    <div>
-        <ul className='d-flex list-unstyled align-items-center '>
-            <li className='mx-2'>
-            <Link to ={'/'}>Home
-            </Link>      
-            </li>
-            <li className='mx-2' >
-            <Link to ={'/about'}>About
-            </Link>   
-            </li>
-            <li className='mx-2'>
-            <Link to ={'/'}>Roadmap
-            </Link>   
-            </li>
-            <li className='mx-2'>
-           {_authBtn}
-            </li>
-        </ul>
-    </div>
-
-</nav>
-
-
-        
+// {_authBtn}   
     )
 }
 
