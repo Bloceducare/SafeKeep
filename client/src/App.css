@@ -36,13 +36,19 @@
 }
   
 body {
-  font-family: clash grotesk regular, Arial, sans-serif;;
+  font-family: clash grotesk regular, Arial, sans-serif;
   margin: 0;
+  padding: 0;
   background: linear-gradient(#0B0D2E,#000);
   background-repeat: no-repeat;
   color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+h5{
+  font-family: clash grotesk regular, Arial, sans-serif;
 }
 
 a:link { text-decoration: none; }
