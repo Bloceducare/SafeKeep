@@ -75,7 +75,7 @@ async function authWalletConnect() {
       <>
         <Navbar bg="dark" variant="dark" expand="md">
           <Container>
-            <Navbar.Brand href="/home">
+            <Navbar.Brand href="/">
               <Logo src={`images/logo.png`} fluid/>{` `}
               SafeKeep         
             </Navbar.Brand>
@@ -83,7 +83,7 @@ async function authWalletConnect() {
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto justify-content-end">
               <Nav.Item>
-                <Nav.Link href="/home">Home</Nav.Link>
+                <Nav.Link href="/">Home</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link href="/About">About us</Nav.Link>

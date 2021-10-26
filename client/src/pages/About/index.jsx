@@ -42,18 +42,14 @@ function About() {
 
          <section className='row'>
              <div className="col-lg-6">
-
-                 <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                      <div> Arrow </div>
-                     <div> How do we ensure this you ask?, 
-it's simple </div>
-                 </div>
-
+                     <div> How do we ensure this you ask?, it's simple </div>
+                </div>
                  <img src={Safe} alt='safe' />
                  <p>
-                 When depositing money into your SafeKeep Wallet, you are also mandated to supply a backup address, preferrably but not limited to a hardware wallet or a paper wallet that can be kept from disasters such as fire or a flood
+                    When depositing money into your SafeKeep Wallet, you are also mandated to supply a backup address, preferrably but not limited to a hardware wallet or a paper wallet that can be kept from disasters such as fire or a flood
                  </p>
-
              </div>
              <div className="col-lg-6">
 
@@ -66,13 +62,13 @@ it's simple </div>
 
                  <img src={Safe} alt='safe' />
                  <p>
-                 Once we notice that there is no transation on your account for 6 months from the date you performed your last transaction, then
-we send all your crypto holdings with us to your backup wallet.
-In a case where you don't want to perform any transactions for a
-long time but want us to know you still have access to your
-account, all you have to do is send a Ping from the Dapp.
-Most importantly, you can choose to withdraw all your funds
-any time you want
+                    Once we notice that there is no transation on your account for 6 months from the date you performed your last transaction, then
+                    we send all your crypto holdings with us to your backup wallet.
+                    In a case where you don't want to perform any transactions for a
+                    long time but want us to know you still have access to your
+                    account, all you have to do is send a Ping from the Dapp.
+                    Most importantly, you can choose to withdraw all your funds
+                    any time you want
                  </p>
 
              </div>
