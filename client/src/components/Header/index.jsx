@@ -29,14 +29,14 @@ async function authWalletConnect() {
     const user = authenticate({
       provider: "walletconnect",
       chainId: 56,
-      mobileLinks: [
-        "metamask",
-        "trust",
-        "rainbow",
-        "argent",
-        "imtoken",
-        "pillar",
-      ],
+      // mobileLinks: [
+      //   "metamask",
+      //   "trust",
+      //   "rainbow",
+      //   "argent",
+      //   "imtoken",
+      //   "pillar",
+      // ],
       signingMessage: "Welcome!",
     });
     console.log(user);

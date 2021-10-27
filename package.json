@@ -9,8 +9,9 @@
     "hardhat": "^2.3.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.1.0",
+    "@openzeppelin/contracts": "^4.3.2",
     "dotenv": "^10.0.0",
-    "hardhat-ethers": "^1.0.1"
+    "hardhat-ethers": "^1.0.1",
+    "react-icons": "^4.3.1"
   }
 }
