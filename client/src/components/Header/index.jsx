@@ -83,16 +83,20 @@ async function authWalletConnect() {
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto justify-content-end">
               <Nav.Item>
-                <Nav.Link href="/">Home</Nav.Link>
+              <Link to='/' className ='nav-link'>Home</Link> 
+                {/* <Nav.Link href="/">Home</Nav.Link> */}
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/About">About us</Nav.Link>
+              <Link to='/about' className ='nav-link'>About us</Link> 
+                {/* <Nav.Link href="/About">About us</Nav.Link> */}
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/Roadmap">Roadmap</Nav.Link>
+              <Link to='/road-map' className ='nav-link'>Roadmap</Link> 
+                {/* <Nav.Link href="/Roadmap">Roadmap</Nav.Link> */}
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/Dashboard">Dashboard</Nav.Link>
+              <Link to='/dashboard' className ='nav-link'>Dashboard</Link> 
+                {/* <Nav.Link href="/Dashboard">Dashboard</Nav.Link> */}
               </Nav.Item>
               {_authBtn}
             </Nav>

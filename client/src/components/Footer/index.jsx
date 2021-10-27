@@ -1,10 +1,14 @@
 import React from 'react'
+import { Image } from 'react-bootstrap'
+import { FootLogo, FooterDiv} from './style'
 
 function Footer() {
     return (
-        <div className='text-center mt-5'>
-           Footer 
-        </div>
+        <FooterDiv>
+           <a href="/"><FootLogo src={`images/Twitter.png`} fluid/></a>
+           <a href="/"><FootLogo src={`images/Telegram.png`} fluid/></a>
+           <p>&copy; SafeKeep Team, {new Date().getFullYear()}</p>
+        </FooterDiv>
     )
 }
 
