@@ -1,6 +1,7 @@
 import React from 'react'
 import {Image, Row} from "react-bootstrap"
 import { BigText, BtnLeft,BtnRight, Container, Top, DivImg} from './style'
+import {MDBAnimation} from "mdbreact";
 
 function Home() {
     return (
@@ -17,7 +18,9 @@ function Home() {
                     </div>
                 </Top>
                 <DivImg className="container-fluid">
-                    <Image src={`images/lock.png`} fluid/>
+                    <MDBAnimation reveal type="bounceInUp">
+                        <Image src={`images/lock.png`} fluid/> 
+                    </MDBAnimation>
                 </DivImg>
                 <div>
                     <p>Built on &nbsp;&nbsp;<Image src={`images/eth.png`}/></p>
