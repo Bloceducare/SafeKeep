@@ -9,6 +9,7 @@ function Home() {
             <Container>
                 <Top>
                     <BigText>SAFEKEEP</BigText>
+                    
                     <h5>Provide guaranteed storage</h5>
                     <h5>and safety backup for crypto assets</h5>
                     <div>

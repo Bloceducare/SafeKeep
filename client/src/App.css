@@ -1,4 +1,64 @@
 
+
+.dmr-1 {
+  margin-right: 1rem;
+}
+.dmr-2 {
+  margin-right: 2rem;
+}
+
+.dmr-3 {
+  margin-right: 3rem;
+}
+
+.dml-1 {
+  margin-left: 1rem;
+}
+.dml-2 {
+  margin-left: 2rem;
+}
+
+.dml-3 {
+  margin-left: 3rem;
+}
+
+
+/* Padding */
+
+.dpr-1 {
+  padding-right: 1rem;
+}
+.dpr-2 {
+  padding-right: 2rem;
+}
+
+.dpr-3 {
+  padding-right: 3rem;
+}
+
+
+.dpl-1 {
+  padding-left: 1rem;
+}
+.dpl-2 {
+  padding-left: 2rem;
+}
+
+.dpl-3 {
+  padding-left: 3rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+.fs-0-9 {
+  font-size: 0.9rem;
+}
+
+
 @font-face {
   font-family: "clash grotesk regular";
   src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff");
@@ -67,8 +127,92 @@ a:active { text-decoration: none; }
   opacity: 0.7;
 }
 
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: calc(100%);
+}
+.shield-scale-down {
+  transform: scale(0.7);
+}
+
+section {
+  margin: 4rem auto!important ;
+}
+
 .about-intro {
   font-family: clash grotesk semibold;
   font-weight:normal;
   font-style:normal;
+  margin:2rem auto;
+  margin-bottom: 3rem;
+}
+
+
+
+.bg-about-img {
+  height: 500px;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  object-fit: scale-down;
+}
+.man-bg {
+  background-image: url("./assets/man.png"); /* The image used */
+
+}
+
+.plug-bg {
+  background-image: url("./assets//plug.png") ;
+}
+
+.arrow-styles {
+  transform:scale(1.8);
+  color:#2B5CCF;
+}
+
+
+.custom-ul {
+  position: relative;
+}
+
+.custom-ul::after, .custom-ul::before {
+  position: absolute;
+  content: '';
+  left:0.5rem;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:30%;
+}
+.custom-ul::after {
+  left:0.85rem;
+  height: 0.6rem;
+  background:#2B5CCF;
+  width: 0.6rem;
+  margin-top: 0.35rem;
+
+}
+.custom-ul::before {
+  height: 1.3rem;
+  background:#2B5CCF;
+  width: 1.3rem; 
+  opacity: 0.4;
+}
+
+
+.about-us-btc {
+  transform: scale(1.5);
+}
+.about-us-eth {
+  transform: translateX(2rem);
+
+}
+.about-us-monero {
+  transform: translateX(-2rem);
+
 }

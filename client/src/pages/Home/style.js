@@ -6,7 +6,11 @@ export const Container = styled.div`
 export const Top = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 6rem 0px;
+    height: calc(100vh);
+    margin:0;
+    align-items:center;
+    justify-content:center;
+   
 `
 export const BigText = styled.h1`
     font-family: clash grotesk semibold;

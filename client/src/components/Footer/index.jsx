@@ -7,7 +7,7 @@ function Footer() {
         <FooterDiv>
            <a href="/"><FootLogo src={`images/Twitter.png`} fluid/></a>
            <a href="/"><FootLogo src={`images/Telegram.png`} fluid/></a>
-           <p>&copy; SafeKeep Team, 2021</p>
+           <p>&copy; SafeKeep Team, {new Date().getFullYear()}</p>
         </FooterDiv>
     )
 }
