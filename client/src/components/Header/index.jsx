@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
 import {Container,Navbar,Nav, Image} from "react-bootstrap"
-import { Logo } from './header.style';
+import { Logo } from './style';
 
 
 const LogoutButton = () => {
@@ -59,10 +59,10 @@ async function authWalletConnect() {
         <>
     <button 
     onClick={() => authenticate({ signingMessage: "Sign in to Safekeep" })}
-    type="button" class="btn btn-outline-secondary text-white">Connect</button>
+    type="button" className="btn btn-connect text-white">Connect</button>
     <button 
     onClick={() => authWalletConnect()}
-    type="button" class="btn btn-outline-secondary text-white mx-2" >Wallet Connect</button>
+    type="button" className="btn btn-connect text-white mx-2" >Wallet Connect</button>
 
    
     </>
@@ -73,11 +73,11 @@ async function authWalletConnect() {
 
     return (
       <>
-        <Navbar bg="dark" variant="dark" expand="md">
+        <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
             <Navbar.Brand href="/">
               <Logo src={`images/logo.png`} fluid/>{` `}
-              SafeKeep         
+              SafeKeep
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

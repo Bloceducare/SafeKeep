@@ -18,7 +18,7 @@ function Home() {
                     </div>
                 </Top>
                 <DivImg className="container-fluid">
-                    <MDBAnimation reveal type="bounceInUp">
+                    <MDBAnimation reveal type="fadeInRight" duration="3s">
                         <Image src={`images/lock.png`} fluid/> 
                     </MDBAnimation>
                 </DivImg>
