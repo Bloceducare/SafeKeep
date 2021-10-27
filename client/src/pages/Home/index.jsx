@@ -1,6 +1,6 @@
 import React from 'react'
 import {Image, Row} from "react-bootstrap"
-import { BigText, BtnLeft,BtnRight, Container, Top, DivImg, P} from './style'
+import { BigText, BtnLeft,BtnRight, Container, Top, DivImg} from './style'
 
 function Home() {
     return (
@@ -8,8 +8,8 @@ function Home() {
             <Container>
                 <Top>
                     <BigText>SAFEKEEP</BigText>
-                    <P>Provide guaranteed storage</P>
-                    <P>and safety backup for crypto assets</P>
+                    <h5>Provide guaranteed storage</h5>
+                    <h5>and safety backup for crypto assets</h5>
                     <div>
                         <BtnLeft>Connect</BtnLeft>
                         <BtnRight>Lite Paper</BtnRight>

@@ -4,16 +4,16 @@ export const Container = styled.div`
     text-align: center;
 `
 export const Top = styled.div`
-    margin: 6rem 0px;
+    display: flex;
+    flex-direction: column;
+    margin: 6rem 0px;;
 `
 export const BigText = styled.h1`
     font-family: clash grotesk semibold;
-    font-size: 8vw;
-    letter-spacing: 0.3rem;
+    font-size: 80px;
 `
 
 export const P = styled.p`
-    font-size: 2vw;
     line-height: 20px;
 `
 
