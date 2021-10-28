@@ -36,7 +36,7 @@ align-self: flex-end;
 `
 export const DashboardSection =styled.div`
 flex:1;
-margin-left:3rem;
+padding-left:3rem;
 background:#0B0D2E;
 
 `
