@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link,Route, Switch } from 'react-router-dom';
 import { FaWallet } from "react-icons/fa";
-import { DashboardWrapper, OtherDashboardSection, DashboardSection, Header, List, iconStyle, TopSection, BottomSection, BalanceDiv } from './styles'
+import { DashboardWrapper, OtherDashboardSection, DashboardSection, Header, List, iconStyle, TopSection, BottomSection, BalanceDiv, OtherSectionWrapper } from './styles'
 import Wallet from '../Wallet';
 import Inheritors from '../Inheritors';
 import Ping from '../Ping';
@@ -58,16 +58,18 @@ function Dashboard() {
                          <Balance />
                          <br />
                          <Balance />
-                       </BottomSection>
-                  
+                       </BottomSection>               
                </DashboardSection>
-               <OtherDashboardSection>
-               <Switch>
-      <Route exact path="/wallet" component={Wallet} />
-      <Route exact path="/inheritors" component={Inheritors} />
-      <Route exact path="/ping" component={Ping} />
-      <Route exact path="/backupaddress" component={BackupAddress} />
-    </Switch>
+               <OtherDashboardSection>         
+              <OtherSectionWrapper>
+              <Switch>
+
+<Route exact path="/wallet" component={Wallet} />
+<Route exact path="/inheritors" component={Inheritors} />
+<Route exact path="/ping" component={Ping} />
+<Route exact path="/backupaddress" component={BackupAddress} />
+</Switch>
+              </OtherSectionWrapper>
                </OtherDashboardSection>
            </DashboardWrapper>
         </div>

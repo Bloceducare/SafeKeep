@@ -1,22 +1,5 @@
 import styled from "styled-components";
 
-// export const Wallet = styled.div`
-//     color:black;
-//     text-align:center;
-//     padding:0.3rem;
-//     padding-top:0.9rem;
-
-//     &:hover {
-//         background:gray;
-//         cursor:pointer;
-//     }
-//     &:focus {
-//         cursor:pointer;
-//     }
-
-// `
-
-
 export const Wallet =styled.div`
 display:flex;
 justify-content:space-between;
@@ -37,6 +20,9 @@ margin:1rem auto;
 h5{
     margin:0;
     color:black;
+    margin:0;
+    display:inline-block;
+    vertical-align:middle;
 }
 
 div {

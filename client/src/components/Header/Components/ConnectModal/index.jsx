@@ -33,7 +33,6 @@ function ConnectMOdal() {
        
       }
     const [show, setShow] = useState(false);
-  
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -85,7 +84,7 @@ function ConnectMOdal() {
         </div>
         <div  onClick = {()=> handleConnect('walletconnect')}>
     <Wallet>
-          <div className ='p-0'>
+          <div >
         <h5>Wallet connect</h5>
           </div>
           <div>

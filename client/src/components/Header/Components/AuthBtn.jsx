@@ -21,7 +21,6 @@ const AuthBtn =()=>{
       enableWeb3,
       Moralis,
    } = useMoralis();
-  console.log(user, isAuthenticated)
   
   async function authWalletConnect() {
     const user = authenticate({
@@ -37,7 +36,7 @@ const AuthBtn =()=>{
       // ],
       signingMessage: "Welcome!",
     });
-    console.log(user);
+   
   }
   
   useEffect(() => {

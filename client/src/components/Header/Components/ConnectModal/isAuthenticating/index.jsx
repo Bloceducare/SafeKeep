@@ -5,7 +5,7 @@ import {Button, Modal} from "react-bootstrap"
 
 function IsAuthenticating() {
 
-    const {  isAuthenticating} = useMoralis();
+    const {  isAuthenticating, isLoggingOut} = useMoralis();
     return (
         <>
         <Modal show={isAuthenticating} >
