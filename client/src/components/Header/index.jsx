@@ -1,17 +1,29 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
 import {Container,Navbar,Nav, Button, Image} from "react-bootstrap"
 import { AuthenticatedHead, Logo } from './style';
-import AuthBtn, { LogoutButton } from './Components/AuthBtn';
 import ConnectModal from './Components/ConnectModal';
 
 import IsAuthenticating from './Components/ConnectModal/isAuthenticating';
 import { maskAddress } from '../../utils/maskAddress';
 
+
+function Header() {
+    const { isAuthenticated} = useMoralis();  
+  const _header = !isAuthenticated ?   <UnAuthenticatedHeader  />: <AuthenticatedHeader />
+    return (
+      <>
+      <IsAuthenticating text={null} />
+      {_header}
+      </>   
+    )
+}
+
+export default Header
+
+
 function AuthenticatedHeader(){
   const { user, logout} = useMoralis();
-
   return (
     <Container className ='p-3'>
 
@@ -62,19 +74,3 @@ function UnAuthenticatedHeader(){
     </>
   )
 }
-
-
-function Header() {
-    const { isAuthenticated} = useMoralis();
-    
-  const _header = !isAuthenticated ?   <UnAuthenticatedHeader  />: <AuthenticatedHeader />
-
-    return (
-      <>
-      <IsAuthenticating />
-      {_header}
-      </>   
-    )
-}
-
-export default Header

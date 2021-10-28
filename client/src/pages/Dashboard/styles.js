@@ -37,11 +37,21 @@ align-self: flex-end;
 export const DashboardSection =styled.div`
 flex:1;
 margin-left:3rem;
+background:#0B0D2E;
 
 `
 export const OtherDashboardSection = styled.div`
 flex:4;
 border:1px solid red;
+background:#101010;
+`
+
+export const OtherSectionWrapper =styled.div`
+margin:auto;
+padding:3rem;
+`
+export const otherSectionContent =styled.div`
+
 `
 
 export const Header =styled.p`
