@@ -1,4 +1,13 @@
 
+.navIcon button {
+  display:none;
+}
+
+*{
+  padding: 0;
+  margin:0;
+  box-sizing: border-box;
+}
 
 .dmr-1 {
   margin-right: 1rem;
