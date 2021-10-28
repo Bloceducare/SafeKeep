@@ -3,9 +3,9 @@ import Monero from '../../assets/monero.png'
 import Btc from '../../assets/bitcoin.png'
 import Eth from '../../assets/eth.png'
 import Safe from '../../assets/shield.png'
-import Man from '../../assets/man.png'
-import Plug from '../../assets/plug.png'
 import { FaArrowUp } from "react-icons/fa";
+
+
 function About() {
     return (
         <div className='max-width-35' style ={{

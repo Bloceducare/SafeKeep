@@ -10,6 +10,15 @@
   font-size: 1.2rem;
 }
 
+.navIcon button {
+  display:none;
+}
+
+*{
+  padding: 0;
+  margin:0;
+  box-sizing: border-box;
+}
 .navbar-dark .navbar-nav .nav-link:hover{
   color: #2B5CCF
 }
@@ -221,7 +230,21 @@ section {
   margin-top: 0.35rem;
 
 }
+
+@keyframes animatePseudo {
+  0% {
+      transform: scale(1.0);
+      opacity: 0.4;
+  }
+  100% {
+      transform: scale(1.2);
+      opacity: 0;
+
+  }
+}
+
 .custom-ul::before {
+  animation: animatePseudo 1.5s ease-in-out infinite alternate;
   height: 1.3rem;
   background:#2B5CCF;
   width: 1.3rem; 
