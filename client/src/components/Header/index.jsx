@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
-import {Container,Navbar,Nav, Button} from "react-bootstrap"
+import {Container,Navbar,Nav, Button, Image} from "react-bootstrap"
 import { AuthenticatedHead, Logo } from './style';
 import AuthBtn, { LogoutButton } from './Components/AuthBtn';
 import ConnectModal from './Components/ConnectModal';
@@ -37,7 +37,7 @@ function UnAuthenticatedHeader(){
           <Container>
             <Navbar.Brand href="/">
               <Logo src={`images/logo.png`} fluid/>{` `}
-              SafeKeep         
+              SafeKeep
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
