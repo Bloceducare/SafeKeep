@@ -30,6 +30,7 @@ export const BtnLeft = styled.button`
     border: none;
     border-radius: 12px;
     color: #fff;
+
 `
 
 export const BtnRight = styled.button`

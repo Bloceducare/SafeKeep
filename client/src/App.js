@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard';
 import BackupAddress from './pages/BackupAddress';
+import Roadmap from './pages/Roadmap';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />
       <Route exact path="/dashboard" component={Dashboard} />
+      <Route exact path="/road-map" component={Roadmap} />
       <Route exact path="/wallet" component={Dashboard} />
       <Route exact path="/inheritors" component={Dashboard} />
       <Route exact path="/ping" component={Dashboard} />
