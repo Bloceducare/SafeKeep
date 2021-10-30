@@ -1,22 +1,8 @@
 import styled from "styled-components";
+import {Row, Col} from 'react-bootstrap'
 
 
 
-export const PingDiv = styled.div`
-margin:3rem auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-`
-
-export const PingBtn = styled.button`
-background:#2B5BCF;
-color:white;
-font-size:1.3rem;
-padding:0.5rem 1.5rem;
-border-radius:5px;
-border:none;
-`
 
 export const PingFreqBtn = styled.button`
 background:#2B5BCF;
@@ -38,9 +24,30 @@ justify-content:space-between;
 
 export const LastPingDiv  =styled.div`
 border-radius:5px;
-background:#8A8A8A;
-padding:0.4rem;
-h2 {
+border:1px solid rgb(138, 138, 138);
+background:#2928285a;
+padding:0.8rem 2rem;
 
+h2 {
+font-size:1.2rem;
 }
 `
+
+export const PingTable =styled(Row)`
+text-align:center;
+border-bottom:1px solid #8A8A8A;
+margin:0.4rem 0 ;
+`
+
+
+export const PingTableHeading = styled(PingTable)`
+border-top:1px solid #8A8A8A;
+border-bottom:1px solid #8A8A8A;
+margin:0.4rem 0 ;
+font-size:0.9rem;
+opacity:0.7;
+`
+export const ColC = styled(Col)`
+margin:${props => props.noMargin ==='true' ? 0 : '0.4rem 0rem'};
+`
+

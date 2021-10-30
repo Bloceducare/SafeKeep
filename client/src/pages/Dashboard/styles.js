@@ -4,6 +4,11 @@ import styled from "styled-components";
 //     text-align: center;
 // `
 
+export const DashboardIcon  = styled.img`
+margin-right:0.5rem;
+transform:scale(0.7);
+`
+
 export const iconStyle ={
     color:'#2B5BCF'
 }
@@ -36,13 +41,13 @@ align-self: flex-end;
 `
 export const DashboardSection =styled.div`
 flex:1;
-margin-left:3rem;
+padding-left:3rem;
 background:#0B0D2E;
 
 `
 export const OtherDashboardSection = styled.div`
 flex:4;
-border:1px solid red;
+//border:1px solid red;
 background:#101010;
 `
 

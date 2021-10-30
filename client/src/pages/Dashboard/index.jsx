@@ -1,21 +1,18 @@
 import React from 'react'
 import { Link,Route, Switch } from 'react-router-dom';
 import { FaWallet } from "react-icons/fa";
-import { DashboardWrapper, OtherDashboardSection, DashboardSection, Header, List, iconStyle, TopSection, BottomSection, BalanceDiv, OtherSectionWrapper } from './styles'
+import { DashboardWrapper, OtherDashboardSection, DashboardSection, Header, List, iconStyle, TopSection, BottomSection, BalanceDiv, OtherSectionWrapper, DashboardIcon } from './styles'
 import Wallet from '../Wallet';
 import Inheritors from '../Inheritors';
 import Ping from '../Ping';
 import BackupAddress from '../BackupAddress';
+import WalletIcon from '../../assets/wallet.svg'
+import PingIcon from '../../assets/ping.svg'
+import InheritIcon from '../../assets/inherit.svg'
+import BackupIcon from '../../assets/backup.svg'
 
 
-const Balance = ({title = 'Total Balance', amount='2, 2222, 000'})=>{
-    return (
-        <BalanceDiv>
-            <span>Total Balance</span>
-            <div className='text-center' >USD {` ${amount}`}</div>
-        </BalanceDiv>
-    )
-}
+
 function Dashboard() {
     return (
         <div >
@@ -29,45 +26,43 @@ function Dashboard() {
 
                        <List>
                            <li> 
-                            <Link to ='/wallet'>
-                           <FaWallet className ='dashboard-icons dmr-1' style ={iconStyle} />
+                            <Link to ='/dashboard/wallet'>
+                           <DashboardIcon src={WalletIcon} alt='wallet' />
                            Wallet
                            </Link>
                             </li>
                            <li> 
-                            <Link to ='/backupaddress'>
-                           <FaWallet className ='dashboard-icons dmr-1' style ={iconStyle} />
-                           Backup Address
+                            <Link to ='/dashboard/backupaddress'>
+                                
+                            <DashboardIcon src = {BackupIcon} alt ='backup' />
+                              Backup Address
                            </Link>
                             </li>
                            <li> 
-                           <Link to ='/ping'>
-                           <FaWallet className ='dashboard-icons dmr-1' style ={iconStyle} />
+                           <Link to ='/dashboard/ping'>
+                          <DashboardIcon src = {PingIcon} alt = 'ping'/>
                            Ping
                            </Link>
                             </li>
                             <li>
-                            <Link to ='/inheritors'>
-                           <FaWallet className ='dashboard-icons dmr-1' style ={iconStyle} />
+                            <Link to ='/dashboard/inheritors'>
+                           <DashboardIcon src = {InheritIcon} alt = 'inherit' />
                            Inheritors
                            </Link>
                             </li>
                        </List>
                        </TopSection>
                        <BottomSection>
-                         <Balance />
-                         <br />
-                         <Balance />
+                       
                        </BottomSection>               
                </DashboardSection>
                <OtherDashboardSection>         
               <OtherSectionWrapper>
               <Switch>
-
-<Route exact path="/wallet" component={Wallet} />
-<Route exact path="/inheritors" component={Inheritors} />
-<Route exact path="/ping" component={Ping} />
-<Route exact path="/backupaddress" component={BackupAddress} />
+<Route  path="/dashboard/wallet" component={Wallet} />
+<Route  path="/dashboard/inheritors" component={Inheritors} />
+<Route  path="/dashboard/ping" component={Ping} />
+<Route  path="/dashboard/backupaddress" component={BackupAddress} />
 </Switch>
               </OtherSectionWrapper>
                </OtherDashboardSection>

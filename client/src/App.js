@@ -14,13 +14,9 @@ function App() {
     <Layout>
       <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/about" component={About} />
-      <Route exact path="/dashboard" component={Dashboard} />
-      <Route exact path="/road-map" component={Roadmap} />
-      <Route exact path="/wallet" component={Dashboard} />
-      <Route exact path="/inheritors" component={Dashboard} />
-      <Route exact path="/ping" component={Dashboard} />
-      <Route exact path="/backupaddress" component={BackupAddress} />
+      <Route  path="/about" component={About} />
+      <Route path="/road-map" component={Roadmap} />
+      <Route  path="/dashboard" component={Dashboard} />
     </Switch>
     </Layout>
   );
