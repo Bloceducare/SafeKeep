@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomSelect from '../../components/CustomSelect'
-import { LastPingDiv, PingBtn, PingDiv, PingFreqBtn, PingFreqForm, PingTable, PingTableHeading, ColC } from './style'
-import { FaCheck, FaRegTimesCircle} from "react-icons/fa";
+import { LastPingDiv, PingFreqBtn, PingFreqForm, PingTable, PingTableHeading, ColC } from './style'
+import { FaCheck} from "react-icons/fa";
 import DashboardHero from '../../components/DashboardHero';
 
 function Ping() {
@@ -11,10 +11,7 @@ function Ping() {
 
             
 
-          <FaRegTimesCircle 
-      
-     
-              />
+         
            
           <p>
            

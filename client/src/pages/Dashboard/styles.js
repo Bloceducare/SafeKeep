@@ -42,7 +42,7 @@ background:#0B0D2E;
 `
 export const OtherDashboardSection = styled.div`
 flex:4;
-border:1px solid red;
+//border:1px solid red;
 background:#101010;
 `
 
