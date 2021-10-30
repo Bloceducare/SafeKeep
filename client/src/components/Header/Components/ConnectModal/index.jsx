@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import {Button, Modal, Container, Row, Col} from "react-bootstrap"
+import {Button, Modal} from "react-bootstrap"
 import Metamask from '../../../../assets/metamaskIcon.svg'
 import WalletConnect from '../../../../assets/walletConnectIcon.svg'
 import { Wallet } from "./style";
@@ -10,10 +10,7 @@ function ConnectMOdal() {
     const {   authenticate,
         isWeb3Enabled,
         isAuthenticated,
-        user,
         enableWeb3,
-        Moralis,
-        isAuthenticating
      } = useMoralis();
 
      async function authWalletConnect() {

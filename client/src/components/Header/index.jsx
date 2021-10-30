@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
-import {Container,Navbar,Nav, Button, Image} from "react-bootstrap"
+import {Container,Navbar,Nav, Button} from "react-bootstrap"
 import { AuthenticatedHead, Logo } from './style';
 import ConnectModal from './Components/ConnectModal';
-
 import IsAuthenticating from './Components/ConnectModal/isAuthenticating';
 import { maskAddress } from '../../utils/maskAddress';
 
@@ -64,7 +63,7 @@ function UnAuthenticatedHeader(){
               <Link to='/road-map' className ='nav-link'>Roadmap</Link> 
               </Nav.Item>
               <Nav.Item>
-              <Link to='/dashboard' className ='nav-link'>Dashboard</Link> 
+              <Link to='/wallet' className ='nav-link'>Dashboard</Link> 
               </Nav.Item>
             <ConnectModal />
             </Nav>

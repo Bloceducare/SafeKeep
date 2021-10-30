@@ -1,31 +1,33 @@
 import React from 'react'
 import CustomSelect from '../../components/CustomSelect'
-import { LastPingDiv, PingBtn, PingDiv, PingFreqBtn, PingFreqForm, PingTable, PingTableHeading, ColC, DataTableWrapper } from './style'
-import { FaCheck} from "react-icons/fa";
-import {Row } from 'react-bootstrap'
+import { LastPingDiv, PingBtn, PingDiv, PingFreqBtn, PingFreqForm, PingTable, PingTableHeading, ColC } from './style'
+import { FaCheck, FaRegTimesCircle} from "react-icons/fa";
+import DashboardHero from '../../components/DashboardHero';
 
 function Ping() {
     return (
         <div>
             <div>
+
+            
+
+          <FaRegTimesCircle 
+      
+     
+              />
            
           <p>
+           
+           
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </p>
           </div>
 
-              
-          <PingDiv>
-              <div>
-                  ping now
-              </div>
-              
-              <div>
-                 <PingBtn>
-                     Ping Now
-                 </PingBtn>
-              </div>
-          </PingDiv>
+            <DashboardHero 
+            btntext = 'Ping'
+            text='Ping Now'
+            margin= '3rem auto'
+             />   
 
           <LastPingDiv>
               <h2>Last Ping</h2>

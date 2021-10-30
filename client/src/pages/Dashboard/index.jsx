@@ -8,14 +8,7 @@ import Ping from '../Ping';
 import BackupAddress from '../BackupAddress';
 
 
-const Balance = ({title = 'Total Balance', amount='2, 2222, 000'})=>{
-    return (
-        <BalanceDiv>
-            <span>Total Balance</span>
-            <div className='text-center' >USD {` ${amount}`}</div>
-        </BalanceDiv>
-    )
-}
+
 function Dashboard() {
     return (
         <div >
@@ -55,19 +48,16 @@ function Dashboard() {
                        </List>
                        </TopSection>
                        <BottomSection>
-                         <Balance />
-                         <br />
-                         <Balance />
+                       
                        </BottomSection>               
                </DashboardSection>
                <OtherDashboardSection>         
               <OtherSectionWrapper>
               <Switch>
-
-<Route exact path="/wallet" component={Wallet} />
-<Route exact path="/inheritors" component={Inheritors} />
-<Route exact path="/ping" component={Ping} />
-<Route exact path="/backupaddress" component={BackupAddress} />
+<Route  path="/wallet" component={Wallet} />
+<Route  path="/inheritors" component={Inheritors} />
+<Route  path="/ping" component={Ping} />
+<Route  path="/backupaddress" component={BackupAddress} />
 </Switch>
               </OtherSectionWrapper>
                </OtherDashboardSection>

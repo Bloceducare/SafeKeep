@@ -2,21 +2,7 @@ import styled from "styled-components";
 import {Row, Col} from 'react-bootstrap'
 
 
-export const PingDiv = styled.div`
-margin:3rem auto;
-display:flex;
-justify-content:space-between;
-align-items:center;
-`
 
-export const PingBtn = styled.button`
-background:#2B5BCF;
-color:white;
-font-size:1.3rem;
-padding:0.5rem 1.5rem;
-border-radius:5px;
-border:none;
-`
 
 export const PingFreqBtn = styled.button`
 background:#2B5BCF;
