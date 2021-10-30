@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
 import {Container,Navbar,Nav, Button} from "react-bootstrap"
-import { AuthenticatedHead, Logo } from './style';
+import { AuthenticatedHead, HeadWrapper, Logo } from './style';
 import ConnectModal from './Components/ConnectModal';
 import IsAuthenticating from './Components/ConnectModal/isAuthenticating';
 import { maskAddress } from '../../utils/maskAddress';
@@ -24,9 +24,10 @@ export default Header
 function AuthenticatedHeader(){
   const { user, logout} = useMoralis();
   return (
-    <Container className ='p-3'>
-
+    
+    <HeadWrapper >
    <AuthenticatedHead>
+
      <div>
      <Logo src={`images/logo.png`} fluid/>{` `}
      </div>
@@ -37,7 +38,8 @@ function AuthenticatedHeader(){
        
   </div>
    </AuthenticatedHead>
-    </Container>
+   </HeadWrapper>
+  
   )
 }
 
@@ -63,7 +65,7 @@ function UnAuthenticatedHeader(){
               <Link to='/road-map' className ='nav-link'>Roadmap</Link> 
               </Nav.Item>
               <Nav.Item>
-              <Link to='/wallet' className ='nav-link'>Dashboard</Link> 
+              <Link to='/dashboard/wallet' className ='nav-link'>Dashboard</Link> 
               </Nav.Item>
             <ConnectModal />
             </Nav>

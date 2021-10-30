@@ -1,4 +1,4 @@
-import {Modal, Button, Form,Col, Row} from 'react-bootstrap'
+import {Modal, Form,Col, Row} from 'react-bootstrap'
 import CustomButton from '../../../components/Button';
 import {ModalHeader, FormControl} from './style'
   
@@ -14,11 +14,11 @@ function AddModal({show, handleClose}) {
           <Modal.Body className ='bg-dark'>  
               <Form>
   <Form.Group className="mb-4" controlId="formGridAddress1">
-    <FormControl placeholder="1234 Main St"/>
+    <FormControl placeholder="Name"/>
   </Form.Group>
 
   <Form.Group className="mb-4" controlId="formGridAddress2">
-    <FormControl placeholder="Apartment, studio, or floor"  />
+    <FormControl placeholder="Paste Address"  />
   </Form.Group>
 
   <Row className="mb-4">

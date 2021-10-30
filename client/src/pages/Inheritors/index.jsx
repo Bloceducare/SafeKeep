@@ -8,7 +8,6 @@ import AddModal from './AddModal';
 
 function Inheritors() {
      const [show, setShow] = useState(false);
-  
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 

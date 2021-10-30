@@ -1,9 +1,9 @@
 import React from 'react'
 import {Btn} from './style'
 
-function CustomButton({text, onClick, size}) {
+function CustomButton({text, onClick, size, className}) {
     return (
-        <Btn onClick ={onClick} size ={size}>
+        <Btn className ={className} onClick ={onClick} size ={size}>
             {text} 
         </Btn>
     )
