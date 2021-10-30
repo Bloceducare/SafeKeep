@@ -19,9 +19,9 @@ function About() {
 
   
          <section className="row container">
-             <div className="col-lg-4"> <img src= {Eth} alt='bitc' width={'100%'} className='about-us-eth' /></div>
-             <div className="col-lg-4"> <img src= {Btc}  width={'100%'} className='about-us-btc' /></div>
-             <div className="col-lg-4"> <img src= {Monero} width={'100%'} className='about-us-monero' /></div>
+             <div className="col-lg-4"> <img src= {Eth} alt='eth' width={'100%'} className='about-us-eth' /></div>
+             <div className="col-lg-4"> <img src= {Btc}  alt='btc' width={'100%'} className='about-us-btc' /></div>
+             <div className="col-lg-4"> <img src= {Monero}  alt='monero' width={'100%'} className='about-us-monero' /></div>
          </section>
          </div>
 
