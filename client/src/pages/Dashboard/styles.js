@@ -4,6 +4,11 @@ import styled from "styled-components";
 //     text-align: center;
 // `
 
+export const DashboardIcon  = styled.img`
+margin-right:0.5rem;
+transform:scale(0.7);
+`
+
 export const iconStyle ={
     color:'#2B5BCF'
 }

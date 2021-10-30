@@ -10,18 +10,16 @@ border-bottom:0;
 button {
   background-image: url(${img});
 }
-
-
 `
 
 
 export const FormControl = styled(Form.Control)`
-background:#212121;
+background:transparent;
 color:white;
 
 &:focus {
   color:white;
-  background:#212121;
+  background:transparent;
 }
 
 `
