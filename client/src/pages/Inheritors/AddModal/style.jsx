@@ -1,16 +1,17 @@
 import styled from 'styled-components'
 import {Modal, Form} from 'react-bootstrap'
-import img from '../../../assets/check.svg'
+import img from '../../../assets/close.svg'
 
 
 export const ModalHeader = styled(Modal.Header)`
 background:black;
 border-bottom:0;
+
 button {
   background-image: url(${img});
-  border:1px solid white;
-  border-radius:200px;
 }
+
+
 `
 
 
