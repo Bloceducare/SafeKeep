@@ -48,7 +48,7 @@ background:#101010;
 
 export const OtherSectionWrapper =styled.div`
 margin:auto;
-padding:3rem;
+padding:1.5rem;
 `
 export const otherSectionContent =styled.div`
 

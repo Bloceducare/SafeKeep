@@ -4,6 +4,7 @@ import styled from "styled-components";
 export const BtnDiv = styled.div`
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
 `
 
 export const DepositBtn = styled.button`
@@ -52,4 +53,8 @@ export const AssetDiv = styled.div`
    margin: 20px;
    padding: 20px 30px;
    background-color: #050913;
+`
+
+export const Token = styled.div`
+    display: flex;
 `

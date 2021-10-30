@@ -1,9 +1,12 @@
 import React from 'react'
 import { Container, Row, Col, Image } from 'react-bootstrap'
-import { DepositBtn, WithdrawBtn, BtnDiv, AddBtn, P, AssetDiv } from './style'
-import {BsPlusCircle}  from "react-icons/bs";
+import { DepositBtn, WithdrawBtn, BtnDiv, AddBtn, P, AssetDiv } from './style';
+import Eth from './hooks/useData';
+
 
 function Wallet() {
+    
+
     return (
         <>
            <BtnDiv>
@@ -27,6 +30,7 @@ function Wallet() {
                     </Row>
                </AssetDiv>
            </Container>
+           <Eth />
         </>
     )
 }
