@@ -2,6 +2,7 @@ import React from 'react'
 import {Image, Row} from "react-bootstrap"
 import { BigText, BtnLeft,BtnRight, Container, Top, DivImg} from './style'
 import {MDBAnimation} from "mdbreact";
+import Lock from "../../assets/lock.png"
 
 function Home() {
     return (
@@ -19,7 +20,7 @@ function Home() {
                 </Top>
                 <DivImg className="container-fluid">
                     <MDBAnimation reveal type="fadeInRight" duration="3s">
-                        <Image src={`images/lock.png`} fluid/> 
+                        <Image src={Lock} fluid/> 
                     </MDBAnimation>
                 </DivImg>
                 <div>

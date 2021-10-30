@@ -5,6 +5,7 @@ import { AuthenticatedHead, HeadWrapper, Logo } from './style';
 import ConnectModal from './Components/ConnectModal';
 import IsAuthenticating from './Components/ConnectModal/isAuthenticating';
 import { maskAddress } from '../../utils/maskAddress';
+import Logoimg from "../../assets/logo.png"
 
 
 function Header() {
@@ -29,7 +30,7 @@ function AuthenticatedHeader(){
    <AuthenticatedHead>
 
      <div>
-     <Logo src={`images/logo.png`} fluid/>{` `}
+     <Logo src={Logoimg} fluid/>{` `}
      </div>
      <div className ='d-flex align-items-center'>
      {maskAddress(user.get('ethAddress'))}
@@ -49,7 +50,7 @@ function UnAuthenticatedHeader(){
        <Navbar bg="dark" variant="dark" expand="md">
           <Container>
             <Navbar.Brand href="/">
-              <Logo src={`images/logo.png`} fluid/>{` `}
+              <Logo src={Logoimg} fluid/>{` `}
               SafeKeep
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

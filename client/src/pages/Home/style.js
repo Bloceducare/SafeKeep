@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Background from "../../assets/Vector.png"
 
 export const Container = styled.div`
     text-align: center;
@@ -43,7 +44,7 @@ export const BtnRight = styled.button`
 `
 export const DivImg = styled.div`
     height: 80vh;
-    background-image: url("./images/Vector.png");
+    background-image: url(${Background});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
