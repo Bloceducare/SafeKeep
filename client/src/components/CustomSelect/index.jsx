@@ -7,11 +7,11 @@ const defaultVal = [
   {value :'none', txt :'css'},
   {value :'rst', txt :'react'}
 ]
-function CustomSelect({change, optionsArray = defaultVal, title = 'Select an Option'}) {
+function CustomSelect({className, change, optionsArray = defaultVal, title = 'Select an Option'}) {
     return (
       <>
 <Select onChange ={change}>
-  <select>
+  <select className ={className}>
     <option selected disabled >{title}</option>
     {
       optionsArray.map((item, index)=>(

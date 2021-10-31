@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'mdbreact/dist/css/mdb.css';
 import App from './App';
-import { Provider } from './Provider';
+import { Provider } from './Providers';
 import {store} from './app/store'
 import { BrowserRouter as Router } from 'react-router-dom';
 
