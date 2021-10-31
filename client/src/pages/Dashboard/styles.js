@@ -47,13 +47,15 @@ background:#0B0D2E;
 `
 export const OtherDashboardSection = styled.div`
 flex:4;
-//border:1px solid red;
+/* border:1px solid red; */
 background:#101010;
 `
 
 export const OtherSectionWrapper =styled.div`
+max-width:60rem;
 margin:auto;
 padding:1.5rem;
+padding-top:4rem;
 `
 export const otherSectionContent =styled.div`
 

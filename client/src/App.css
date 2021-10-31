@@ -1,3 +1,7 @@
+
+
+
+
 .nav-item{
   margin-right: 20px;
   color: #fff;
@@ -53,6 +57,10 @@
   margin-left: 3rem;
 }
 
+
+.text-right {
+  text-align: right;
+}
 
 /* Padding */
 

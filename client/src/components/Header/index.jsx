@@ -66,7 +66,7 @@ function UnAuthenticatedHeader(){
               <Link to='/road-map' className ='nav-link'>Roadmap</Link> 
               </Nav.Item>
               <Nav.Item>
-              <Link to='/dashboard/wallet' className ='nav-link'>Dashboard</Link> 
+              <Link to='/dashboard/wallet/assets' className ='nav-link'>Dashboard</Link> 
               </Nav.Item>
             <ConnectModal />
             </Nav>

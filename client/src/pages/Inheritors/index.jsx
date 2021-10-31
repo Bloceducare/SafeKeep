@@ -3,7 +3,7 @@ import { Btn, Tbody } from './style'
 import { FaTrashAlt, FaEdit} from "react-icons/fa";
 import DashboardHero from '../../components/DashboardHero';
 import CustomSearchInput from '../../components/CustomSearchInput';
-import AddModal from './AddModal';
+import AddModal from './Components/AddModal';
 
 
 function Inheritors() {

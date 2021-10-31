@@ -1,9 +1,16 @@
 import React from 'react'
 import {Btn} from './style'
 
-function CustomButton({text, onClick, size, className}) {
+function CustomButton({text, onClick, size, className, outline, noMargin, ...others}) {
     return (
-        <Btn className ={className} onClick ={onClick} size ={size}>
+        <Btn 
+        className ={className} 
+        onClick ={onClick} 
+        size ={size} 
+        outline ={outline}
+        noMargin ={noMargin}
+        {...others}
+        >
             {text} 
         </Btn>
     )

@@ -1,36 +1,36 @@
-import React from 'react'
-import { Container, Row, Col, Image } from 'react-bootstrap'
-import { DepositBtn, WithdrawBtn, BtnDiv, AddBtn, P, AssetDiv } from './style';
+import React, {useState} from 'react'
+import { Link,Route, Switch } from 'react-router-dom';
+import {  BtnDiv} from './style';
 import Eth from './hooks/useData';
+import Deposit from './Components/Deposit';
+import Assets from './Components/Assets';
+import CustomButton from '../../components/Button';
 
 
 function Wallet() {
+    const [show, setShow] = useState(false)
     
+    const handleClose = ()=>{
+        setShow(false)
+    }
+
+    const handleOpen = ()=>{
+        setShow(true)
+    }
 
     return (
         <>
            <BtnDiv>
-               <DepositBtn>Deposit</DepositBtn>
-               <WithdrawBtn>Withdraw</WithdrawBtn>
+               <Link to = '/dashboard/wallet/deposit'>
+                   <CustomButton text = 'Deposit' />
+               </Link>
+               <CustomButton text = 'Withdraw' outline />
            </BtnDiv>
-           <Container>
-               <AssetDiv>
-                    <Row>
-                        <Col lg="5" md="5" sm="5" >
-                                <P>Total Balance</P>
-                                <h5>USD 20220.21</h5>
-                        </Col>
-                        <Col lg="5" md="5" sm="5">
-                                <P>Available Balance</P>
-                                <h5>USD 20220.21</h5>
-                        </Col>
-                        <Col lg="2" md="2" sm="2">
-                            <AddBtn><Image src={`images/plus.png`} fluid/></AddBtn>
-                        </Col>
-                    </Row>
-               </AssetDiv>
-           </Container>
-           <Eth />
+
+<Switch>
+<Route  path="/dashboard/wallet/assets" component={Assets} />
+<Route  path="/dashboard/wallet/deposit" component={Deposit} />
+</Switch>
         </>
     )
 }

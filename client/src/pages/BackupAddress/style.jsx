@@ -6,8 +6,8 @@ background:#A8C2FF;
 border-radius:10px;
 color:black;
 padding:0.8rem;
-font-size:1.2rem;
-letter-spacing:0.04rem;
+/* font-size:1.2rem; */
+/* letter-spacing:0.04rem; */
 `
 
 export const Table = styled.table`

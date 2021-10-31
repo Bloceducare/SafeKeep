@@ -1,17 +1,16 @@
 import {Modal, Form,Col, Row} from 'react-bootstrap'
-import CustomButton from '../../../components/Button';
-import {ModalHeader, FormControl} from './style'
+import CustomButton from '../../../../components/Button';
+import MDBody from '../../../../components/Modal/ModalBody'
+import ModalHeader from '../../../../components/Modal/ModalHeader';
+import {FormControl} from './style'
   
 function AddModal({show, handleClose}) {
 
-  
     return (
       <>  
         <Modal show={show} onHide={handleClose}>
-          <ModalHeader closeButton className ='bg-dark' >
-            <Modal.Title>Add Inheritors</Modal.Title>
-          </ModalHeader>
-          <Modal.Body className ='bg-dark'>  
+          <ModalHeader title = 'Add Inheritors' />
+          <MDBody >  
               <Form>
   <Form.Group className="mb-4" controlId="formGridAddress1">
     <FormControl placeholder="Name"/>
@@ -43,7 +42,7 @@ function AddModal({show, handleClose}) {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tem
               </p>
-              </Modal.Body>
+              </MDBody>
         </Modal>
       </>
     );
