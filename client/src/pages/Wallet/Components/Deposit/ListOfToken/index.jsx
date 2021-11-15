@@ -33,11 +33,11 @@ const Token  =({name, balance, symbol, logo, onGetAsset})=>{
     )
 }
 function ListOfToken({data, selected}) {
-
+ 
     return (
         <TokensWrapperDiv>
              {
-               data.length> 0 ? data.map((token, index)=>(
+               data?.length> 0 ? data?.map((token, index)=>(
                      <React.Fragment key ={index}>
                          <Token 
                         name = {token?.name}
