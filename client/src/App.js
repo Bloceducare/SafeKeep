@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -7,10 +8,12 @@ import About from './pages/About'
 import Dashboard from './pages/Dashboard';
 import BackupAddress from './pages/BackupAddress';
 import Roadmap from './pages/Roadmap';
-
+import { useMoralis } from 'react-moralis';
 
 function App() {
-  return (
+
+
+ return (
     <Layout>
       <Switch>
       <Route exact path="/" component={Home} />

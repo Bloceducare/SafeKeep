@@ -1,22 +1,13 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { Link,Route, Switch } from 'react-router-dom';
 import {  BtnDiv} from './style';
-import Eth from './hooks/useData';
 import Deposit from './Components/Deposit';
 import Assets from './Components/Assets';
 import CustomButton from '../../components/Button';
 
 
 function Wallet() {
-    const [show, setShow] = useState(false)
-    
-    const handleClose = ()=>{
-        setShow(false)
-    }
 
-    const handleOpen = ()=>{
-        setShow(true)
-    }
 
     return (
         <>

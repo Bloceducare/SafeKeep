@@ -10,7 +10,7 @@ function formatNum(num) {
 const to18Decimal = (value, decorate)=>{
     const v = (Math.round((value/10**18) * 100) / 100)
     if(decorate) return formatNum(v)
-    return v.toFixed(2);
+    return v.toFixed(4);
 }
 
 export default to18Decimal;

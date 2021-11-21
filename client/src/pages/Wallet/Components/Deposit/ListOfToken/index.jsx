@@ -1,15 +1,13 @@
 import React from 'react'
-import Eth from '../../../hooks/useData'
 import {TokenImage, TokensWrapperDiv, TokenWrapper} from './style'
 import { NoTokenImage } from '../NotokenImage'
-import to18Decimal from '../../../../../utils/to18Decimal'
 import isEmpty from '../../../../../utils/isEmpty'
 
 
 
 const Token  =({name, balance, symbol, logo, onGetAsset})=>{
-
     const _image = isEmpty(logo) ? <NoTokenImage />: <TokenImage  src = {`${logo}`} fluid />
+
     return (
         <>
         <TokenWrapper onClick ={onGetAsset} >   
@@ -26,27 +24,37 @@ const Token  =({name, balance, symbol, logo, onGetAsset})=>{
             </div>
 
             <div>
-                {to18Decimal(balance)}
+                {balance}
+                {/* {to18Decimal(balance)} */}
             </div>
         </TokenWrapper>
         </>
     )
 }
 function ListOfToken({data, selected}) {
+    const bal = (token)=>{
+      const p =  token?.balance / Math.pow(10, token?.decimals)
+
+        return p?.toFixed(4);
+    }
  
     return (
         <TokensWrapperDiv>
              {
-               data?.length> 0 ? data?.map((token, index)=>(
-                     <React.Fragment key ={index}>
-                         <Token 
-                        name = {token?.name}
-                        balance = {token?.balance}
-                        symbol ={token?.symbol}
-                        onGetAsset = { ()=> selected(token)}
-                         />
-                     </React.Fragment>
-                 )) : 'Add a token to your wallet to Start Safekeeping'
+               data?.length> 0 ? data?.map((token, index)=> {
+                   return (
+                    <React.Fragment key ={index}>
+                    <Token 
+                   name = {token?.name}
+                   balance = {(bal(token))}
+                   symbol ={token?.symbol}
+                   onGetAsset = { ()=> selected(token)}
+                    />
+                </React.Fragment>
+                   )
+               }
+                     
+                 ) : 'Add a token to your wallet to Start Safekeeping'
              }
         </TokensWrapperDiv>
     )
