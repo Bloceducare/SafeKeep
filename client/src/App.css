@@ -1,38 +1,377 @@
-.App {
-  text-align: center;
+
+
+
+
+.nav-item{
+  margin-right: 20px;
+  color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.navbar-dark .navbar-nav .nav-link{
+  display: inline-block;
+  color: #fff;
+  font-size: 1.2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.navIcon button {
+  display:none;
+}
+
+*{
+  padding: 0;
+  margin:0;
+  box-sizing: border-box;
+}
+.navbar-dark .navbar-nav .nav-link:hover{
+  color: #2B5CCF
+}
+
+.navbar-dark .navbar-nav .nav-link:active{
+  color: #2B5CCF
+}
+
+.navbar-nav{
+  align-items: center;
+}
+
+.dmr-1 {
+  margin-right: 1rem;
+}
+.dmr-2 {
+  margin-right: 2rem;
+}
+
+.dmr-3 {
+  margin-right: 3rem;
+}
+
+.dml-1 {
+  margin-left: 1rem;
+}
+.dml-2 {
+  margin-left: 2rem;
+}
+
+.dml-3 {
+  margin-left: 3rem;
+}
+
+
+.text-right {
+  text-align: right;
+}
+
+/* Padding */
+
+.dpr-1 {
+  padding-right: 1rem;
+}
+.dpr-2 {
+  padding-right: 2rem;
+}
+
+.dpr-3 {
+  padding-right: 3rem;
+}
+
+
+.dpl-1 {
+  padding-left: 1rem;
+}
+.dpl-2 {
+  padding-left: 2rem;
+}
+
+.dpl-3 {
+  padding-left: 3rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+.fs-0-9 {
+  font-size: 0.9rem;
+}
+
+
+@font-face {
+  font-family: "clash grotesk regular";
+  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff");
+  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff2") format("woff2"),
   }
+
+@font-face {
+  font-family: "clash grotesk bold";
+  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff");
+  font-family: "clash grotesk bold";
+  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff2") format("woff2"),
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@font-face {
+  font-family: "clash grotesk light";
+  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff");
+  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff2") format("woff2"),
+}
+
+@font-face {
+  font-family: "clash grotesk medium";
+  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff");
+  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff2") format("woff2"),
+}
+
+@font-face {
+  font-family: "clash grotesk semibold";
+  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff");
+  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff") format("woff"),
+  url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff2") format("woff2"),
+}
+  
+body {
+  font-family: clash grotesk regular, Arial, sans-serif;
+  background: linear-gradient(#0B0D2E,#000);
+  background-repeat: no-repeat;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+h5{
+  font-family: clash grotesk regular, Arial, sans-serif;
+}
+
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+
+
+a:hover { text-decoration: none; }
+
+
+a:active { text-decoration: none; }
+
+
+.opacity-7 {
+  opacity: 0.7;
+}
+
+.btn-connect{
+  margin-bottom: 10px;
+  outline: 1px solid #fff;
+}
+
+.hero {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
+  height: calc(100%);
+}
+.shield-scale-down {
+  transform: scale(0.7);
+}
+
+section {
+  margin: 4rem auto!important ;
+}
+
+.about-intro {
+  font-family: clash grotesk semibold;
+  font-weight:normal;
+  font-style:normal;
+  margin:2rem auto;
+  margin-bottom: 3rem;
+}
+
+
+
+.bg-about-img {
+  height: 500px;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  object-fit: scale-down;
+}
+.man-bg {
+  background-image: url("./assets/man.png"); /* The image used */
+
+}
+
+.plug-bg {
+  background-image: url("./assets//plug.png") ;
+}
+
+.arrow-styles {
+  transform:scale(1.8);
+  color:#2B5CCF;
+}
+
+
+.custom-ul {
+  position: relative;
+}
+
+.custom-ul::after, .custom-ul::before {
+  position: absolute;
+  content: '';
+  left:0.5rem;
+  border-radius: 100%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  top:30%;
+}
+.custom-ul::after {
+  left:0.85rem;
+  height: 0.6rem;
+  background:#2B5CCF;
+  width: 0.6rem;
+  margin-top: 0.35rem;
+
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes animatePseudo {
+  0% {
+      transform: scale(1.0);
+      opacity: 0.4;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+      transform: scale(1.2);
+      opacity: 0;
+
+  }
+}
+
+.custom-ul::before {
+  animation: animatePseudo 1.5s ease-in-out infinite alternate;
+  height: 1.3rem;
+  background:#2B5CCF;
+  width: 1.3rem; 
+  opacity: 0.4;
+}
+
+
+.about-us-btc {
+  transform: scale(1.5);
+}
+.about-us-eth {
+  transform: translateX(2rem);
+
+}
+.about-us-monero {
+  transform: translateX(-2rem);
+
+}
+
+.roadmap-container {
+  width: 80%;
+  padding: 50px 0;
+  margin: 50px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-container:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -1px;
+  width: 2px;
+  height: 100%;
+  background: #2B5CCF;
+  z-index: 1
+}
+
+.timeline-block {
+  width: -webkit-calc(50% + 8px);
+  width: -moz-calc(50% + 8px);
+  width: calc(50% + 8px);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  justify-content: space-between;
+  clear: both;
+}
+
+.timeline-block-right {
+  float: right;
+}
+
+.timeline-block-left {
+  float: left;
+  direction: rtl
+}
+
+.marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #F5F7FA;
+  background: #4FC1E9;
+  margin-top: 10px;
+  z-index: 9999
+}
+
+.timeline-content {
+  width: 95%;
+  padding: 0 15px;
+}
+
+.timeline-content ul li::marker{
+  color: #2B5CCF;
+  content: '✽ ';
+  padding: 0 5px;
+}
+
+.timeline-content h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 25px;
+  font-weight: 500
+}
+
+.timeline-content span {
+  font-size: 15px;
+  color: #a4a4a4;
+}
+
+.timeline-content p {
+  font-size: 14px;
+  line-height: 1.5em;
+  word-spacing: 1px;
+  color: #888;
+}
+
+
+@media screen and (max-width: 768px) {
+  .roadmap-container:before {
+     left: 8px;
+     width: 2px;
+  }
+  .timeline-block {
+     width: 100%;
+     margin-bottom: 30px;
+  }
+  .timeline-block-right {
+     float: none;
+  }
+
+  .timeline-block-left {
+     float: none;
+     direction: ltr;
   }
 }
