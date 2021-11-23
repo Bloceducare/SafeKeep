@@ -1,17 +1,36 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom';
+import { useMoralis } from 'react-moralis';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import Layout from './components/Layout';
 import Home from './pages/Home'
 import About from './pages/About'
 import Dashboard from './pages/Dashboard';
-import BackupAddress from './pages/BackupAddress';
 import Roadmap from './pages/Roadmap';
-import { useMoralis } from 'react-moralis';
+import { checkVaultIdAsync, checkVaultAsync } from './state/vault';
+
 
 function App() {
+  const dispatch = useDispatch()
+  const { user} = useMoralis();
+  const address = user?.get('ethAddress')
+  const id = useSelector(state => state.vault.id)
 
+
+  useEffect(()=>{
+    if(!address) return;
+    if(!id && address){
+      dispatch(checkVaultIdAsync(address))
+    }
+
+    if(id && address){
+      dispatch(checkVaultAsync(id))
+    }
+   
+
+  }, [address, id])
 
  return (
     <Layout>

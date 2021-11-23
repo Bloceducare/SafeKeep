@@ -1,7 +1,7 @@
 import { Provider as ReduxProvider} from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MoralisProvider } from "react-moralis"
-import {store} from '../app/store'
+import {store} from '../state'
 import {appId, serverUrl} from '../env'
 import { MoralisDappProvider } from './MoralisProvider/DappProvider';
 

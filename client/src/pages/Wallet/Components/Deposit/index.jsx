@@ -12,7 +12,10 @@ import { NoTokenImage } from './NotokenImage'
 import { DepositBtn, Balance, DepositDiv, DepositWrapper, Input, SelectToken, ArrowDown } from './style'
 import {useMoralisDapp} from '../../../../Providers/MoralisProvider/DappProvider'
 import { useNativeBalance } from '../../../../hooks/useNativeBalance'
-import { useMoralisWeb3Api} from 'react-moralis'
+import { useMoralisWeb3Api, useMoralis} from 'react-moralis'
+import { useContract } from '../../../../hooks/useContract'
+import { getSafeKeepContract } from '../../../../config/constants/contractHelpers'
+import { getSafeKeepAddress } from '../../../../utils/addressHelper'
 
 const nativeToken = (data)=>{
 
@@ -47,6 +50,20 @@ const nativeToken = (data)=>{
 }
 
 function Deposit() {
+    
+//   const su = async ()=>{
+//     let r  = getSafeKeepContract()
+//     return r;
+//   }
+
+//  su().then(r => console.log(r, 'result from promises'))
+  
+//   // sending 0.5 ETH
+// const options = {type: "native", amount: Moralis.Units.ETH("0.5"), receiver: "0x.."}
+// let result = await Moralis.transfer(options)
+
+  //const result = useContract('owner')
+  //console.log(result, 'resulttttss')
   const { token } = useMoralisWeb3Api();
 
   const {chainId} =  useMoralisDapp()
@@ -195,7 +212,7 @@ settings
                 </div>
                 <div> 
                   <div className ='d-flex'>
-                <Input defaultValue = {0} 
+                <Input
                 onChange = {handleChange}
                 value ={amount}
                 type ='number'

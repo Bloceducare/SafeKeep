@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import 'mdbreact/dist/css/mdb.css';
 import App from './App';
 import { Provider } from './Providers';
-import {store} from './app/store'
-import { BrowserRouter as Router } from 'react-router-dom';
+
 
 ReactDOM.render(
 <React.StrictMode>
