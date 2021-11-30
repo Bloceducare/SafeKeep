@@ -1,6 +1,6 @@
 import React from 'react'
 import CustomButton from '../Button'
-import {Div, Btn} from './style'
+import {Div} from './style'
 
 function DashboardHero({btntext, text, src, margin, clickshow}) {
     return (

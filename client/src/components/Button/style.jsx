@@ -39,6 +39,7 @@ background-color: #2B5BCF;
     border:none;
     border-radius: 12px;
     transition: all 0.3s ease-out;
+    opacity:${props => props.disabled && 0.4};
 
     &:hover{
         outline: 0.4px solid #2B5BCF;

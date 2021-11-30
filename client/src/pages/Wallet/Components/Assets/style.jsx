@@ -18,4 +18,16 @@ export const AddBtn = styled.button`
     outline: none;
     border: none;
     margin-top: 3px;
+    color:white;
+    font-size: 2rem;
+    border-radius: 50%;
+    border: 1px solid #2B5BCF;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   color: #2B5BCF;
 `
+
+

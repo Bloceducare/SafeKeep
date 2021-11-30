@@ -23,7 +23,13 @@ margin-bottom: 1rem;
 `
 
 export const TokensWrapperDiv = styled.div`
+display:${props => props.display ? 'block' : 'none'};
 margin-top:2rem;
 max-height:20rem;
 overflow-y:scroll;
+width:100%;
+position:absolute;
+top:1.8rem;
+background-color:#333;
+z-index:1;
 `

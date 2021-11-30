@@ -1,9 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
 import CustomButton from '../../components/Button'
 import CustomInput from '../../components/CustomInput'
 import { CurrentAddress, Table } from './style'
 
 function BackupAddress() {
+
+  const [backupAddress, setBackupAddress] = useState('')
+  
+
+  const handleChange = (e)=>{
+    setBackupAddress(e.target.value)
+  }
+  const updateBackupAddress = (e)=>{
+    
+    
+    
+  }
     return (
         <div>
              <div>          
@@ -12,11 +24,13 @@ function BackupAddress() {
           </p>
           </div>
             <section>
+            <form onSubmit = {updateBackupAddress} >
           <CustomInput placeholder ='Input Address' />
 
             <div  className ='my-4 d-flex justify-content-center align-items-center'>
-          <CustomButton text ='Update'  />
+          <CustomButton text ='Update' value = {backupAddress} onChange = {handleChange}  />
           </div>
+          </form>
           </section>
           
 
