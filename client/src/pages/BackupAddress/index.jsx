@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import CustomButton from '../../components/Button'
 import CustomInput from '../../components/CustomInput'
 import { CurrentAddress, Table } from './style'

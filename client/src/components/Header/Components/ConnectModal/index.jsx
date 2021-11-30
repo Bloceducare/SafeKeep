@@ -14,19 +14,19 @@ function ConnectMOdal() {
      } = useMoralis();
 
      async function authWalletConnect() {
-        const user = authenticate({
-          provider: "walletconnect",
-          chainId: 56,
-          // mobileLinks: [
-          //   "metamask",
-          //   "trust",
-          //   "rainbow",
-          //   "argent",
-          //   "imtoken",
-          //   "pillar",
-          // ],
-          signingMessage: "Welcome!",
-        });
+        // const user = authenticate({
+        //   provider: "walletconnect",
+        //   chainId: 56,
+        //   // mobileLinks: [
+        //   //   "metamask",
+        //   //   "trust",
+        //   //   "rainbow",
+        //   //   "argent",
+        //   //   "imtoken",
+        //   //   "pillar",
+        //   // ],
+        //   signingMessage: "Welcome!",
+        // });
        
       }
     const [show, setShow] = useState(false);

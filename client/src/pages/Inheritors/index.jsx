@@ -1,19 +1,23 @@
-import React, {useState} from 'react'
+import React  from 'react'
+import {  useDispatch } from 'react-redux';
 import { Btn, Tbody } from './style'
 import { FaTrashAlt, FaEdit} from "react-icons/fa";
 import DashboardHero from '../../components/DashboardHero';
 import CustomSearchInput from '../../components/CustomSearchInput';
 import AddModal from './Components/AddModal';
+import {showCreateInheritorsModal} from '../../state/ui'
 
 
 function Inheritors() {
-     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const dispatch = useDispatch()
+
+   const handleShow = () => {
+      dispatch(showCreateInheritorsModal())
+    }
 
     return (
         <div>
-            <AddModal  show = {show}  handleClose = {handleClose} />
+            <AddModal  />
             <div>       
           <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporincididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.

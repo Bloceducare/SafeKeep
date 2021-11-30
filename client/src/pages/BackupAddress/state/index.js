@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import { getSafeKeepContract } from '../../config/constants/contractHelpers'
+import { getSafeKeepContract } from '../../../config/constants/contractHelpers'
 
 
 

@@ -31,7 +31,7 @@ const Token  =({name, balance, symbol, logo, onGetAsset})=>{
         </>
     )
 }
-function ListOfToken({data, selected}) {
+function ListOfToken({data, selected, display}) {
     const bal = (token)=>{
       const p =  token?.balance / Math.pow(10, token?.decimals)
 
@@ -39,7 +39,7 @@ function ListOfToken({data, selected}) {
     }
  
     return (
-        <TokensWrapperDiv>
+        <TokensWrapperDiv display = {display}>
              {
                data?.length> 0 ? data?.map((token, index)=> {
                    return (
