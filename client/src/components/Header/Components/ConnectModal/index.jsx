@@ -1,18 +1,23 @@
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
+import {useSelector, useDispatch} from 'react-redux'
 import { useMoralis } from "react-moralis";
 import {Button, Modal} from "react-bootstrap"
 import Metamask from '../../../../assets/metamaskIcon.svg'
 import WalletConnect from '../../../../assets/walletConnectIcon.svg'
 import { Wallet } from "./style";
+import { connectModalStatus } from "../../../../selectors";
+import { showConnectModal, hideConnectModal } from  "../../../../state/ui"
 
 
 function ConnectMOdal() {
+  const dispatch = useDispatch()
     const {   authenticate,
         isWeb3Enabled,
         isAuthenticated,
         enableWeb3,
      } = useMoralis();
 
+     const showModal = useSelector(connectModalStatus)
      async function authWalletConnect() {
         // const user = authenticate({
         //   provider: "walletconnect",
@@ -29,9 +34,13 @@ function ConnectMOdal() {
         // });
        
       }
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    
+    const handleClose = () => {
+      dispatch(hideConnectModal())
+    }
+    const handleShow = () => {
+      dispatch(showConnectModal())
+    }
 
     useEffect(() => {
         if (!isWeb3Enabled && isAuthenticated) {
@@ -63,7 +72,7 @@ function ConnectMOdal() {
         <Button variant="secondary" onClick={handleShow}>
           Connect
         </Button>
-        <Modal show={show} onHide={handleClose}className='text-black' >
+        <Modal show={showModal} onHide={handleClose}className='text-black' >
           <Modal.Header closeButton>
            <h5>   Connect to a wallet
                </h5>

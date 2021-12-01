@@ -5,7 +5,8 @@ export const UI = createSlice({
   initialState: {
     createVaultModal: false,
     createInheritorsModal: false,
-    depositWithdrawalModal:false
+    depositWithdrawalModal:false,
+    connectModal:false
   },
   reducers: {
     showCreateVaultModal: (state) => {
@@ -31,6 +32,13 @@ export const UI = createSlice({
     hideDepositWithdrawalModal: (state) => {
       state.depositWithdrawalModal = false;
     },
+    showConnectModal: (state) => {
+      state.connectModal = true;
+    },
+
+    hideConnectModal: (state) => {
+      state.connectModal = false;
+    },
   },
 });
 
@@ -41,7 +49,9 @@ export const {
   hideCreateInheritorsModal,
   showCreateInheritorsModal,
   showDepositWithdrawalModal,
-  hideDepositWithdrawalModal
+  hideDepositWithdrawalModal,
+  showConnectModal,
+  hideConnectModal,
 } = UI.actions;
 
 export default UI.reducer;

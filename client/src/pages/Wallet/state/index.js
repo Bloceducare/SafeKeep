@@ -69,15 +69,20 @@ export const depositERC20TokenAsync = createAsyncThunk(
 
     const abi = ["function approve(address _spender, uint256 _value) public returns (bool success)"]
 
+    // const abi =   ["function allowance(address _owner, address _spender) public view returns (uint256 remaining)"]
     try {
 
         for (let i = 0; i < tokenDeps.length; i++) {
             const contr = getContractInstance(tokenDeps[i], abi)
-             await contr.approve('0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843','100000000000000000000000000000000000000000000000000000000000')
-            
+             await contr.approve('0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843','100000000000000000000000000000000000000000000000000000000000')  
+             
+            //  const allow =    await contr.allowance('0xd5635C148df889B6dd89Eaa90eE886f4E733130A','0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843')  
         }
+
+  
        
-        const txn = await contract.depositTokens(_id, tokenDeps, _amounts)
+        console.log(_id,tokenDeps,_amounts,  'tokenDeps')
+        const txn = await contract.depositTokens(_id, tokenDeps, _amounts, { from:'0xd5635C148df889B6dd89Eaa90eE886f4E733130A'})
         toast.success('Tokens Deposit Successful')
         dispatch(hideDepositWithdrawalModal())
         const despositConfirmation = await txn.wait()
@@ -135,14 +140,16 @@ export const withdrawEtherAsync = createAsyncThunk(
 
     
     try {
-        const txn = await contract.withdrawEther(id, amount, {value:amount})
+        const txn = await contract.withdrawEth(id, amount)
         toast.success('Withdrawal Successful')
-         await txn.wait()
-        //const despositConfirmation = await txn.wait()
-        // console.log(despositConfirmation, 'deposit details')
-         toast.success('Withdrawal Confirmed')
+        dispatch(hideDepositWithdrawalModal())      
+        const withdrawalConfirmation = await txn.wait()
+
+        if(withdrawalConfirmation?.events[0]?.data?.toString()) {
+           toast.success(`withdrawal confirmed`)
+         }
+
         return dispatch(checkVaultAsync(id))
-        
         
     } catch (error) {
         toast.error('Withdraw Failed')
@@ -192,6 +199,7 @@ export const vault = createSlice({
          .addCase(createVaultAsync.pending, (state) => {
             state.crud =true
             })
+    
             .addCase(createVaultAsync.fulfilled, (state, {payload}) => {
                state.receipt = payload
              state.crud = false
@@ -217,6 +225,17 @@ export const vault = createSlice({
              state.crud = false
             })
             .addCase(depositERC20TokenAsync.rejected, (state, {payload}) => {
+               state.crud = false
+            })
+
+         //withdraw ether from vault
+         .addCase( withdrawEtherAsync.pending, (state) => {
+            state.crud =true
+            })
+            .addCase( withdrawEtherAsync.fulfilled, (state, {payload}) => {
+             state.crud = false
+            })
+            .addCase( withdrawEtherAsync.rejected, (state, {payload}) => {
                state.crud = false
             })
 

@@ -12,7 +12,7 @@ import ListOfToken from './ListOfToken'
 import { DepositBtn, Balance } from './style'
 import {useMoralisDapp} from '../../../../Providers/MoralisProvider/DappProvider'
 import { useNativeBalance } from '../../../../hooks/useNativeBalance'
-import { depositEtherAsync, depositERC20TokenAsync } from '../../state'
+import { depositEtherAsync, depositERC20TokenAsync, withdrawEtherAsync } from '../../state'
 import { vault } from '../../selectors'
 import { ToastContainer } from 'react-toastify'
 import useTokenPrice from '../../../../hooks/useTokenPrice'
@@ -167,7 +167,7 @@ const newTok =  {...tok, userTokenAmt:0}
       if(tokenType ==='erc20Tokens') return selectedAssets.some(asset=> asset.userTokenAmt > 0)
     }
     const handleTransaction =(e)=>{
-       e.preventDefault()
+      e.preventDefault()
   if(!verifyTokenAmt) return;
   if(operationType==='Deposit') {
     if(tokenType ==='native') {
@@ -178,15 +178,31 @@ const newTok =  {...tok, userTokenAmt:0}
         if(tokenType ==='erc20Tokens') {
           if(!selectedAssets.length) return;
             const tokenDeps = selectedAssets.map(asset=>asset.token_address)
-            const _amounts = selectedAssets.map(asset=>asset.userTokenAmt) 
+            const _amounts = selectedAssets.map(asset=>Number(asset.userTokenAmt)) 
             const _id = id
             const data = {_id, tokenDeps, _amounts}
          return dispatch(depositERC20TokenAsync(data))
         }
         
       }
+      if(operationType==='Widthdraw') {
+        if(tokenType ==='native') {
+          const data = {id, amount: ethers.utils.parseEther(nativeBal)}
+          return dispatch(withdrawEtherAsync(data))
+        }
+      }
+
+      
     }
-    
+
+const transactionTextDisplay = (type, cru)=>{
+  if(type==='Deposit') {
+  return  cru ? 'Depositing' : 'Deposit'
+  }
+  if(type==='Widthdraw') {
+    return  cru ? 'Withdrawing' : 'Withdraw'
+  }
+}
 const _nativeCoin = <div style ={{position:'relative'}}> 
 <form onSubmit ={handleTransaction}>
   <CustomInput name ='nativeCoin'  value ={nativeBal} onChange ={handleChange} />  
@@ -219,7 +235,7 @@ const _nativeCoin = <div style ={{position:'relative'}}>
                 className ='d-block'  
                 noMargin 
                 disabled = { !verifyTokenAmt() ||  crud}
-                text = { crud ? 'Depositing': 'Deposit'}
+                text = {transactionTextDisplay(operationType, crud)}
                 onClick ={handleTransaction}
                 />
                 </DepositBtn>
