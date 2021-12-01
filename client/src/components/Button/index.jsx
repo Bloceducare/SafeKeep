@@ -1,19 +1,27 @@
-import React from 'react'
-import {Btn} from './style'
+import React from "react";
+import { Btn } from "./style";
 
-function CustomButton({text, onClick, size, className, outline, noMargin, ...others}) {
-    return (
-        <Btn 
-        className ={className} 
-        onClick ={onClick} 
-        size ={size} 
-        outline ={outline}
-        noMargin ={noMargin}
-        {...others}
-        >
-            {text} 
-        </Btn>
-    )
+function CustomButton({
+  text,
+  onClick,
+  size,
+  className,
+  outline,
+  noMargin,
+  ...others
+}) {
+  return (
+    <Btn
+      className={className}
+      onClick={onClick}
+      size={size}
+      outline={outline}
+      noMargin={noMargin}
+      {...others}
+    >
+      {text}
+    </Btn>
+  );
 }
 
-export default CustomButton
+export default CustomButton;

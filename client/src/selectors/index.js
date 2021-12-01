@@ -1,3 +1,1 @@
-
-
-export const connectModalStatus = state => state.ui.connectModal;
+export const connectModalStatus = (state) => state.ui.connectModal;

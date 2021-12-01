@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wallet =styled.div`
+export const Wallet = styled.div`
 display:flex;
 justify-content:space-between;
 align-items:center
@@ -33,4 +33,4 @@ img {
     border:green;
 }
 
-`
+`;
