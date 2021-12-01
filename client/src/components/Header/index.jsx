@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useMoralis } from "react-moralis";
 import {Container,Navbar,Nav, Button} from "react-bootstrap"
 import { AuthenticatedHead, HeadWrapper, Logo } from './style';
@@ -10,7 +10,8 @@ import Logoimg from "../../assets/logo.png"
 
 function Header() {
     const { isAuthenticated} = useMoralis();  
-  const _header = !isAuthenticated ?   <UnAuthenticatedHeader  />: <AuthenticatedHeader />
+
+  const _header = !isAuthenticated ?   <UnAuthenticatedHeader  />: <AuthenticatedHea />
     return (
       <>
       <IsAuthenticating text={null} />
@@ -22,8 +23,14 @@ function Header() {
 export default Header
 
 
-function AuthenticatedHeader(){
+function AuthenticatedHeade(props){
   const { user, logout} = useMoralis();
+
+  const handleLogout = async () => {
+   await logout();
+   return props.history.push('/');
+    
+  }
   return (
     
     <HeadWrapper >
@@ -34,7 +41,7 @@ function AuthenticatedHeader(){
      </div>
      <div className ='d-flex align-items-center'>
      {maskAddress(user.get('ethAddress'))}
-     <Button variant="dark" onClick ={logout} className ='mx-2'>Logout</Button>
+     <Button variant="dark" onClick ={handleLogout} className ='mx-2'>Logout</Button>
 
        
   </div>
@@ -43,6 +50,8 @@ function AuthenticatedHeader(){
   
   )
 }
+
+export const AuthenticatedHea = withRouter(AuthenticatedHeade);
 
 function UnAuthenticatedHeader(){
   return (

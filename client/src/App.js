@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch} from "react-router-dom";
 import { useMoralis } from "react-moralis";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
@@ -13,7 +13,7 @@ import { checkVaultIdAsync, checkVaultAsync } from "./pages/Wallet/state";
 
 function App() {
   const dispatch = useDispatch();
-  const { user } = useMoralis();
+  const { user} = useMoralis();
   const address = user?.get("ethAddress");
   const id = useSelector((state) => state.vault.id);
 
