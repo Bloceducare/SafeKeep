@@ -1,20 +1,19 @@
 import styled from "styled-components";
 
-
 export const Hr = styled.hr`
-    width: 100px;
-    color: #2B5CCF;
-`
+  width: 100px;
+  color: #2b5ccf;
+`;
 export const TextBox = styled.div`
-    margin-left: 10rem;
-`
+  margin-left: 10rem;
+`;
 
 export const H1 = styled.h1`
-    padding-top: 20px;
-    text-align: center;
-    font-weight: 300;
+  padding-top: 20px;
+  text-align: center;
+  font-weight: 300;
 
-    span{
-        font-weight: 600;
-    }
-`
+  span {
+    font-weight: 600;
+  }
+`;

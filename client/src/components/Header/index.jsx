@@ -1,87 +1,95 @@
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from "react-router-dom";
 import { useMoralis } from "react-moralis";
-import {Container,Navbar,Nav, Button} from "react-bootstrap"
-import { AuthenticatedHead, HeadWrapper, Logo } from './style';
-import ConnectModal from './Components/ConnectModal';
-import IsAuthenticating from './Components/ConnectModal/isAuthenticating';
-import { maskAddress } from '../../utils/maskAddress';
-import Logoimg from "../../assets/logo.png"
-
+import { Container, Navbar, Nav, Button } from "react-bootstrap";
+import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
+import ConnectModal from "./Components/ConnectModal";
+import IsAuthenticating from "./Components/ConnectModal/isAuthenticating";
+import { maskAddress } from "../../utils/maskAddress";
+import Logoimg from "../../assets/logo.png";
 
 function Header() {
-    const { isAuthenticated} = useMoralis();  
+  const { isAuthenticated } = useMoralis();
 
-  const _header = !isAuthenticated ?   <UnAuthenticatedHeader  />: <AuthenticatedHea />
-    return (
-      <>
+  const _header = !isAuthenticated ? (
+    <UnAuthenticatedHeader />
+  ) : (
+    <AuthenticatedHea />
+  );
+  return (
+    <>
       <IsAuthenticating text={null} />
       {_header}
-      </>   
-    )
+    </>
+  );
 }
 
-export default Header
+export default Header;
 
-
-function AuthenticatedHeade(props){
-  const { user, logout} = useMoralis();
+function AuthenticatedHeade(props) {
+  const { user, logout } = useMoralis();
 
   const handleLogout = async () => {
-   await logout();
-   return props.history.push('/');
-    
-  }
+    await logout();
+    return props.history.push("/");
+  };
   return (
-    
-    <HeadWrapper >
-   <AuthenticatedHead>
-
-     <div>
-     <Logo src={Logoimg} fluid/>{` `}
-     </div>
-     <div className ='d-flex align-items-center'>
-     {maskAddress(user.get('ethAddress'))}
-     <Button variant="dark" onClick ={handleLogout} className ='mx-2'>Logout</Button>
-
-       
-  </div>
-   </AuthenticatedHead>
-   </HeadWrapper>
-  
-  )
+    <HeadWrapper>
+      <AuthenticatedHead>
+        <div>
+          <Logo src={Logoimg} fluid />
+          {` `}
+        </div>
+        <div className="d-flex align-items-center">
+          {maskAddress(user.get("ethAddress"))}
+          <Button variant="dark" onClick={handleLogout} className="mx-2">
+            Logout
+          </Button>
+        </div>
+      </AuthenticatedHead>
+    </HeadWrapper>
+  );
 }
 
 export const AuthenticatedHea = withRouter(AuthenticatedHeade);
 
-function UnAuthenticatedHeader(){
+function UnAuthenticatedHeader() {
   return (
     <>
-       <Navbar bg="dark" variant="dark" expand="md">
-          <Container>
-            <Navbar.Brand href="/">
-              <Logo src={Logoimg} fluid/>{` `}
-              SafeKeep
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar bg="dark" variant="dark" expand="md">
+        <Container>
+          <Navbar.Brand href="/">
+            <Logo src={Logoimg} fluid />
+            {` `}
+            SafeKeep
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto justify-content-end">
               <Nav.Item>
-              <Link to='/' className ='nav-link'>Home</Link> 
+                <Link to="/" className="nav-link">
+                  Home
+                </Link>
               </Nav.Item>
               <Nav.Item>
-              <Link to='/about' className ='nav-link'>About us</Link> 
+                <Link to="/about" className="nav-link">
+                  About us
+                </Link>
               </Nav.Item>
               <Nav.Item>
-              <Link to='/road-map' className ='nav-link'>Roadmap</Link> 
+                <Link to="/road-map" className="nav-link">
+                  Roadmap
+                </Link>
               </Nav.Item>
               <Nav.Item>
-              <Link to='/dashboard/wallet/assets' className ='nav-link'>Dashboard</Link> 
+                <Link to="/dashboard/wallet/assets" className="nav-link">
+                  Dashboard
+                </Link>
               </Nav.Item>
-            <ConnectModal />
+              <ConnectModal />
             </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </>
-  )
+  );
 }

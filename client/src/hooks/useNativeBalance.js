@@ -1,14 +1,21 @@
 import { getNativeByChain } from "../utils/networkConfig";
 import { useMoralisDapp } from "../Providers/MoralisProvider/DappProvider";
 import { useEffect, useMemo, useState } from "react";
-import { useMoralis, useMoralisWeb3Api, useMoralisWeb3ApiCall } from "react-moralis";
+import {
+  useMoralis,
+  useMoralisWeb3Api,
+  useMoralisWeb3ApiCall,
+} from "react-moralis";
 
 export const useNativeBalance = (options) => {
   const { account } = useMoralisWeb3Api();
   const { Moralis } = useMoralis();
   const { chainId, walletAddress } = useMoralisDapp();
   const [balance, setBalance] = useState({ inWei: 0, formatted: 0 });
-  const nativeName = useMemo(() => getNativeByChain(options?.chain || chainId), [options, chainId]);
+  const nativeName = useMemo(
+    () => getNativeByChain(options?.chain || chainId),
+    [options, chainId]
+  );
 
   const {
     fetch: getBalance,

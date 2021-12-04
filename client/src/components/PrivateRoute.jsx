@@ -1,9 +1,8 @@
-import {useMoralis} from 'react-moralis'
-import {Route, Redirect} from 'react-router-dom'
-
+import { useMoralis } from "react-moralis";
+import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoute = ({ auth, component: Component, ...rest }) => {
-    console.log('authss', auth)
+  console.log("authss", auth);
   return (
     <Route
       {...rest}
@@ -19,7 +18,6 @@ const ProtectedRoute = ({ auth, component: Component, ...rest }) => {
 };
 
 export default ProtectedRoute;
-
 
 // function PrivateRoute({ children, props, ...rest }) {
 //    const {isAuthenticated} = useMoralis()

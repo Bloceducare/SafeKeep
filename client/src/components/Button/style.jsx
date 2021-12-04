@@ -1,15 +1,14 @@
-import styled, {css} from 'styled-components'
-
+import styled, { css } from "styled-components";
 
 const smallsize = `
  padding:0.2rem 0.8rem;
 font-size:1rem;
-`
+`;
 
 const largesize = `
 margin-left:2rem;
 // font-size:1.5rem;
-`
+`;
 
 const noOutline = `
     color: #fff;
@@ -19,7 +18,7 @@ const noOutline = `
     &:hover{
         background-color: transparent;
     }
-`
+`;
 const outline = `
     color: #2B5BCF;
     background-color: transparent;
@@ -29,23 +28,36 @@ const outline = `
         color: white;
         background-color: #2B5BCF;
     }
-`
+`;
 export const Btn = styled.button`
-padding: 8px 30px;
-background-color: #2B5BCF;
-    margin: ${props => props.noMargin ? 0 : ' 20px 20px'};
-    
-    outline: 0.4px solid #2B5BCF;
-    border:none;
-    border-radius: 12px;
-    transition: all 0.3s ease-out;
-    opacity:${props => props.disabled && 0.4};
+  padding: 8px 30px;
+  background-color: #2b5bcf;
+  margin: ${(props) => (props.noMargin ? 0 : " 20px 20px")};
 
-    &:hover{
-        outline: 0.4px solid #2B5BCF;
-    }
+  outline: 0.4px solid #2b5bcf;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease-out;
+  opacity: ${(props) => props.disabled && 0.4};
 
-${props => props.size ==='small' ? css`${smallsize}` : css`${largesize}`}
-${props => props.outline ? css`${outline}` : css`${noOutline}`}
+  &:hover {
+    outline: 0.4px solid #2b5bcf;
+  }
 
-`
+  ${(props) =>
+    props.size === "small"
+      ? css`
+          ${smallsize}
+        `
+      : css`
+          ${largesize}
+        `}
+  ${(props) =>
+    props.outline
+      ? css`
+          ${outline}
+        `
+      : css`
+          ${noOutline}
+        `}
+`;

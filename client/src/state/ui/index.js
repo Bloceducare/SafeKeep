@@ -5,8 +5,8 @@ export const UI = createSlice({
   initialState: {
     createVaultModal: false,
     createInheritorsModal: false,
-    depositWithdrawalModal:false,
-    connectModal:false
+    depositWithdrawalModal: false,
+    connectModal: false,
   },
   reducers: {
     showCreateVaultModal: (state) => {
