@@ -30,7 +30,8 @@ function AuthenticatedHeade(props) {
 
   const handleLogout = async () => {
     await logout();
-    return props.history.push("/");
+    return window.location.assign("/")
+    //return props.history.push("/");
   };
   return (
     <HeadWrapper>
