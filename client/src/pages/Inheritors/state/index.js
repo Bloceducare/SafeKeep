@@ -5,10 +5,13 @@ import { hideCreateInheritorsModal } from "../../../state/ui";
 
 export const addInheritorAsync = createAsyncThunk(
   "inheritors/addInheritors",
-  async (data, { dispatch }) => {
-    const contract = await getSafeKeepContract();
+  async (data, { dispatch, getState }) => {
+    const contract = await getSafeKeepContract(true);
+    const id = getState().vault.data.id;
+    const { share, inheritors } = data;
+
     try {
-      const tx = await contract.addInheritors(data);
+      const tx = await contract.addInheritors(id, inheritors, share);
       toast.success("inheritors submitted successfully");
       dispatch(hideCreateInheritorsModal());
       const confirmations = await tx.wait();

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BsPlusLg } from "react-icons/bs";
 
-const PlusIcon = ({ disabled = false, ...others }) => {
+const PlusIcon = ({ disabled = false, text = "Add token", ...others }) => {
   return (
     <PlusContainer>
       <div
@@ -10,7 +10,7 @@ const PlusIcon = ({ disabled = false, ...others }) => {
         }}
         {...others}
       >
-        Add tokens
+        {text}
         <Plus />
       </div>
     </PlusContainer>
