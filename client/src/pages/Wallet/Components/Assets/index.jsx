@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
-import CreateVaultModal from "../Deposit/CreateVault";
 import { AddBtn, AssetDiv, P } from "./style";
 import { showCreateVaultModal } from "../../../../state/ui";
 import NoVault from "../NoVault";
@@ -52,7 +51,6 @@ function Assets() {
 
   return (
     <Container>
-      <CreateVaultModal />
       <AssetDiv>
         <Show
           loading={loading}

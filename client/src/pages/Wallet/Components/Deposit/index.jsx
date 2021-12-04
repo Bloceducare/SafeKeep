@@ -22,8 +22,8 @@ import { modal, vault, transactionStatus } from "../../selectors";
 import { ToastContainer } from "react-toastify";
 import useTokenPrice from "../../../../hooks/useTokenPrice";
 import { hideDepositWithdrawalModal } from "../../../../state/ui";
-import Cross from "../Cross";
-import PlusIcon from "../PlusIcon";
+import Cross from "../../../../components/Cross";
+import PlusIcon from "../../../../components/PlusIcon";
 import CaretDown from "../CaretDown";
 import NormalizedInput from "../NormalizedInput";
 
@@ -296,7 +296,13 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
                   <Balance>~${tkValue(item, tokenPrice) ?? 0}</Balance>
                 </div>
               </SpaceBetween>
-              <Cross onClick={() => handleRemove(idx)} />
+              <Cross
+                onClick={() => handleRemove(idx)}
+                style={{
+                  top: "50%",
+                  right: "-1.7rem",
+                }}
+              />
               <TokenNameAmtContainer>
                 <div style={{ position: "relative" }}>
                   <NormalizedInput

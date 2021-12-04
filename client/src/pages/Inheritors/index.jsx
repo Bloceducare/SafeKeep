@@ -1,16 +1,23 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Btn, Tbody } from "./style";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import DashboardHero from "../../components/DashboardHero";
 import CustomSearchInput from "../../components/CustomSearchInput";
 import AddModal from "./Components/AddModal";
-import { showCreateInheritorsModal } from "../../state/ui";
+import {
+  showCreateInheritorsModal,
+  showCreateVaultModal,
+} from "../../state/ui";
+import { vault } from "./selector";
 
 function Inheritors() {
   const dispatch = useDispatch();
+  const { data } = useSelector(vault);
 
   const handleShow = () => {
+    if (!data.id) return;
+    if (data.id === "0") return dispatch(showCreateVaultModal());
     dispatch(showCreateInheritorsModal());
   };
 
@@ -39,6 +46,7 @@ function Inheritors() {
         {" "}
         Inheritors{" "}
       </h3>
+
       <CustomSearchInput />
 
       <section>

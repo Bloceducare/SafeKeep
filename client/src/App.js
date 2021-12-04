@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Roadmap from "./pages/Roadmap";
 import { checkVaultIdAsync, checkVaultAsync } from "./pages/Wallet/state";
+import CreateVaultModal from "./pages/Wallet/Components/Deposit/CreateVault";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <Layout>
+      <CreateVaultModal />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
