@@ -71,7 +71,11 @@ const Multi = ({ name, setChange, options = [], noMulti = true }) => (
     options={options}
     onChange={setChange}
     // onChange={setChange}
-    noOptionsMessage={() => `${options.length ? 'Address not found' : 'Type on input to create address'}`}
+    noOptionsMessage={() =>
+      `${
+        options.length ? "Address not found" : "Type on input to create address"
+      }`
+    }
   />
 );
 

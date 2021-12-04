@@ -57,7 +57,6 @@ export const getNativeAsync = createAsyncThunk(
 export const createVaultAsync = createAsyncThunk(
   "vault/createVault",
   async (data, { dispatch }) => {
-   
     const contract = await getSafeKeepContract(true);
     //dispatch an action to hide modal
     const { inheritors, _startingBal, _backupAddress, walletAddress } = data;
@@ -70,14 +69,14 @@ export const createVaultAsync = createAsyncThunk(
         _backupAddress,
         { value: payableAmount }
       );
-      toast.success('vault created pending for confirmation')
+      toast.success("vault created pending for confirmation");
       dispatch(hideCreateVaultModal());
-      await t.wait()
-      toast.success('vault creation confirmed')       
-      dispatch(checkVaultIdAsync(walletAddress))
-      return ;
+      await t.wait();
+      toast.success("vault creation confirmed");
+      dispatch(checkVaultIdAsync(walletAddress));
+      return;
     } catch (error) {
-      toast.error('Something happened while creating vault')
+      toast.error("Something happened while creating vault");
       console.log(error, "error");
     }
   }
@@ -171,7 +170,7 @@ export const depositEtherAsync = createAsyncThunk(
     const { id, amount } = data;
 
     try {
-      dispatch(startDepositing())
+      dispatch(startDepositing());
       const txn = await contract.depositEther(id, amount, { value: amount });
       toast.success("Deposit Successful");
       dispatch(hideDepositWithdrawalModal());
@@ -180,10 +179,10 @@ export const depositEtherAsync = createAsyncThunk(
       if (despositConfirmation?.events[0]?.data?.toString()) {
         toast.success(`deposit confirmed`);
       }
-        dispatch(endDepositing())
+      dispatch(endDepositing());
       return dispatch(checkVaultAsync(id));
     } catch (error) {
-      dispatch(endDepositing())
+      dispatch(endDepositing());
       toast.error("Deposit Failed");
       console.log(error, "error");
     }
@@ -197,7 +196,7 @@ export const withdrawEtherAsync = createAsyncThunk(
     const { id, amount } = data;
 
     try {
-      dispatch(startWithdrawing())
+      dispatch(startWithdrawing());
       const txn = await contract.withdrawEth(id, amount);
       toast.success("Withdrawal Successful");
       dispatch(hideDepositWithdrawalModal());
@@ -206,18 +205,16 @@ export const withdrawEtherAsync = createAsyncThunk(
       if (withdrawalConfirmation?.events[0]?.data?.toString()) {
         toast.success(`withdrawal confirmed`);
       }
-      
+
       dispatch(checkVaultAsync(id));
-      return dispatch(endWithdrawing())
+      return dispatch(endWithdrawing());
     } catch (error) {
-      dispatch(endWithdrawing())
+      dispatch(endWithdrawing());
       toast.error("Withdraw Failed");
       console.log(error, "error");
     }
   }
 );
-
-
 
 export const vault = createSlice({
   name: "vault",

@@ -62,17 +62,15 @@ function Assets() {
           noContent={_noVault}
         />
       </AssetDiv>
-
     </Container>
   );
 }
 
 export default Assets;
 
-
 const Show = ({ loading, data, loadingC, content, noContent }) => {
-  if (loading) return loadingC
-  if (data?.id === '0') return noContent
-  if (data?.inheritors) return content
-  return loadingC
-}
+  if (loading) return loadingC;
+  if (data?.id === "0") return noContent;
+  if (data?.inheritors) return content;
+  return loadingC;
+};

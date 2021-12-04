@@ -1,5 +1,5 @@
 const formatBigNumber = (value) => {
-  if(!value) return;
+  if (!value) return;
   const r = value.map((i) => {
     return i.toString();
   });
@@ -10,7 +10,7 @@ const formatBigNumber = (value) => {
 //format the big number to string
 export const formatVaultData = (value) => {
   //value is an array
-  
+
   let r = formatBigNumber(value);
   return {
     owner: r[0],

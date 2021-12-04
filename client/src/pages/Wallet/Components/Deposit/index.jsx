@@ -67,11 +67,10 @@ const nativeToken = (data) => {
   return;
 };
 
-
 function Deposit({ showModal = false, operationType = "Deposit" }) {
   const dispatch = useDispatch();
   const {
-    data: { id }
+    data: { id },
   } = useSelector(vault);
 
   const txnStatus = useSelector(transactionStatus);
@@ -150,7 +149,7 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
   };
 
   const clearFields = () => {
-    setNativeBal(0)
+    setNativeBal(0);
     setSelectedAssets([{ userTokenAmt: 0 }]);
   };
   useEffect(() => {
@@ -304,7 +303,7 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
                     onChange={(e) => handleFilter(e, idx)}
                     value={selectedAssets[idx]?.title}
                     onFocus={() => handleShOptions(idx)}
-                  //  onBlur={handleBlur}
+                    //  onBlur={handleBlur}
                   />
                   <CaretDown
                     onClick={() => handleShOptions(idx)}
@@ -362,8 +361,8 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
     tokenType === "native"
       ? _nativeCoin
       : tokenType === "erc20Tokens"
-        ? _ERC20Bal
-        : null;
+      ? _ERC20Bal
+      : null;
 
   return (
     <>

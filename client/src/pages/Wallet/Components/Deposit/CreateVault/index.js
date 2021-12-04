@@ -1,19 +1,18 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useMoralis } from 'react-moralis'
+import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import { createVaultAsync } from "../../../state";
-import { Modal, Form, Col, Row} from "react-bootstrap";
+import { Modal, Form, Col, Row } from "react-bootstrap";
 import CustomButton from "../../../../../components/Button";
 import MDBody from "../../../../../components/Modal/ModalBody";
 import ModalHeader from "../../../../../components/Modal/ModalHeader";
 import { FormControl } from "./style";
 import MultiSelect from "./MultiSelect";
 import { hideCreateVaultModal } from "../../../../../state/ui";
-import { vault, } from "../../../selectors";
+import { vault } from "../../../selectors";
 import { toast, ToastContainer } from "react-toastify";
 // import validEthAddress from "../../../../../utils/validEthAddress";
-
 
 function CreateVaultModal() {
   const { user } = useMoralis();
@@ -23,10 +22,10 @@ function CreateVaultModal() {
   const { createVaultModal } = useSelector((state) => state.ui);
   const {
     data: { backup, inheritors: inh, id },
-    crud
+    crud,
   } = useSelector(vault);
   const [userInputs, setUserInputs] = useState({});
-  const [fieldError, setFieldError] = useState({})
+  const [fieldError, setFieldError] = useState({});
   //const [addressArray, setAddressArray] = useState([{}])
 
   // const normalizeInput = () => {
@@ -46,23 +45,29 @@ function CreateVaultModal() {
 
   useEffect(() => {
     setUserInputs({
-      inheritors: id==='0'  ? [] : inh ? inh.map(i=> { return { label:i, value:i }}):[],
+      inheritors:
+        id === "0"
+          ? []
+          : inh
+          ? inh.map((i) => {
+              return { label: i, value: i };
+            })
+          : [],
       _startingBal: "",
-      _backupAddress:   id ==='0' ? '': backup,
+      _backupAddress: id === "0" ? "" : backup,
     });
   }, [inh, backup, id]);
 
   const handleHideModal = () => dispatch(hideCreateVaultModal());
 
-
-  const valid = (name, value)=>{
-    setFieldError({...fieldError, [name]:value})
-    return fieldError?.name
-  }
+  const valid = (name, value) => {
+    setFieldError({ ...fieldError, [name]: value });
+    return fieldError?.name;
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInputs({ ...userInputs, [name]: value });
-    valid(name, value)
+    valid(name, value);
   };
 
   const handleInheritors = (value) => {
@@ -75,26 +80,22 @@ function CreateVaultModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { inheritors, _startingBal, _backupAddress } = userInputs;
-     if(!_startingBal || !inheritors.length || !_backupAddress) return;
-    for (let i = 0; i < inheritors.length; i++) {
-    
-    }
-    const check =ethers?.utils?.getAddress(_backupAddress)
-    if (!check)return toast.error("invalid backup wallet address");
+    if (!_startingBal || !inheritors.length || !_backupAddress) return;
+    for (let i = 0; i < inheritors.length; i++) {}
+    const check = ethers?.utils?.getAddress(_backupAddress);
+    if (!check) return toast.error("invalid backup wallet address");
 
     const inherit = inheritors.map((item) => item.value);
 
     const data = {
       ...userInputs,
-      inheritors:inherit, 
-     _startingBal: _startingBal && ethers?.utils?.parseEther(_startingBal),
-      walletAddress
+      inheritors: inherit,
+      _startingBal: _startingBal && ethers?.utils?.parseEther(_startingBal),
+      walletAddress,
     };
-   
+
     dispatch(createVaultAsync(data));
   };
-
- 
 
   return (
     <>
@@ -103,17 +104,19 @@ function CreateVaultModal() {
         <ModalHeader title="Create Vault" />
         <MDBody>
           <form onSubmit={handleSubmit}>
-
-            <h6 className ='text-center' > 🎉 Create a vault to get started! 🎉 </h6>
+            <h6 className="text-center">
+              {" "}
+              🎉 Create a vault to get started! 🎉{" "}
+            </h6>
             <Row className="my-4">
               <Form.Group as={Col} controlId="formGridPassword">
                 <FormControl
                   placeholder="Starting Balance"
                   onChange={handleChange}
                   name="_startingBal"
-                required
+                  required
                 />
-              {/* <Form.Control.Feedback type="invalid">
+                {/* <Form.Control.Feedback type="invalid">
     Please choose a username.
   </Form.Control.Feedback> */}
               </Form.Group>
@@ -139,8 +142,8 @@ function CreateVaultModal() {
                 disabled={crud}
                 text={crud ? "Creating" : "Create Vault"}
                 size="small"
-                style ={{
-                  padding:'0.4rem 1rem'
+                style={{
+                  padding: "0.4rem 1rem",
                 }}
               />
             </div>

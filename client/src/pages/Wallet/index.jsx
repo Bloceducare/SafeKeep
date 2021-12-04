@@ -5,17 +5,20 @@ import Deposit from "./Components/Deposit";
 import Assets from "./Components/Assets";
 import CustomButton from "../../components/Button";
 import { modal, vault } from "./selectors";
-import { showDepositWithdrawalModal, showCreateVaultModal } from "../../state/ui";
+import {
+  showDepositWithdrawalModal,
+  showCreateVaultModal,
+} from "../../state/ui";
 
 function Wallet() {
   const dispatch = useDispatch();
   const showHideModal = useSelector(modal);
-  const { data } = useSelector(vault)
+  const { data } = useSelector(vault);
   const [operationType, setOperationType] = useState("Deposit");
 
   const handleModal = (type) => {
     if (!data.id) return;
-    if (data?.id === '0') return dispatch(showCreateVaultModal())
+    if (data?.id === "0") return dispatch(showCreateVaultModal());
     setOperationType(type);
     dispatch(showDepositWithdrawalModal());
   };
