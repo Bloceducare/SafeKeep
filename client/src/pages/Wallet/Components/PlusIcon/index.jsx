@@ -1,11 +1,18 @@
 import styled from "styled-components";
 import { BsPlusLg } from "react-icons/bs";
 
-const PlusIcon = ({ ...others }) => {
+const PlusIcon = ({ disabled = false, ...others }) => {
   return (
-    <PlusContainer {...others}>
-      Add tokens
-      <Plus />
+    <PlusContainer>
+      <div
+        style={{
+          pointerEvents: `${disabled ? "none" : null}`,
+        }}
+        {...others}
+      >
+        Add tokens
+        <Plus />
+      </div>
     </PlusContainer>
   );
 };
@@ -17,8 +24,16 @@ const PlusContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
 
-  &:hover {
-    cursor: pointer;
+  div {
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.5s ease-in-out;
+
+      svg {
+        transform: rotate(45deg);
+      }
+    }
   }
 `;
 const Plus = styled(BsPlusLg)`

@@ -27,7 +27,7 @@ export const TokensWrapperDiv = styled.div`
   overflow-y: scroll;
   width: 100%;
   position: absolute;
-  top: 1.8rem;
+  top: 3rem;
   background-color: #333;
   z-index: 1;
 `;

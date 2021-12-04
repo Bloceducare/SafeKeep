@@ -1,27 +1,5 @@
-import Select from "react-select";
-
-const colourOptions = [
-  {
-    value: "0xd5635C148df889B6dd89Eaa90eE886f4E733130A",
-    label: "0xd5635C148df889B6dd89Eaa90eE886f4E733130A",
-  },
-  {
-    value: "0xd5635C148df889B6dd89Eaa90eE886f4E733130B",
-    label: "0xd5635C148df889B6dd89Eaa90eE886f4E733130B",
-  },
-  {
-    value: "0xd5635C148df889B6dd89Eaa90eE886f4E733130C",
-    label: "0xd5635C148df889B6dd89Eaa90eE886f4E733130C",
-  },
-  {
-    value: "0xd5635C148df889B6dd89Eaa90eE886f4E733130D",
-    label: "0xd5635C148df889B6dd89Eaa90eE886f4E733130D",
-  },
-  {
-    value: "0xd5635C148df889B6dd89Eaa90eE886f4E733130E",
-    label: "0xd5635C148df889B6dd89Eaa90eE886f4E733130E",
-  },
-];
+//import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const customStyles = {
   option: (provided, state) => ({
@@ -29,41 +7,71 @@ const customStyles = {
     width: "100%",
     color: "black",
   }),
+  control: (provided, state) => {
+    return {
+      ...provided,
+      border: state.isFocused ? "1px solid white" : "1px solid white",
+      // This line disable the blue border
+      boxShadow: state.isFocused ? 0 : 0,
+      "&:hover": {
+        border: state.isFocused ? "1px solid white" : "1px solid white",
+      },
+    };
+  },
   valueContainer: (provided, state) => ({
     ...provided,
     background: "rgba(33, 37, 41)",
   }),
-  container: (provided, state) => ({
-    ...provided,
-    background: "y ellow",
-  }),
+
   dropdownIndicator: (provided, state) => ({
     ...provided,
+    color: "white",
     background: "rgba(33, 37, 41)",
   }),
   clearIndicator: (provided, state) => ({
     ...provided,
+    color: "white",
     background: "rgba(33, 37, 41)",
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
+    color: "white",
     background: "rgba(33, 37, 41)",
   }),
+
+  multiValueLabel: (provided, state) => {
+    return {
+      ...provided,
+      background: "rgba(33, 37, 41)",
+      color: "white",
+      border: "1px solid #ffffff4f",
+    };
+  },
+
+  multiValue: (provided, state) => {
+    return {
+      ...provided,
+      background: "rgba(33, 37, 41)",
+      color: "white",
+    };
+  },
+  input: (provided, state) => {
+    return {
+      ...provided,
+      color: "white",
+    };
+  },
 };
 
-const Multi = ({
-  name,
-  setChange,
-  options = colourOptions,
-  noMulti = false,
-}) => (
-  <Select
+const Multi = ({ name, setChange, options = [], noMulti = true }) => (
+  <CreatableSelect
     styles={customStyles}
     isMulti={noMulti}
     name={name}
     options={options}
     onChange={setChange}
     // onChange={setChange}
+    noOptionsMessage={() => `${options.length ? 'Address not found' : 'Type on input to create address'}`}
   />
 );
 

@@ -9,6 +9,31 @@ import {
   hideDepositWithdrawalModal,
 } from "../../../state/ui";
 import { toast } from "react-toastify";
+import { getSafeKeepAddress } from "../../../utils/addressHelper";
+import {
+  startApproving,
+  endApproving,
+  startDepositing,
+  endDepositing,
+  startWithdrawing,
+  endWithdrawing,
+} from "../../../state/shared";
+
+export const getUserWalletAsset = createAsyncThunk(
+  "wallet/getUserWalletAsset",
+  async (payload) => {
+    return payload;
+  }
+);
+
+export const checkVaultIdAsync = createAsyncThunk(
+  "vault/getVaultId",
+  async (address) => {
+    const contract = await getSafeKeepContract();
+    const response = await contract.checkOwnerVault(address);
+    return response.toString();
+  }
+);
 
 export const getNativeAsync = createAsyncThunk(
   "tokenPrice/getTokenPrice",
@@ -32,22 +57,27 @@ export const getNativeAsync = createAsyncThunk(
 export const createVaultAsync = createAsyncThunk(
   "vault/createVault",
   async (data, { dispatch }) => {
+   
     const contract = await getSafeKeepContract(true);
     //dispatch an action to hide modal
-    const { inheritors, _startingBal, _backupAddress } = data;
+    const { inheritors, _startingBal, _backupAddress, walletAddress } = data;
     const payableAmount = _startingBal;
 
     try {
-      // const response =  await contract.createVault(inheritors, _startingBal, _backupAddress, {value:_startingBal})
       const t = await contract.createVault(
         inheritors,
         _startingBal,
         _backupAddress,
         { value: payableAmount }
       );
+      toast.success('vault created pending for confirmation')
       dispatch(hideCreateVaultModal());
-      return await t.wait();
+      await t.wait()
+      toast.success('vault creation confirmed')       
+      dispatch(checkVaultIdAsync(walletAddress))
+      return ;
     } catch (error) {
+      toast.error('Something happened while creating vault')
       console.log(error, "error");
     }
   }
@@ -64,7 +94,7 @@ export const checkVaultAsync = createAsyncThunk(
 
 export const depositERC20TokenAsync = createAsyncThunk(
   "vault/depositTokens",
-  async (data, { dispatch }) => {
+  async (data, { dispatch, getState }) => {
     const contract = await getSafeKeepContract(true);
     const { _id, tokenDeps, _amounts } = data;
 
@@ -72,22 +102,50 @@ export const depositERC20TokenAsync = createAsyncThunk(
       "function approve(address _spender, uint256 _value) public returns (bool success)",
     ];
 
-    // const abi =   ["function allowance(address _owner, address _spender) public view returns (uint256 remaining)"]
+    const abiAllowance = [
+      "function allowance(address _owner, address _spender) public view returns (uint256 remaining)",
+    ];
+
     try {
+      dispatch(startDepositing());
       for (let i = 0; i < tokenDeps.length; i++) {
-        const contr = getContractInstance(tokenDeps[i], abi);
-        await contr.approve(
-          "0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843",
-          "100000000000000000000000000000000000000000000000000000000000"
+        const contrAllowance = getContractInstance(tokenDeps[i], abiAllowance);
+        const { vault } = getState(); //get vault owner address to check allowance
+        const safeKeepContractAddress = getSafeKeepAddress();
+        const allowance = await contrAllowance.allowance(
+          vault.data.owner,
+          safeKeepContractAddress
         );
 
-        //  const allow =    await contr.allowance('0xd5635C148df889B6dd89Eaa90eE886f4E733130A','0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843')
+        //convert allowwance to number
+        const allowed = Number(allowance.toString());
+        if (allowed <= 0) {
+          dispatch(startApproving());
+          //show approving to ui
+          //dispatch approving txn
+          const contr = getContractInstance(tokenDeps[i], abi);
+
+          //try and catch to end all process if one tkoen is disapproved
+          try {
+            const approveTransaction = await contr.approve(
+              safeKeepContractAddress,
+              "1000000000000000000000000000000000000000000000000000000000000000"
+            );
+            const confirmApprove = await approveTransaction.wait();
+
+            if (confirmApprove?.events[0]?.data?.toString()) {
+              toast.success("Approved successfully");
+            }
+
+            dispatch(endApproving());
+          } catch (error) {
+            dispatch(endDepositing());
+            return dispatch(endApproving());
+          }
+        }
       }
 
-      console.log(_id, tokenDeps, _amounts, "tokenDeps");
-      const txn = await contract.depositTokens(_id, tokenDeps, _amounts, {
-        from: "0xd5635C148df889B6dd89Eaa90eE886f4E733130A",
-      });
+      const txn = await contract.depositTokens(_id, tokenDeps, _amounts);
       toast.success("Tokens Deposit Successful");
       dispatch(hideDepositWithdrawalModal());
       const despositConfirmation = await txn.wait();
@@ -98,6 +156,7 @@ export const depositERC20TokenAsync = createAsyncThunk(
 
       return dispatch(checkVaultAsync(_id));
     } catch (error) {
+      dispatch(endDepositing());
       toast.error(error.TokenDeposit);
       console.log(error, "error");
     }
@@ -112,6 +171,7 @@ export const depositEtherAsync = createAsyncThunk(
     const { id, amount } = data;
 
     try {
+      dispatch(startDepositing())
       const txn = await contract.depositEther(id, amount, { value: amount });
       toast.success("Deposit Successful");
       dispatch(hideDepositWithdrawalModal());
@@ -120,9 +180,10 @@ export const depositEtherAsync = createAsyncThunk(
       if (despositConfirmation?.events[0]?.data?.toString()) {
         toast.success(`deposit confirmed`);
       }
-
+        dispatch(endDepositing())
       return dispatch(checkVaultAsync(id));
     } catch (error) {
+      dispatch(endDepositing())
       toast.error("Deposit Failed");
       console.log(error, "error");
     }
@@ -136,6 +197,7 @@ export const withdrawEtherAsync = createAsyncThunk(
     const { id, amount } = data;
 
     try {
+      dispatch(startWithdrawing())
       const txn = await contract.withdrawEth(id, amount);
       toast.success("Withdrawal Successful");
       dispatch(hideDepositWithdrawalModal());
@@ -144,23 +206,18 @@ export const withdrawEtherAsync = createAsyncThunk(
       if (withdrawalConfirmation?.events[0]?.data?.toString()) {
         toast.success(`withdrawal confirmed`);
       }
-
-      return dispatch(checkVaultAsync(id));
+      
+      dispatch(checkVaultAsync(id));
+      return dispatch(endWithdrawing())
     } catch (error) {
+      dispatch(endWithdrawing())
       toast.error("Withdraw Failed");
       console.log(error, "error");
     }
   }
 );
 
-export const checkVaultIdAsync = createAsyncThunk(
-  "vault/getVaultId",
-  async (address) => {
-    const contract = await getSafeKeepContract();
-    const response = await contract.checkOwnerVault(address);
-    return response.toString();
-  }
-);
+
 
 export const vault = createSlice({
   name: "vault",
@@ -175,6 +232,7 @@ export const vault = createSlice({
     createError: null,
     fetchError: null,
     loading: null,
+    userAssets: [],
   },
 
   reducers: {
@@ -212,13 +270,13 @@ export const vault = createSlice({
       })
       //deposit tokens to vault
       .addCase(depositERC20TokenAsync.pending, (state) => {
-        state.crud = true;
+        //  state.crud = true;
       })
       .addCase(depositERC20TokenAsync.fulfilled, (state, { payload }) => {
-        state.crud = false;
+        //  state.crud = false;
       })
       .addCase(depositERC20TokenAsync.rejected, (state, { payload }) => {
-        state.crud = false;
+        //  state.crud = false;
       })
 
       //withdraw ether from vault
@@ -241,6 +299,10 @@ export const vault = createSlice({
       })
       .addCase(checkVaultAsync.rejected, (state) => {
         state.loading = false;
+      })
+
+      .addCase(getUserWalletAsset.fulfilled, (state, { payload }) => {
+        state.userAssets = payload;
       })
 
       //vault id reducers

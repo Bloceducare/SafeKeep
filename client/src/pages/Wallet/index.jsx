@@ -4,15 +4,18 @@ import { BtnDiv } from "./style";
 import Deposit from "./Components/Deposit";
 import Assets from "./Components/Assets";
 import CustomButton from "../../components/Button";
-import { modal } from "./selectors";
-import { showDepositWithdrawalModal } from "../../state/ui";
+import { modal, vault } from "./selectors";
+import { showDepositWithdrawalModal, showCreateVaultModal } from "../../state/ui";
 
 function Wallet() {
   const dispatch = useDispatch();
   const showHideModal = useSelector(modal);
+  const { data } = useSelector(vault)
   const [operationType, setOperationType] = useState("Deposit");
 
   const handleModal = (type) => {
+    if (!data.id) return;
+    if (data?.id === '0') return dispatch(showCreateVaultModal())
     setOperationType(type);
     dispatch(showDepositWithdrawalModal());
   };
@@ -20,7 +23,6 @@ function Wallet() {
     <>
       <BtnDiv>
         <CustomButton text="Deposit" onClick={() => handleModal("Deposit")} />
-
         <CustomButton
           text="Withdraw"
           outline
@@ -29,10 +31,6 @@ function Wallet() {
       </BtnDiv>
       <Assets />
       <Deposit operationType={operationType} showModal={showHideModal} />
-      {/* <Switch>
-<Route  path="/dashboard/wallet/assets" component={Assets} />
-<Route  path="/dashboard/wallet/deposit" component={Deposit} />
-</Switch> */}
     </>
   );
 }

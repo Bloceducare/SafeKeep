@@ -32,7 +32,8 @@ const Token = ({ name, balance, symbol, logo, onGetAsset }) => {
     </>
   );
 };
-function ListOfToken({ data, selected, display }) {
+
+function ListOfToken({ data, selected, display, isSearching }) {
   const bal = (token) => {
     const p = token?.balance / Math.pow(10, token?.decimals);
 
@@ -41,20 +42,26 @@ function ListOfToken({ data, selected, display }) {
 
   return (
     <TokensWrapperDiv display={display}>
-      {data?.length > 0
-        ? data?.map((token, index) => {
-            return (
-              <React.Fragment key={index}>
-                <Token
-                  name={token?.name}
-                  balance={bal(token)}
-                  symbol={token?.symbol}
-                  onGetAsset={() => selected(token)}
-                />
-              </React.Fragment>
-            );
-          })
-        : "Add a token to your wallet to Start Safekeeping"}
+      {isSearching && !data.length && "No results found"}
+
+      {!isSearching &&
+        !data.length &&
+        "Add a token to your wallet to Start Safekeeping"}
+
+      {data?.length > 0 && (
+        <>
+          {data.map((token, index) => (
+            <React.Fragment key={index}>
+              <Token
+                name={token?.name}
+                balance={bal(token)}
+                symbol={token?.symbol}
+                onGetAsset={() => selected(token)}
+              />
+            </React.Fragment>
+          ))}
+        </>
+      )}
     </TokensWrapperDiv>
   );
 }

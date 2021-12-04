@@ -49,15 +49,30 @@ function Assets() {
       </Row>
     </>
   );
+
   return (
     <Container>
       <CreateVaultModal />
       <AssetDiv>
-        {loading ? <P>Loading...</P> : data.id === "0" ? _noVault : _data}
+        <Show
+          loading={loading}
+          data={data}
+          loadingC={<P>Loading...</P>}
+          content={_data}
+          noContent={_noVault}
+        />
       </AssetDiv>
-      <NoVault onClick={handleShowModal} />
+
     </Container>
   );
 }
 
 export default Assets;
+
+
+const Show = ({ loading, data, loadingC, content, noContent }) => {
+  if (loading) return loadingC
+  if (data?.id === '0') return noContent
+  if (data?.inheritors) return content
+  return loadingC
+}

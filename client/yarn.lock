@@ -5021,6 +5021,11 @@ crypto-js@4.0.0:
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
   integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
 
+crypto-js@^3.1.6:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
+
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
@@ -6323,6 +6328,13 @@ eth-sig-util@^1.4.2:
   dependencies:
     ethereumjs-abi "git+https://github.com/ethereumjs/ethereumjs-abi.git"
     ethereumjs-util "^5.1.1"
+
+ethereum-address@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/ethereum-address/-/ethereum-address-0.0.4.tgz#91729b2bc8a0044bbee2c05ccf6d0417953e5f95"
+  integrity sha1-kXKbK8igBEu+4sBcz20EF5U+X5U=
+  dependencies:
+    crypto-js "^3.1.6"
 
 ethereum-bloom-filters@^1.0.6:
   version "1.0.10"
