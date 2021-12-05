@@ -1,17 +1,42 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import { Spinner, Button } from "react-bootstrap";
 import CustomButton from "../../components/Button";
 import CustomInput from "../../components/CustomInput";
+import { showCreateVaultModal } from "../../state/ui";
+import BackupAddressModal from "./components/BackupAddressModal";
+import { vaultId, backupAdd } from "./selector";
+import { updateBackupAddressAsync } from "./state";
 import { CurrentAddress, Table } from "./style";
 
 function BackupAddress() {
+  const dispatch = useDispatch()
+  const id = useSelector(vaultId)
+  const { crud } = useSelector(backupAdd)
   const [backupAddress, setBackupAddress] = useState("");
 
+
   const handleChange = (e) => {
+    if (id === '0') return dispatch(showCreateVaultModal())
     setBackupAddress(e.target.value);
   };
-  const updateBackupAddress = (e) => {};
+  const updateBackupAddress = (e) => {
+    e.preventDefault()
+    if (id === '0') return dispatch(showCreateVaultModal())
+    if (!backupAddress) return;
+    const data = {
+      _vaultId: id,
+      _newBackup: backupAddress
+    }
+    return dispatch(updateBackupAddressAsync(data))
+
+  };
+
   return (
     <div>
+      <ToastContainer />
+      <BackupAddressModal />
       <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -24,14 +49,27 @@ function BackupAddress() {
       </div>
       <section>
         <form onSubmit={updateBackupAddress}>
-          <CustomInput placeholder="Input Address" />
-
+          <CustomInput placeholder="Input Address" onChange={handleChange} value={backupAddress} />
           <div className="my-4 d-flex justify-content-center align-items-center">
-            <CustomButton
-              text="Update"
-              value={backupAddress}
-              onChange={handleChange}
-            />
+
+            {
+              crud ? <Button variant="primary" disabled>
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+
+                <span style={{ marginLeft: '1rem' }}>Updating
+                </span>
+              </Button> : <CustomButton
+                text="Update"
+              />
+            }
+
+
           </div>
         </form>
       </section>

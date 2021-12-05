@@ -26,7 +26,6 @@ function CreateVaultModal() {
   } = useSelector(vault);
   const [userInputs, setUserInputs] = useState({});
   const [fieldError, setFieldError] = useState({});
-  //const [addressArray, setAddressArray] = useState([{}])
 
   // const normalizeInput = () => {
   //   if(id ==='0') return []

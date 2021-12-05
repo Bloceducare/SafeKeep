@@ -1,4 +1,8 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from 'react-toastify'
+import { showCreateVaultModal } from "../../state/ui";
+import { vault, ping } from './selector'
 import CustomSelect from "../../components/CustomSelect";
 import {
   LastPingDiv,
@@ -10,10 +14,26 @@ import {
 } from "./style";
 import { FaCheck } from "react-icons/fa";
 import DashboardHero from "../../components/DashboardHero";
+import { pingVaultAsync } from "./state";
+import PingModal from "./components/PingModal";
+
+
+
 
 function Ping() {
+  const dispatch = useDispatch()
+  const { data: { id } } = useSelector(vault)
+  const { crud } = useSelector(ping)
+
+  const handleShowModal = () => {
+    if (id === '0') return dispatch(showCreateVaultModal())
+    return dispatch(pingVaultAsync(id))
+
+  }
   return (
     <div>
+      <ToastContainer />
+      <PingModal />
       <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -25,7 +45,13 @@ function Ping() {
         </p>
       </div>
 
-      <DashboardHero btntext="Ping" text="Ping Now" margin="3rem auto" />
+      <DashboardHero
+        clickshow={handleShowModal}
+        btntext='Ping'
+        text="Ping Now"
+        margin="3rem auto"
+        crud={crud}
+      />
 
       <LastPingDiv>
         <h2>Last Ping</h2>
