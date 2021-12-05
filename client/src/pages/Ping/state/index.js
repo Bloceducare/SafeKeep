@@ -1,35 +1,55 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {toast} from 'react-toastify'
 import { getSafeKeepContract } from "../../../config/constants/contractHelpers";
+import { hidePingModal, showPingModal } from "../../../state/ui";
 
-export const pingAsync = createAsyncThunk("ping/pingVault", async (id) => {
-  const contract = await getSafeKeepContract();
-  const response = await contract.ping(id);
-  return await response.wait();
+let startPing;
+let endPing;
+export const pingVaultAsync = createAsyncThunk("ping/pingVault", async (id, {dispatch}) => {
+  const contract = await getSafeKeepContract(true);
+  dispatch(startPing())
+  try {
+    if(id ==='0') return;
+    const response = await contract.ping(id);
+    dispatch(showPingModal())
+    dispatch(endPing())
+    await response.wait()
+    dispatch(hidePingModal())
+    return toast.success('ping submission confirmed')
+
+  } catch (error) {
+    dispatch(endPing())
+    toast.error('Error pinging your vault')
+   dispatch(hidePingModal())
+    console.log(error)   
+  }
+ 
 });
 
 export const ping = createSlice({
-  name: "vault",
+  name: "ping",
   initialState: {
-    data: [],
     status: null,
-    error: null,
     crud: null,
-    receipt: null,
   },
-
-  extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
-    builder
-      .addCase(pingAsync.pending, (state) => {
-        state.crud = true;
-      })
-      .addCase(pingAsync.fulfilled, (state, { payload }) => {
-        (state.crud = false), (state.receipt = payload);
-      })
-      .addCase(pingAsync.rejected, (state) => {
-        state.crud = false;
-      });
+  reducers: {
+    startPinging: (state) => {
+      state.crud = true;
+    },
+    endPinging: (state) => {
+      state.crud = false;
+    },
   },
 });
+
+
+const {
+  startPinging,
+  endPinging,
+} = ping.actions;
+
+startPing = startPinging;
+endPing = endPinging;
+
 
 export default ping.reducer;
