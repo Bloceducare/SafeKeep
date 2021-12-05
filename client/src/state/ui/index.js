@@ -7,8 +7,8 @@ export const UI = createSlice({
     createInheritorsModal: false,
     depositWithdrawalModal: false,
     connectModal: false,
-    pingModal:false,
-    backupAddressModal:false
+    pingModal: false,
+    backupAddressModal: false,
   },
   reducers: {
     showCreateVaultModal: (state) => {
@@ -71,7 +71,7 @@ export const {
   showPingModal,
   hidePingModal,
   showBackupAddressModal,
-  hideBackupAddressModal
+  hideBackupAddressModal,
 } = UI.actions;
 
 export default UI.reducer;
