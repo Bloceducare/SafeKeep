@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
+import { useSelector, useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { Spinner, Button } from "react-bootstrap";
 import CustomButton from "../../components/Button";
 import CustomInput from "../../components/CustomInput";
@@ -11,26 +11,24 @@ import { updateBackupAddressAsync } from "./state";
 import { CurrentAddress, Table } from "./style";
 
 function BackupAddress() {
-  const dispatch = useDispatch()
-  const id = useSelector(vaultId)
-  const { crud } = useSelector(backupAdd)
+  const dispatch = useDispatch();
+  const id = useSelector(vaultId);
+  const { crud } = useSelector(backupAdd);
   const [backupAddress, setBackupAddress] = useState("");
 
-
   const handleChange = (e) => {
-    if (id === '0') return dispatch(showCreateVaultModal())
+    if (id === "0") return dispatch(showCreateVaultModal());
     setBackupAddress(e.target.value);
   };
   const updateBackupAddress = (e) => {
-    e.preventDefault()
-    if (id === '0') return dispatch(showCreateVaultModal())
+    e.preventDefault();
+    if (id === "0") return dispatch(showCreateVaultModal());
     if (!backupAddress) return;
     const data = {
       _vaultId: id,
-      _newBackup: backupAddress
-    }
-    return dispatch(updateBackupAddressAsync(data))
-
+      _newBackup: backupAddress,
+    };
+    return dispatch(updateBackupAddressAsync(data));
   };
 
   return (
@@ -49,11 +47,14 @@ function BackupAddress() {
       </div>
       <section>
         <form onSubmit={updateBackupAddress}>
-          <CustomInput placeholder="Input Address" onChange={handleChange} value={backupAddress} />
+          <CustomInput
+            placeholder="Input Address"
+            onChange={handleChange}
+            value={backupAddress}
+          />
           <div className="my-4 d-flex justify-content-center align-items-center">
-
-            {
-              crud ? <Button variant="primary" disabled>
+            {crud ? (
+              <Button variant="primary" disabled>
                 <Spinner
                   as="span"
                   animation="grow"
@@ -62,14 +63,11 @@ function BackupAddress() {
                   aria-hidden="true"
                 />
 
-                <span style={{ marginLeft: '1rem' }}>Updating
-                </span>
-              </Button> : <CustomButton
-                text="Update"
-              />
-            }
-
-
+                <span style={{ marginLeft: "1rem" }}>Updating</span>
+              </Button>
+            ) : (
+              <CustomButton text="Update" />
+            )}
           </div>
         </form>
       </section>

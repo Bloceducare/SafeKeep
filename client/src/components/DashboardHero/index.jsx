@@ -10,8 +10,8 @@ function DashboardHero({ btntext, text, src, margin, clickshow, crud }) {
         <div>{text}</div>
 
         <div>
-          {
-            crud ? <Button variant="primary" disabled>
+          {crud ? (
+            <Button variant="primary" disabled>
               <Spinner
                 as="span"
                 animation="grow"
@@ -20,10 +20,11 @@ function DashboardHero({ btntext, text, src, margin, clickshow, crud }) {
                 aria-hidden="true"
               />
 
-              <span style={{ marginLeft: '1rem' }}>Pinging
-              </span>
-            </Button> : <CustomButton onClick={clickshow} text={btntext} />
-          }
+              <span style={{ marginLeft: "1rem" }}>Pinging</span>
+            </Button>
+          ) : (
+            <CustomButton onClick={clickshow} text={btntext} />
+          )}
         </div>
       </Div>
     </div>

@@ -1,56 +1,60 @@
-import { useSelector, useDispatch } from 'react-redux'
-import styled from 'styled-components'
-import { Modal } from 'react-bootstrap'
-import { hidePingModal } from '../../../../state/ui'
-import ModalBody from '../../../../components/Modal/ModalBody'
-import ModalHeader from '../../../../components/Modal/ModalHeader'
-import { pingModal } from '../../selector'
-
+import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { Modal } from "react-bootstrap";
+import { hidePingModal } from "../../../../state/ui";
+import ModalBody from "../../../../components/Modal/ModalBody";
+import ModalHeader from "../../../../components/Modal/ModalHeader";
+import { pingModal } from "../../selector";
 
 const PingModal = () => {
-    const dispatch = useDispatch()
-    const pingStatus = useSelector(pingModal)
-    const handleHideModal = () => { dispatch(hidePingModal()) }
+  const dispatch = useDispatch();
+  const pingStatus = useSelector(pingModal);
+  const handleHideModal = () => {
+    dispatch(hidePingModal());
+  };
 
-    return (
-        <>
-            <Modal show={pingStatus} onHide={handleHideModal}>
-                <ModalHeader title={''} />
-                <ModalBody style={{ textAlign: 'center' }} >
-                    <CheckMarkContainer>
-                        <div class="icon icon--order-success svg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px" style={{ transform: 'scale(0.95) translateY(-1.2rem)' }} >
-                                <g fill="none" stroke="blue" stroke-width="2">
-                                    <circle cx="36" cy="36" r="35"
-                                        style={{
-                                            strokeDasharray: '240px, 240px',
-                                            strokeDashoffset: '480px'
-                                        }}
-                                    ></circle>
-                                    <path d="M17.417,37.778l9.93,9.909l25.444-25.393"
-                                        style={{
-                                            strokeDasharray: '50px, 50px',
-                                            strokeDashoffset: '0px'
+  return (
+    <>
+      <Modal show={pingStatus} onHide={handleHideModal}>
+        <ModalHeader title={""} />
+        <ModalBody style={{ textAlign: "center" }}>
+          <CheckMarkContainer>
+            <div class="icon icon--order-success svg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="72px"
+                height="72px"
+                style={{ transform: "scale(0.95) translateY(-1.2rem)" }}
+              >
+                <g fill="none" stroke="blue" stroke-width="2">
+                  <circle
+                    cx="36"
+                    cy="36"
+                    r="35"
+                    style={{
+                      strokeDasharray: "240px, 240px",
+                      strokeDashoffset: "480px",
+                    }}
+                  ></circle>
+                  <path
+                    d="M17.417,37.778l9.93,9.909l25.444-25.393"
+                    style={{
+                      strokeDasharray: "50px, 50px",
+                      strokeDashoffset: "0px",
+                    }}
+                  ></path>
+                </g>
+              </svg>
+            </div>
+          </CheckMarkContainer>
+          <span>Sweet! 🥳 , you've successfully ping your vault</span>
+        </ModalBody>
+      </Modal>
+    </>
+  );
+};
 
-                                        }}
-
-                                    ></path>
-                                </g>
-                            </svg>
-
-                        </div>
-                    </CheckMarkContainer>
-                    <span >
-                        Sweet! 🥳 , you've successfully ping your vault
-                    </span>
-                </ModalBody>
-            </Modal>
-        </>
-    )
-}
-
-export default PingModal
-
+export default PingModal;
 
 const CheckMarkContainer = styled.div`
 /* @ref - https://codepen.io/benlrc/pen/JbReXj */
@@ -142,4 +146,4 @@ const CheckMarkContainer = styled.div`
     animation-delay: 2s;
 }
 
-`
+`;
