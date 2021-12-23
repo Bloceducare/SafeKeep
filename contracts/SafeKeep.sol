@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 //2021 Safekeep Finance v1
 
-pragma solidity 0.8.1;
+pragma solidity 0.8.0;
 
 //import "hardhat/console.sol";
 //import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -33,7 +33,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
         mapping(address => bool) activeTokens;
         mapping(address => address[]) inheritorAllocatedTokens;
         //strictly for returning values
-        mapping(address=>mapping(address=>uint)) inheritorTokenAllocations;
+        mapping(address => mapping(address => uint256)) inheritorTokenAllocations;
         //mapping(uint=>address) aaveToks;
     }
 
@@ -57,18 +57,15 @@ contract SafeKeep is Ownable, ReentrancyGuard {
         uint256 bal_;
     }
 
-    struct vaultDeets{
-address _owner;
-uint256 _VAULT_WEI_BALANCE;
+    struct vaultDeets {
+        address _owner;
+        uint256 _VAULT_WEI_BALANCE;
         uint256 _lastPing;
         uint256 _id;
         address backup;
         address[] _inheritors;
         address[] tokensDeposited;
-
     }
-
-   
 
     //using a central struct
     struct SFStorage {
@@ -84,9 +81,9 @@ uint256 _VAULT_WEI_BALANCE;
     mapping(address => bool) public _whitelistedAssets;
     mapping(uint256 => Vault) public vaultDefaultIndex;
     mapping(bytes32 => SFStorage) private contractStore;
-    mapping(address=>mapping(uint=>bool)) inheritorActiveVaults;
-    mapping(address=>uint[]) userVaults;
-    mapping(address=>uint) ownerVault;
+    mapping(address => mapping(uint256 => bool)) inheritorActiveVaults;
+    mapping(address => uint256[]) userVaults;
+    mapping(address => uint256) ownerVault;
 
     modifier vaultOwner(uint256 vaultID) {
         require(
@@ -127,46 +124,69 @@ uint256 _VAULT_WEI_BALANCE;
     ///EVENTS///
     ////////////
     event vaultCreated(
-        address indexed owner,
+        uint256 indexed vaultId,
+        address owner,
         address indexed backup,
         uint256 indexed startingBalance,
         address[] inheritors_
     );
-    event inheritorsAdded(address[] indexed newInheritors);
-    event inheritorsRemoved(address[] indexed inheritors);
-    event EthAllocated(address[] indexed inheritors, uint256[] amounts);
+    event inheritorsAdded(
+        uint256 indexed vaultId,
+        address[] indexed newInheritors
+    );
+    event inheritorsRemoved(
+        uint256 indexed vaultId,
+        address[] indexed inheritors
+    );
+    event EthAllocated(
+        uint256 indexed vaultId,
+        address[] indexed inheritors,
+        uint256[] amounts
+    );
     event tokenAllocated(
+        uint256 indexed vaultId,
         address indexed token,
         address[] indexed inheritors,
         uint256[] amounts
     );
-    event EthDeposited(uint256 _amount);
-    event tokensDeposited(address[] indexed tokens, uint256[] amounts);
+    event EthDeposited(uint256 indexed vaultId, uint256 _amount);
+    event tokensDeposited(
+        uint256 indexed vaultId,
+        address[] indexed tokens,
+        uint256[] amounts
+    );
     event claimedTokens(
+        uint256 indexed vaultId,
         address indexed inheritor,
         address indexed token,
         uint256 amount
     );
-    event ClaimedEth(address indexed inheritor, uint256 _amount);
+    event ClaimedEth(
+        uint256 indexed vaultId,
+        address indexed inheritor,
+        uint256 _amount
+    );
 
     ///////////////////
     //VIEW FUNCTIONS//
     /////////////////
 
+    function checkVault(uint256 _vaultId)
+        public
+        view
+        returns (vaultDeets memory deets)
+    {
+        Vault storage v = vaultDefaultIndex[_vaultId];
+        deets._owner = v._owner;
+        deets._VAULT_WEI_BALANCE = v._VAULT_WEI_BALANCE;
+        deets._lastPing = v._lastPing;
+        deets._id = v._id;
+        deets.backup = v.backup;
+        deets._inheritors = v._inheritors;
+        deets.tokensDeposited = v.tokensDeposited;
+    }
 
-
-function checkVault(uint256 _vaultId) public view returns(vaultDeets memory deets){
- Vault storage v = vaultDefaultIndex[_vaultId];
- deets._owner=v._owner;
- deets._VAULT_WEI_BALANCE=v._VAULT_WEI_BALANCE;
- deets._lastPing=v._lastPing;
- deets._id=v._id;
- deets.backup=v.backup;
- deets._inheritors=v._inheritors;
- deets.tokensDeposited=v.tokensDeposited;
-
-}
-    function checkAddressTokenAllocations(uint256 _vaultId,address _inheritor)
+    function checkAddressTokenAllocations(uint256 _vaultId, address _inheritor)
         public
         view
         returns (tokenAllocs[] memory tAllocs)
@@ -189,14 +209,17 @@ function checkVault(uint256 _vaultId) public view returns(vaultDeets memory deet
             tAllocs[i].token = _t;
         }
     }
-    
+
     //returns the vaultID of an address(if he has any)
-    function checkOwnerVault(address _vaultOwner) public view returns(uint256 _ID){
-        SFStorage storage s=contractStore[_contractIdentifier];
-        if(s.hasVault[_vaultOwner]){
-_ID=ownerVault[_vaultOwner];
+    function checkOwnerVault(address _vaultOwner)
+        public
+        view
+        returns (uint256 _ID)
+    {
+        SFStorage storage s = contractStore[_contractIdentifier];
+        if (s.hasVault[_vaultOwner]) {
+            _ID = ownerVault[_vaultOwner];
         }
-        
     }
 
     function checkAllEtherAllocations(uint256 _vaultId)
@@ -214,13 +237,18 @@ _ID=ownerVault[_vaultOwner];
         }
     }
 
-    function checkBackupAddressAndPing(uint _vaultId) public view vaultExists(_vaultId) returns(address _backup,uint _p){
-        Vault storage v=vaultDefaultIndex[_vaultId];
-        _backup=v.backup;
-        _p=v._lastPing;
+    function checkBackupAddressAndPing(uint256 _vaultId)
+        public
+        view
+        vaultExists(_vaultId)
+        returns (address _backup, uint256 _p)
+    {
+        Vault storage v = vaultDefaultIndex[_vaultId];
+        _backup = v.backup;
+        _p = v._lastPing;
     }
 
-    function checkAddressEtherAllocation(uint256 _vaultId,address _inheritor)
+    function checkAddressEtherAllocation(uint256 _vaultId, address _inheritor)
         public
         view
         vaultExists(_vaultId)
@@ -238,8 +266,12 @@ _ID=ownerVault[_vaultOwner];
         );
         _allocated = v._inheritorWeishares[msg.sender];
     }
-    
-    function checkAllAddressVaults(address _inheritor) public view returns(uint[] memory){
+
+    function checkAllAddressVaults(address _inheritor)
+        public
+        view
+        returns (uint256[] memory)
+    {
         return userVaults[_inheritor];
     }
 
@@ -252,7 +284,7 @@ _ID=ownerVault[_vaultOwner];
         etherBalance = vaultDefaultIndex[_vaultId]._VAULT_WEI_BALANCE;
     }
 
-//removing this function as it is currently not feasible
+    //removing this function as it is currently not feasible
     //because of multiple dimensions, only displays the first token
     /**
     function checkAllAllocatedTokens(uint256 _vaultId)
@@ -289,8 +321,8 @@ _ID=ownerVault[_vaultOwner];
         bal_ = vaultDefaultIndex[_vaultId]._VAULT_TOKEN_BALANCES[token];
     }
 
-   // function checkAllVaultDetails(uint256 _vaultId) public view returns(Vault memory v){
-     //   v=vaultDefaultIndex[_vaultId];
+    // function checkAllVaultDetails(uint256 _vaultId) public view returns(Vault memory v){
+    //   v=vaultDefaultIndex[_vaultId];
     //}
 
     function checkMyVaultTokenBalance(uint256 _vaultId, address token)
@@ -345,7 +377,6 @@ _ID=ownerVault[_vaultOwner];
         inheritors_ = vaultDefaultIndex[_vaultId]._inheritors;
     }
 
-
     //////////////////////
     ///WRITE FUNCTIONS///
     ////////////////////
@@ -372,18 +403,25 @@ _ID=ownerVault[_vaultOwner];
         vaultDefaultIndex[s.VAULT_ID]._lastPing = block.timestamp;
         vaultDefaultIndex[s.VAULT_ID].backup = _backupAddress;
         s.hasVault[msg.sender] = true; //you now have a vault
-        ownerVault[msg.sender]=s.VAULT_ID;
+        ownerVault[msg.sender] = s.VAULT_ID;
         for (uint256 k; k < inheritors.length; k++) {
             vaultDefaultIndex[s.VAULT_ID].activeInheritors[
                 inheritors[k]
             ] = true; //all new inheritors are active by default
-            inheritorActiveVaults[inheritors[k]][s.VAULT_ID]=true;
+            inheritorActiveVaults[inheritors[k]][s.VAULT_ID] = true;
             //vaultId is unique so add to array
-                userVaults[inheritors[k]].push(s.VAULT_ID);
+            userVaults[inheritors[k]].push(s.VAULT_ID);
         }
         s.VAULT_ID++;
-        emit vaultCreated(msg.sender, _backupAddress, _startingBal, inheritors);
-        emit inheritorsAdded(inheritors);
+
+        emit vaultCreated(
+            s.VAULT_ID,
+            msg.sender,
+            _backupAddress,
+            _startingBal,
+            inheritors
+        );
+        emit inheritorsAdded(s.VAULT_ID, inheritors);
         return vaultDefaultIndex[s.VAULT_ID]._id;
     }
 
@@ -424,7 +462,7 @@ _ID=ownerVault[_vaultOwner];
             userVaults[_newInheritors[k]].push(_vaultId);
         }
         _ping(_vaultId);
-        emit inheritorsAdded(_newInheritors);
+        emit inheritorsAdded(_vaultId, _newInheritors);
         return (_newInheritors, _weiShare);
     }
 
@@ -446,11 +484,11 @@ _ID=ownerVault[_vaultOwner];
             v.activeInheritors[_inheritors[k]] = false;
             //pop out the address from the array
             removeAddress(v._inheritors, _inheritors[k]);
-            removeUint(userVaults[_inheritors[k]],_vaultId);
+            removeUint(userVaults[_inheritors[k]], _vaultId);
             reset(_vaultId, _inheritors[k]);
         }
         _ping(_vaultId);
-        emit inheritorsAdded(_inheritors);
+        emit inheritorsAdded(_vaultId, _inheritors);
         return _inheritors;
     }
 
@@ -469,7 +507,7 @@ _ID=ownerVault[_vaultOwner];
         );
         v._VAULT_WEI_BALANCE += _amount;
         _ping(_vaultId);
-        emit EthDeposited(_amount);
+        emit EthDeposited(_vaultId, _amount);
         return v._VAULT_WEI_BALANCE;
     }
 
@@ -495,9 +533,9 @@ _ID=ownerVault[_vaultOwner];
                 _j.allowance(msg.sender, address(this)) >= _amounts[j],
                 "TokenDeposit: you have not approved safekeep to spend one or more of your tokens"
             );
-            uint256 tokenBalanceBefore= _j.balanceOf(address(this));
+            uint256 tokenBalanceBefore = _j.balanceOf(address(this));
             require(_j.transferFrom(msg.sender, address(this), _amounts[j]));
-            uint256 toAdd=_j.balanceOf(address(this))-tokenBalanceBefore;
+            uint256 toAdd = _j.balanceOf(address(this)) - tokenBalanceBefore;
             v._VAULT_TOKEN_BALANCES[tokenDeps[j]] += toAdd;
             if (v.activeTokens[tokenDeps[j]] == false) {
                 v.tokensDeposited.push(tokenDeps[j]);
@@ -505,11 +543,10 @@ _ID=ownerVault[_vaultOwner];
                 //require(v.activeTokens[tokenDeps[j]]==true,"didn't do it, sorry");
             }
         }
-        emit tokensDeposited(tokenDeps, _amounts);
-         _ping(_id);
-        
+        _ping(_id);
+        emit tokensDeposited(_id, tokenDeps, _amounts);
+
         return (tokenDeps, _amounts);
-       
     }
 
     function allocateTokens(
@@ -544,11 +581,13 @@ _ID=ownerVault[_vaultOwner];
             if (v._inheritorActiveTokens[_inheritors[k]][tokenAdd] == false) {
                 v.inheritorAllocatedTokens[_inheritors[k]].push(tokenAdd);
                 v._inheritorActiveTokens[_inheritors[k]][tokenAdd] = true;
-                v.inheritorTokenAllocations[_inheritors[k]][tokenAdd]=_shares[k];
+                v.inheritorTokenAllocations[_inheritors[k]][tokenAdd] = _shares[
+                    k
+                ];
             }
         }
         _ping(_vaultId);
-        emit tokenAllocated(tokenAdd, _inheritors, _shares);
+        emit tokenAllocated(_vaultId, tokenAdd, _inheritors, _shares);
         return (_inheritors, _shares);
     }
 
@@ -582,7 +621,7 @@ _ID=ownerVault[_vaultOwner];
             //   v._OWNER_WEI_SHARE-=_ethShares[k];
         }
         _ping(_vaultId);
-        emit EthAllocated(_inheritors, _ethShares);
+        emit EthAllocated(_vaultId, _inheritors, _ethShares);
         return (_inheritors, _ethShares);
     }
 
@@ -634,45 +673,45 @@ _ID=ownerVault[_vaultOwner];
             }
         }
     }
-    
-    function findUintIndex(uint _item,uint[] memory noArray) internal pure returns(uint256 i){
-        for(i;i<noArray.length;i++){
-            if(noArray[i]==_item){
+
+    function findUintIndex(uint256 _item, uint256[] memory noArray)
+        internal
+        pure
+        returns (uint256 i)
+    {
+        for (i; i < noArray.length; i++) {
+            if (noArray[i] == _item) {
                 return i;
+            }
         }
     }
-    }
-    
-    function removeUint(uint[] storage _noArray,uint to) internal{
-        uint256 index=findUintIndex(to,_noArray);
-        if(_noArray.length<=1){
+
+    function removeUint(uint256[] storage _noArray, uint256 to) internal {
+        uint256 index = findUintIndex(to, _noArray);
+        if (_noArray.length <= 1) {
             _noArray.pop();
         }
-        if(_noArray.length>1){
-        for(uint256 i=index;i<_noArray.length;i++){
-            _noArray[i]=_noArray[i-1];
-            
+        if (_noArray.length > 1) {
+            for (uint256 i = index; i < _noArray.length; i++) {
+                _noArray[i] = _noArray[i - 1];
+            }
+            _noArray.pop();
         }
-        _noArray.pop();
-        }
-        
     }
 
     function removeAddress(address[] storage _array, address _add) internal {
         uint256 index = findAddIndex(_add, _array);
-        if(_array.length<=1){
+        if (_array.length <= 1) {
             _array.pop();
         }
-        
-        if(_array.length>1){
-        for (uint256 i = index; i < _array.length; i++) {
-            _array[i] = _array[i - 1];
+
+        if (_array.length > 1) {
+            for (uint256 i = index; i < _array.length; i++) {
+                _array[i] = _array[i - 1];
+            }
+            _array.pop();
         }
-        _array.pop();
     }
-    }
-    
-    
 
     //only used for multiple address elemented arrays
     function reset(uint256 _vaultId, address _inheritor)
@@ -756,8 +795,8 @@ _ID=ownerVault[_vaultOwner];
         Vault storage v = vaultDefaultIndex[_vaultId];
         for (uint256 x; x < tokenAdds.length; x++) {
             uint256 _availableTokens = v
-            ._VAULT_TOKEN_BALANCES[tokenAdds[x]]
-            .sub(getCurrentAllocatedTokens(_vaultId, tokenAdds[x]));
+                ._VAULT_TOKEN_BALANCES[tokenAdds[x]]
+                .sub(getCurrentAllocatedTokens(_vaultId, tokenAdds[x]));
             require(
                 _availableTokens >= _amounts[x],
                 "withdrawToken:Not enough tokens, unallocate from some inheritors or deposit more"
@@ -776,9 +815,7 @@ _ID=ownerVault[_vaultOwner];
                 continue;
             }
             //if no tokens remain,delete the array
-            if (
-                v._VAULT_TOKEN_BALANCES[tokenAdds[x]] == 0
-            ) {
+            if (v._VAULT_TOKEN_BALANCES[tokenAdds[x]] == 0) {
                 v.activeTokens[tokenAdds[x]] = false;
                 removeAddress(v.tokensDeposited, tokenAdds[x]);
             }
@@ -808,7 +845,7 @@ _ID=ownerVault[_vaultOwner];
         Vault storage v = vaultDefaultIndex[vaultId];
         for (uint256 i; i < v._inheritors.length; i++) {
             if (inheritor_ == v._inheritors[i]) {
-                inh= true;
+                inh = true;
             }
         }
     }
@@ -822,7 +859,7 @@ _ID=ownerVault[_vaultOwner];
         returns (address)
     {
         vaultDefaultIndex[_vaultId]._owner = _newOwner;
-        ownerVault[_newOwner]=_vaultId;
+        ownerVault[_newOwner] = _vaultId;
         //  _ping(_vaultId);
         return _newOwner;
     }
@@ -848,10 +885,9 @@ _ID=ownerVault[_vaultOwner];
         );
         vaultDefaultIndex[_vaultId]._owner = msg.sender;
         vaultDefaultIndex[_vaultId].backup = _backup;
-        ownerVault[msg.sender]=_vaultId;
+        ownerVault[msg.sender] = _vaultId;
         return msg.sender;
     }
-
 
     //////////
     //CLAIMS//
@@ -859,10 +895,7 @@ _ID=ownerVault[_vaultOwner];
     function claimAllTokens(uint256 _vaultId) internal {
         Vault storage v = vaultDefaultIndex[_vaultId];
         //this is used for testing
-        require(
-            block.timestamp.sub(v._lastPing) > 24 weeks,
-            "Has not expired"
-        );
+        require(block.timestamp.sub(v._lastPing) > 24 weeks, "Has not expired");
         require(
             v.inheritorAllocatedTokens[msg.sender].length > 0,
             "ClaimTokens: you do not have any allocated tokens in this vault"
@@ -889,18 +922,21 @@ _ID=ownerVault[_vaultOwner];
             ] -= v._inheritorTokenShares[msg.sender][
                 v.inheritorAllocatedTokens[msg.sender][i]
             ];
-            v.inheritorTokenAllocations[msg.sender][v.inheritorAllocatedTokens[msg.sender][i]]=0;
-           
+            v.inheritorTokenAllocations[msg.sender][
+                v.inheritorAllocatedTokens[msg.sender][i]
+            ] = 0;
+
             emit claimedTokens(
+                _vaultId,
                 msg.sender,
                 v.inheritorAllocatedTokens[msg.sender][i],
                 v._inheritorTokenShares[msg.sender][
                     v.inheritorAllocatedTokens[msg.sender][i]
                 ]
             );
-             delete v.inheritorAllocatedTokens[msg.sender];
+            delete v.inheritorAllocatedTokens[msg.sender];
         }
-        
+
         reset(_vaultId, msg.sender);
     }
 
@@ -917,12 +953,12 @@ _ID=ownerVault[_vaultOwner];
             v._inheritorWeishares[msg.sender] = 0;
             //send out balance
             payable(msg.sender).transfer(_toClaim);
-            emit ClaimedEth(msg.sender, _toClaim);
+            emit ClaimedEth(_vaultId, msg.sender, _toClaim);
         }
         if (v.inheritorAllocatedTokens[msg.sender].length > 0) {
             claimAllTokens(_vaultId);
         }
         removeAddress(v._inheritors, msg.sender);
-        removeUint(userVaults[msg.sender],_vaultId);
+        removeUint(userVaults[msg.sender], _vaultId);
     }
 }

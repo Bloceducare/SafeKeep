@@ -33,6 +33,11 @@ module.exports = {
       accounts: [process.env.SECRET],
       gasPrice: 5000000000,
     },
+    rinkeby: {
+      url: process.env.RINKEBY_URL,
+      accounts: [process.env.SECRET],
+      gasPrice: 5000000000,
+    },
     //  ethereum: {
     //    url: process.env.MAINNET_URL,
     //   accounts: [process.env.SECRET],
@@ -54,7 +59,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.1",
+        version: "0.8.0",
         settings: {
           optimizer: {
             enabled: true,
