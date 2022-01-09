@@ -1,37 +1,32 @@
-
-
-
-
-.nav-item{
+.nav-item {
   margin-right: 20px;
   color: #fff;
 }
 
-
-.navbar-dark .navbar-nav .nav-link{
+.navbar-dark .navbar-nav .nav-link {
   display: inline-block;
   color: #fff;
   font-size: 1.2rem;
 }
 
 .navIcon button {
-  display:none;
+  display: none;
 }
 
-*{
+* {
   padding: 0;
-  margin:0;
+  margin: 0;
   box-sizing: border-box;
 }
-.navbar-dark .navbar-nav .nav-link:hover{
-  color: #2B5CCF
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #2b5ccf;
 }
 
-.navbar-dark .navbar-nav .nav-link:active{
-  color: #2B5CCF
+.navbar-dark .navbar-nav .nav-link:active {
+  color: #2b5ccf;
 }
 
-.navbar-nav{
+.navbar-nav {
   align-items: center;
 }
 
@@ -57,7 +52,6 @@
   margin-left: 3rem;
 }
 
-
 .text-right {
   text-align: right;
 }
@@ -75,7 +69,6 @@
   padding-right: 3rem;
 }
 
-
 .dpl-1 {
   padding-left: 1rem;
 }
@@ -92,51 +85,59 @@
   padding: 0;
 }
 
-
 .fs-0-9 {
   font-size: 0.9rem;
 }
 
-
 @font-face {
   font-family: "clash grotesk regular";
   src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff");
-  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff") format("woff"),
-  url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff2") format("woff2"),
-  }
+  src: url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff")
+      format("woff"),
+    url("./assets/font/clashGrotesk/regular/clashgrotesk-regular-webfont.woff2")
+      format("woff2");
+}
 
 @font-face {
   font-family: "clash grotesk bold";
   src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff");
   font-family: "clash grotesk bold";
-  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff") format("woff"),
-  url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff2") format("woff2"),
+  src: url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff")
+      format("woff"),
+    url("./assets/font/clashGrotesk/bold/clashgrotesk-bold-webfont.woff2")
+      format("woff2");
 }
 
 @font-face {
   font-family: "clash grotesk light";
   src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff");
-  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff") format("woff"),
-  url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff2") format("woff2"),
+  src: url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff")
+      format("woff"),
+    url("./assets/font/clashGrotesk/light/clashgrotesk-light-webfont.woff2")
+      format("woff2");
 }
 
 @font-face {
   font-family: "clash grotesk medium";
   src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff");
-  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff") format("woff"),
-  url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff2") format("woff2"),
+  src: url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff")
+      format("woff"),
+    url("./assets/font/clashGrotesk/medium/clashgrotesk-medium-webfont.woff2")
+      format("woff2");
 }
 
 @font-face {
   font-family: "clash grotesk semibold";
   src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff");
-  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff") format("woff"),
-  url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff2") format("woff2"),
+  src: url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff")
+      format("woff"),
+    url("./assets/font/clashGrotesk/semibold/clashgrotesk-semibold-webfont.woff2")
+      format("woff2");
 }
-  
+
 body {
   font-family: clash grotesk regular, Arial, sans-serif;
-  background: linear-gradient(#0B0D2E,#000);
+  background: linear-gradient(#0b0d2e, #000);
   background-repeat: no-repeat;
   color: white;
   -webkit-font-smoothing: antialiased;
@@ -144,27 +145,31 @@ body {
   box-sizing: border-box;
 }
 
-h5{
+h5 {
   font-family: clash grotesk regular, Arial, sans-serif;
 }
 
-a:link { text-decoration: none; }
+a:link {
+  text-decoration: none;
+}
 
+a:visited {
+  text-decoration: none;
+}
 
-a:visited { text-decoration: none; }
+a:hover {
+  text-decoration: none;
+}
 
-
-a:hover { text-decoration: none; }
-
-
-a:active { text-decoration: none; }
-
+a:active {
+  text-decoration: none;
+}
 
 .opacity-7 {
   opacity: 0.7;
 }
 
-.btn-connect{
+.btn-connect {
   margin-bottom: 10px;
   outline: 1px solid #fff;
 }
@@ -181,18 +186,16 @@ a:active { text-decoration: none; }
 }
 
 section {
-  margin: 4rem auto!important ;
+  margin: 4rem auto !important ;
 }
 
 .about-intro {
   font-family: clash grotesk semibold;
-  font-weight:normal;
-  font-style:normal;
-  margin:2rem auto;
+  font-weight: normal;
+  font-style: normal;
+  margin: 2rem auto;
   margin-bottom: 3rem;
 }
-
-
 
 .bg-about-img {
   height: 500px;
@@ -203,73 +206,67 @@ section {
 }
 .man-bg {
   background-image: url("./assets/man.png"); /* The image used */
-
 }
 
 .plug-bg {
-  background-image: url("./assets//plug.png") ;
+  background-image: url("./assets/plug.png");
 }
 
 .arrow-styles {
-  transform:scale(1.8);
-  color:#2B5CCF;
+  transform: scale(1.8);
+  color: #2b5ccf;
 }
-
 
 .custom-ul {
   position: relative;
 }
 
-.custom-ul::after, .custom-ul::before {
+.custom-ul::after,
+.custom-ul::before {
   position: absolute;
-  content: '';
-  left:0.5rem;
+  content: "";
+  left: 0.5rem;
   border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  top:30%;
+  top: 30%;
 }
 .custom-ul::after {
-  left:0.85rem;
+  left: 0.85rem;
   height: 0.6rem;
-  background:#2B5CCF;
+  background: #2b5ccf;
   width: 0.6rem;
   margin-top: 0.35rem;
-
 }
 
 @keyframes animatePseudo {
   0% {
-      transform: scale(1.0);
-      opacity: 0.4;
+    transform: scale(1);
+    opacity: 0.4;
   }
   100% {
-      transform: scale(1.2);
-      opacity: 0;
-
+    transform: scale(1.2);
+    opacity: 0;
   }
 }
 
 .custom-ul::before {
   animation: animatePseudo 1.5s ease-in-out infinite alternate;
   height: 1.3rem;
-  background:#2B5CCF;
-  width: 1.3rem; 
+  background: #2b5ccf;
+  width: 1.3rem;
   opacity: 0.4;
 }
-
 
 .about-us-btc {
   transform: scale(1.5);
 }
 .about-us-eth {
   transform: translateX(2rem);
-
 }
 .about-us-monero {
   transform: translateX(-2rem);
-
 }
 
 .roadmap-container {
@@ -281,15 +278,15 @@ section {
 }
 
 .roadmap-container:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 50%;
   margin-left: -1px;
   width: 2px;
   height: 100%;
-  background: #2B5CCF;
-  z-index: 1
+  background: #2b5ccf;
+  z-index: 1;
 }
 
 .timeline-block {
@@ -313,17 +310,17 @@ section {
 
 .timeline-block-left {
   float: left;
-  direction: rtl
+  direction: rtl;
 }
 
 .marker {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 2px solid #F5F7FA;
-  background: #4FC1E9;
+  border: 2px solid #f5f7fa;
+  background: #4fc1e9;
   margin-top: 10px;
-  z-index: 9999
+  z-index: 9999;
 }
 
 .timeline-content {
@@ -331,9 +328,9 @@ section {
   padding: 0 15px;
 }
 
-.timeline-content ul li::marker{
-  color: #2B5CCF;
-  content: '✽ ';
+.timeline-content ul li::marker {
+  color: #2b5ccf;
+  content: "✽ ";
   padding: 0 5px;
 }
 
@@ -341,7 +338,7 @@ section {
   margin-top: 5px;
   margin-bottom: 5px;
   font-size: 25px;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .timeline-content span {
@@ -356,22 +353,21 @@ section {
   color: #888;
 }
 
-
 @media screen and (max-width: 768px) {
   .roadmap-container:before {
-     left: 8px;
-     width: 2px;
+    left: 8px;
+    width: 2px;
   }
   .timeline-block {
-     width: 100%;
-     margin-bottom: 30px;
+    width: 100%;
+    margin-bottom: 30px;
   }
   .timeline-block-right {
-     float: none;
+    float: none;
   }
 
   .timeline-block-left {
-     float: none;
-     direction: ltr;
+    float: none;
+    direction: ltr;
   }
 }

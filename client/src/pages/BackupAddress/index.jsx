@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Spinner, Button } from "react-bootstrap";
@@ -7,22 +7,24 @@ import CustomInput from "../../components/CustomInput";
 import { showCreateVaultModal } from "../../state/ui";
 import BackupAddressModal from "./components/BackupAddressModal";
 import { vaultId, backupAdd } from "./selector";
-import { updateBackupAddressAsync } from "./state";
+import { getBackupAddressAsync, updateBackupAddressAsync } from "./state";
 import { CurrentAddress, Table } from "./style";
+import { getDate } from "../../utils/formatter";
 
 function BackupAddress() {
   const dispatch = useDispatch();
   const id = useSelector(vaultId);
-  const { crud } = useSelector(backupAdd);
+  const { crud, data, status, loading, currentBackup, currentBackupTime } =
+    useSelector(backupAdd);
   const [backupAddress, setBackupAddress] = useState("");
 
   const handleChange = (e) => {
-    if (id === "0") return dispatch(showCreateVaultModal());
+    if (!id) return dispatch(showCreateVaultModal());
     setBackupAddress(e.target.value);
   };
   const updateBackupAddress = (e) => {
     e.preventDefault();
-    if (id === "0") return dispatch(showCreateVaultModal());
+    if (!id) return dispatch(showCreateVaultModal());
     if (!backupAddress) return;
     const data = {
       _vaultId: id,
@@ -31,6 +33,51 @@ function BackupAddress() {
     return dispatch(updateBackupAddressAsync(data));
   };
 
+
+
+  const  handleBackupAddress = useCallback(() => {
+    dispatch(getBackupAddressAsync());
+
+  },[dispatch])
+  useEffect(() => {
+    handleBackupAddress();
+  }, [handleBackupAddress]);
+
+  const _loading = loading && "Loading...";
+  const _error = status === "rejected" && (
+    <p>
+      An error occured{" "}
+      <CustomButton text="try again" onClick={handleBackupAddress} />{" "}
+    </p>
+  );
+  const _renderBackupAddress = data && data.length > 0 && (
+    <>
+      <Table className="table borderless gig-table-section">
+        <p className="text-muted">Backup Address Change History </p>
+        <tbody>
+          {[...data].reverse().map((item) => (
+            <tr key={item.id}>
+              <td className="user-name">
+                {" "}
+                {item.address}
+                {item.createdAt === currentBackupTime && (
+                  <span class="badge badge-light mx-2">current</span>
+                )}
+              </td>
+              <td className="user-table-details">
+                {" "}
+                {getDate(item.createdAt)?.time}{" "}
+              </td>
+              <td className="user-table-details">
+                {" "}
+                {getDate(item.createdAt)?.date}{" "}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
+  );
   return (
     <div>
       <ToastContainer />
@@ -48,9 +95,15 @@ function BackupAddress() {
       <section>
         <form onSubmit={updateBackupAddress}>
           <CustomInput
-            placeholder="Input Address"
+            placeholder={
+              !id ? "Create a vault first" : "Enter your backup address"
+            }
             onChange={handleChange}
             value={backupAddress}
+            disabled={crud || !currentBackup}
+            style={{
+              backgroundColor: crud || !currentBackup ? "transparent" : "",
+            }}
           />
           <div className="my-4 d-flex justify-content-center align-items-center">
             {crud ? (
@@ -66,49 +119,34 @@ function BackupAddress() {
                 <span style={{ marginLeft: "1rem" }}>Updating</span>
               </Button>
             ) : (
-              <CustomButton text="Update" />
+              <CustomButton
+                text="Update"
+                disabled={crud || backupAddress.length === 0}
+              />
             )}
           </div>
         </form>
       </section>
 
-      <section>
-        <p
-          className="text-muted"
-          style={{
-            marginBottom: "-0.01rem",
-          }}
-        >
-          Current Address
-        </p>
-        <CurrentAddress>
-          0xbcaAB35233Ec7305D83C0A5b25d4d20C60B38Fb4
-        </CurrentAddress>
-      </section>
+      {status === "success" && !!currentBackup && (
+        <section>
+          <p
+            className="text-muted"
+            style={{
+              marginBottom: "-0.01rem",
+            }}
+          >
+            Current Address
+          </p>
+          <CurrentAddress>{currentBackup} </CurrentAddress>
+        </section>
+      )}
 
       <section>
-        <Table className="table borderless gig-table-section">
-          <p className="text-muted">Current Address</p>
-          <tbody>
-            <tr>
-              <td className="user-name">
-                {" "}
-                0xbcaAB35233Ec7305D83C0A5b25d4d20C60B38Fb4
-              </td>
-              <td className="user-table-details">10 : 13 : 16 AM</td>
-              <td className="user-table-details">12 - 20 - 20</td>
-            </tr>
+        {_renderBackupAddress}
 
-            <tr className="">
-              <td className="user-name">
-                {" "}
-                0xbcaAB35233Ec7305D83C0A5b25d4d20C60B38Fb4
-              </td>
-              <td className="user-table-details">10 : 13 : 16 AM</td>
-              <td className="user-table-details">12 - 20 - 20</td>
-            </tr>
-          </tbody>
-        </Table>
+        {id && _loading}
+        {_error}
       </section>
     </div>
   );

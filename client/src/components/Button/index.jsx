@@ -1,4 +1,3 @@
-import React from "react";
 import { Btn } from "./style";
 
 function CustomButton({

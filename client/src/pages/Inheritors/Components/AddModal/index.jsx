@@ -12,7 +12,7 @@ import { inheritors } from "../../selector";
 import PlusIcon from "../../../../components/PlusIcon";
 import Cross from "../../../../components/Cross";
 
-const prevData = [{ _weiShare: "", _newInheritors: "" }];
+const prevData = [{ _weiShare: "", _newInheritors: "", alias: "" }];
 function AddModal() {
   const dispatch = useDispatch();
   const { crud } = useSelector(inheritors);
@@ -32,18 +32,20 @@ function AddModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //  if (!ethers.utils.getAddress(address)) return "invalid wallet address";
-    //if (!_weiShare || !_newInheritors) return;
     const share = userInputs.map((item) =>
       ethers.utils.parseEther(item._weiShare)
     );
     const inheritors = userInputs.map((item) => item._newInheritors);
-    const data = { share, inheritors };
+    const alias = userInputs.map((item) => item.alias);
+    const data = { share, inheritors, alias };
     dispatch(addInheritorAsync(data));
   };
 
   const handleAdd = () => {
-    setUserInputs([...userInputs, { _weiShare: "", _newInheritors: "" }]);
+    setUserInputs([
+      ...userInputs,
+      { _weiShare: "", _newInheritors: "", alias: "" },
+    ]);
   };
 
   const handleRemove = (idx) => {
@@ -58,10 +60,6 @@ function AddModal() {
         <MDBody>
           <PlusIcon text="Inheritors" onClick={handleAdd} />
           <Form onSubmit={handleSubmit}>
-            {/* <Form.Group className="mt-4 mb-4" controlId="formGridAddress2">
-    <FormControl placeholder="Paste Address" name ='address' onChange ={handleChange} />
-  </Form.Group> */}
-
             {userInputs.map((item, idx) => {
               return (
                 <Fragment key={`${item._newInheritors}-${idx}`}>
@@ -71,10 +69,10 @@ function AddModal() {
                   >
                     <Form.Group as={Col} controlId="formGridPassword">
                       <FormControl
-                        placeholder="Paste Address"
+                        placeholder="Alias"
                         onChange={(e) => handleChange(e, idx)}
-                        name="_newInheritors"
-                        value={userInputs[idx]._inheritors}
+                        name="alias"
+                        value={userInputs[idx].alias}
                       />
                     </Form.Group>
                     <Form.Group
@@ -99,13 +97,23 @@ function AddModal() {
                       />
                     </Form.Group>
                   </Row>
+
+                  <Row>
+                    <Form.Group as={Col} controlId="formGridPassword">
+                      <FormControl
+                        placeholder="Paste Address"
+                        onChange={(e) => handleChange(e, idx)}
+                        name="_newInheritors"
+                        value={userInputs[idx]._inheritors}
+                      />
+                    </Form.Group>
+                  </Row>
                 </Fragment>
               );
             })}
-
             <div className="d-flex justify-content-center align-items-center">
               <CustomButton
-                disabled={crud}
+                disabled={crud || userInputs.length === 0}
                 text={`${crud ? "Loading..." : "Allocate"}`}
                 size="small"
               />
@@ -114,7 +122,7 @@ function AddModal() {
           <p className="my-3 mt-4 text-center text-muted">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tem Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tem
+            sed do eiusmod te
           </p>
         </MDBody>
       </Modal>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { useMoralis } from "react-moralis";
 import "bootstrap/dist/css/bootstrap.css";
@@ -9,25 +9,24 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Roadmap from "./pages/Roadmap";
-import { checkVaultIdAsync, checkVaultAsync } from "./pages/Wallet/state";
+import { checkVaultAsync } from "./pages/Wallet/state";
 import CreateVaultModal from "./pages/Wallet/Components/Deposit/CreateVault";
+import { getUserAddress } from "./state/user";
 
 function App() {
   const dispatch = useDispatch();
   const { user } = useMoralis();
   const address = user?.get("ethAddress");
-  const id = useSelector((state) => state.vault.id);
 
   useEffect(() => {
     if (!address) return;
-    if (!id && address) {
-      dispatch(checkVaultIdAsync(address));
-    }
+    dispatch(getUserAddress(address));
+    localStorage.setItem("safekeepAddress", address);
 
-    if (id && address) {
-      dispatch(checkVaultAsync(id));
+    if (address) {
+      dispatch(checkVaultAsync(address));
     }
-  }, [address, id, dispatch]);
+  }, [address, dispatch]);
 
   return (
     <Layout>

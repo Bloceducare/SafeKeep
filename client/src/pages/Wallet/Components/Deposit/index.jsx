@@ -17,6 +17,7 @@ import {
   depositEtherAsync,
   depositERC20TokenAsync,
   withdrawEtherAsync,
+  withdrawERC20TokenAsync,
 } from "../../state";
 import { modal, vault, transactionStatus } from "../../selectors";
 import { ToastContainer } from "react-toastify";
@@ -70,21 +71,22 @@ const nativeToken = (data) => {
 function Deposit({ showModal = false, operationType = "Deposit" }) {
   const dispatch = useDispatch();
   const {
-    data: { id },
+    data: { id, tokens },
   } = useSelector(vault);
 
   const txnStatus = useSelector(transactionStatus);
   const modalStatus = useSelector(modal);
   const { chainId } = useMoralisDapp();
-  const { assets = [] } = useERC20Balance();
+  const { assets: userWalletAssets = [] } = useERC20Balance();
   const [filteredAssets, setFilteredAssets] = useState([]);
   const [fetchAsset, setFetchAsset] = useState(false);
   const [selectedAssets, setSelectedAssets] = useState([{}]);
-  const [tokenType, setTokenType] = useState("");
+  const [tokenType, setTokenType] = useState("native");
   const [nativeBal, setNativeBal] = useState(0);
   const [displayOptions, setDisplayOptions] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(null);
   const [filtering, setFiltering] = useState(false);
+  const [assets, setAssets] = useState(userWalletAssets);
   const native = useNativeBalance();
 
   const handleTokenType = (e) => {
@@ -155,14 +157,29 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
   useEffect(() => {
     let cancel = false;
     if (cancel) return;
+    if (operationType === "Deposit") {
+      setAssets(userWalletAssets);
+    }
+    if (operationType === "Widthdraw") {
+      //filter out eth or bnb or matic on tokens
+      const filtered = tokens.filter((asset) => {
+        return (
+          asset.symbol.toLowerCase() !== "eth" &&
+          asset.symbol.toLowerCase() !== "bnb" &&
+          asset.symbol.toLowerCase() !== "matic"
+        );
+      });
+
+      setAssets(filtered);
+    }
 
     clearFields();
 
-    return () => {
+  return () => {
       cancel = true;
       clearFields();
     };
-  }, [modalStatus, dispatch]);
+  }, [modalStatus, dispatch, userWalletAssets, operationType, tokens]);
 
   const tkValue = (coin, price) => {
     if (!price || !coin) return;
@@ -205,20 +222,49 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
       if (tokenType === "erc20Tokens") {
         if (!selectedAssets.length) return;
-        const tokenDeps = selectedAssets.map((asset) => asset.token_address);
+        const tokenDeps = selectedAssets.map(
+          (asset) => asset.token_address || asset.address
+        );
         const _amounts = selectedAssets.map((asset) =>
           ethers.utils.parseEther(asset.userTokenAmt)
         );
         const _id = id;
-        const data = { _id, tokenDeps, _amounts };
+        const data = { _id, tokenDeps, _amounts, selectedAssets };
+
         return dispatch(depositERC20TokenAsync(data));
       }
     }
+
     if (operationType === "Widthdraw") {
       if (tokenType === "native") {
         const data = { id, amount: ethers.utils.parseEther(nativeBal) };
         return dispatch(withdrawEtherAsync(data));
       }
+
+      if (tokenType === "erc20Tokens") {
+        if (!selectedAssets.length) return;
+        const tokenDeps = selectedAssets.map(
+          (asset) => asset.token_address || asset.address
+        );
+        const _amounts = selectedAssets.map((asset) =>
+          ethers.utils.parseEther(asset.userTokenAmt)
+        );
+        const _id = id;
+        const data = { _id, tokenDeps, _amounts, selectedAssets };
+        return dispatch(withdrawERC20TokenAsync(data));
+      }
+    }
+
+    if (tokenType === "erc20Tokens") {
+      if (!selectedAssets.length) return;
+
+      // const tokenDeps = selectedAssets.map((asset) => asset.token_address);
+      // const _amounts = selectedAssets.map((asset) =>
+      //   ethers.utils.parseEther(asset.userTokenAmt)
+      // );
+      //  const _id = id;
+      // const data = { _id, tokenDeps, _amounts };
+      //  return dispatch(depositERC20TokenAsync(data));
     }
   };
 

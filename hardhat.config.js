@@ -25,7 +25,9 @@ module.exports = {
       gas: "auto",
     },
     localhost: {
+      //0.0.0.0:8545
       timeout: 160000,
+      url: "http://0.0.0.0:8545",
     },
 
     kovan: {

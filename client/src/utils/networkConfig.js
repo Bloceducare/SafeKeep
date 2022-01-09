@@ -1,3 +1,5 @@
+export const currrentChainId = "0x2a";
+
 export const networkConfigs = {
   "0x1": {
     currencySymbol: "ETH",
@@ -76,6 +78,8 @@ export const getNativeByChain = (chain) =>
 export const getChainById = (chain) => networkConfigs[chain]?.chainId || null;
 
 export const getExplorer = (chain) => networkConfigs[chain]?.blockExplorerUrl;
+
+export const currentNetworkConfig = networkConfigs[currrentChainId];
 
 export const getWrappedNative = (chain) =>
   networkConfigs[chain]?.wrapped || null;
