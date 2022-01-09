@@ -19,7 +19,6 @@
     "hardhat-ethers": "^1.0.1",
     "react-icons": "^4.3.1",
     "react-loading-skeleton": "^3.0.1",
-    "react-select": "^5.2.1",
     "react-toastify": "^8.1.0"
   }
 }
