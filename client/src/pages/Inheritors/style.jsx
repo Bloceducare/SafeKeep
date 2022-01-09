@@ -4,11 +4,13 @@ import img from "../../assets/check.svg";
 const bg = (props) => {
   if (props.bvar === "danger") return "#9f373755";
   if (props.bvar === "edit") return "#6185DC55";
+  if (props.bvar === "success") return "#00800038";
 };
 
 const color = (props) => {
   if (props.cvar === "danger") return "#FF1A1A";
   if (props.cvar === "edit") return "#2B5BCF";
+  if (props.cvar === "success") return "green";
 };
 
 export const Btn = styled.button`
@@ -16,7 +18,7 @@ export const Btn = styled.button`
   align-items: center;
   border: none;
   border: 0;
-  padding: 0.2rem 0.4rem;
+  padding: 0.5rem 0.5rem;
   background: ${(props) => bg(props)};
   color: ${(props) => color(props)};
   margin: auto 0.3rem;

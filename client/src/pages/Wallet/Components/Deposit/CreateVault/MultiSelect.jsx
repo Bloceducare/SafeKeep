@@ -65,6 +65,7 @@ const customStyles = {
 
 const Multi = ({ name, setChange, options = [], noMulti = true }) => (
   <CreatableSelect
+    placeholder="Inheritors"
     styles={customStyles}
     isMulti={noMulti}
     name={name}

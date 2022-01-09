@@ -1,29 +1,173 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Btn, Tbody } from "./style";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaTrashAlt, FaEdit, FaPlus, FaAddressBook, FaEthereum } from "react-icons/fa";
 import DashboardHero from "../../components/DashboardHero";
 import CustomSearchInput from "../../components/CustomSearchInput";
 import AddModal from "./Components/AddModal";
 import {
   showCreateInheritorsModal,
   showCreateVaultModal,
+  showEditAliasModal,
 } from "../../state/ui";
-import { vault } from "./selector";
+import { inheritors } from "./selector";
+import { getInheritorsAsync, deleteInheritorAsync } from "./state";
+import CustomButton from "../../components/Button";
+import ConfirmationModalComponent from "../../components/ConfirmModal";
+import { showConfirmationModal, showAllocateEthSingleModal } from "../../state/ui";
+import EditAliasModal from "./Components/EditModal";
+import AllocateSingleEthModal from './Components/AllocateEthSingle'
+import { tokenValue } from "../../utils/formatter";
+import { currentNetworkConfig } from "../../utils/networkConfig";
 
 function Inheritors() {
   const dispatch = useDispatch();
-  const { data } = useSelector(vault);
+  const { data, loading, error, crud, status } = useSelector(inheritors);
+  const {
+    user: { address },
+    vault: {
+      data: { id },
+    },
+  } = useSelector((state) => state);
+  const [currentData, setCurrentData] = useState({});
+  const [aliasNotAvailable, setAliasAvailable] = useState(false);
+
 
   const handleShow = () => {
-    if (!data.id) return;
-    if (data.id === "0") return dispatch(showCreateVaultModal());
+
+    if (!id) return dispatch(showCreateVaultModal());
     dispatch(showCreateInheritorsModal());
   };
+
+
+  const handleSingleAllocateModal = (data) => {
+    setCurrentData(data);
+    dispatch(showAllocateEthSingleModal());
+ 
+  }
+  const handleSingleAllocateEth = (address) => {
+    // 
+  }
+  const handleShowConfirmationModal = (data) => {
+    setCurrentData(data);
+    dispatch(showConfirmationModal());
+  };
+
+  useEffect(() => {
+    dispatch(getInheritorsAsync(address));
+  }, [address]);
+
+  const _loading = loading && "Loading...";
+
+  const _error = status === "rejected" && !loading && error && (
+    <div>
+      An error occurred
+      <CustomButton
+        text="try again"
+        onClick={() => dispatch(getInheritorsAsync())}
+      />
+    </div>
+  );
+
+  const handleDelete = () => {
+    const data = [currentData.address];
+    const inheritorId = [currentData.id];
+    const info = { _vaultId: id, _inheritors: data, ids: inheritorId };
+    dispatch(deleteInheritorAsync(info));
+  };
+
+  const handleAliasEdit = (inheritor, isAddOperation) => {
+    setCurrentData(inheritor);
+    setAliasAvailable(isAddOperation)
+    dispatch(showEditAliasModal());
+    //
+  };
+
+  const _data = !loading && status === "success" && !error && data && (
+    <>
+      <table class="table text-white my-4">
+        <Tbody>
+          {data.map((item, idx) => (
+            <tr key={item.id}>
+              <td>{item.alias}</td>
+              <td>{item.address}</td>
+              <td className="d-flex">
+                <Btn
+                  bvar="danger"
+                  cvar="danger"
+                  onClick={() => handleShowConfirmationModal(item)}
+                >
+                  <FaTrashAlt className="mx-1" />
+                </Btn>
+                {item.alias ? (
+                  <Btn
+                    bvar="edit"
+                    cvar="edit"
+                    onClick={() => handleAliasEdit(item)}
+        
+                  >
+                    <FaEdit className="mx-1" />
+                  </Btn>
+                ) :   <Btn
+                bvar="edit"
+                cvar="edit"
+                onClick={() => handleAliasEdit(item, true)}
+              >
+                 <FaPlus className="mx-1" /> 
+                <FaAddressBook className="mx-1" /> 
+              </Btn> }
+
+              
+
+{tokenValue(item.ethAllocated) ?  (
+                  <Btn
+                    bvar="success"
+                    cvar="success"
+                     onClick={() => handleSingleAllocateModal(item)}
+                  >
+                     <FaEdit className="mx-1" /> 
+                   
+                    <FaEthereum className="mx-1" />
+                  </Btn>
+                ) : <Btn
+                bvar="success"
+                cvar="success"
+                 onClick={() => handleSingleAllocateModal(item)}
+              >
+                <FaPlus className="mx-1" /> 
+                <FaEthereum className="mx-1" />
+              </Btn> }
+
+              </td>
+              <td>
+                {tokenValue(item.ethAllocated)}{" "}
+                {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "} 
+              </td>
+            </tr>
+          ))}
+        </Tbody>
+      </table>
+    </>
+  );
 
   return (
     <div>
       <AddModal />
+      <ConfirmationModalComponent
+        label="inheritor"
+        yesOperation={handleDelete}
+        operationInProgress={crud}
+      >
+        <p className="my-3 mt-0 text-center text-muted ">
+          <h6>{currentData?.address}</h6>
+        </p>
+
+        <p className="my-0 mt-0 text-center text-muted">
+          <h5>{currentData?.alias}</h5>
+        </p>
+      </ConfirmationModalComponent>
+      <EditAliasModal  aliasNotAvailable ={aliasNotAvailable} {...currentData} />
+      <AllocateSingleEthModal  {...currentData} />
       <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -47,37 +191,16 @@ function Inheritors() {
         Inheritors{" "}
       </h3>
 
-      <CustomSearchInput />
+      <CustomSearchInput
+        placeholder={!id && "Please create a vault first"}
+        disabled={!id}
+        style={{ backgroundColor: `${!id ? "transparent" : ""}` }}
+      />
 
       <section>
-        <table class="table text-white my-4">
-          <Tbody>
-            <tr>
-              <td>Tunde Makinwa</td>
-              <td className="d-flex">
-                <Btn bvar="danger" cvar="danger">
-                  <FaTrashAlt className="mx-1" /> Delete
-                </Btn>
-                <Btn bvar="edit" cvar="edit">
-                  <FaEdit className="mx-1" /> Edit
-                </Btn>
-              </td>
-              <td>50 DAI</td>
-            </tr>
-            <tr>
-              <td>Odebunmi Fiyinfoluwa</td>
-              <td className="d-flex">
-                <Btn bvar="danger" cvar="danger">
-                  <FaTrashAlt className="mx-1" /> Delete
-                </Btn>
-                <Btn bvar="edit" cvar="edit">
-                  <FaEdit className="mx-1" /> Edit
-                </Btn>
-              </td>
-              <td>500 DAI</td>
-            </tr>
-          </Tbody>
-        </table>
+        {id && _loading}
+        {id && _error}
+        {_data}
       </section>
     </div>
   );

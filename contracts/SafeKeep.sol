@@ -132,32 +132,41 @@ contract SafeKeep is Ownable, ReentrancyGuard {
     );
     event inheritorsAdded(
         uint256 indexed vaultId,
-        address[] indexed newInheritors
+        address[] newInheritors,
+        uint256[] newWeiShares
     );
-    event inheritorsRemoved(
+    event inheritorsAddedVaultCreated(
         uint256 indexed vaultId,
-        address[] indexed inheritors
+        address[] newInheritors
     );
+    event inheritorsRemoved(uint256 indexed vaultId, address[] inheritors);
     event EthAllocated(
         uint256 indexed vaultId,
-        address[] indexed inheritors,
+        address[] inheritors,
         uint256[] amounts
     );
     event tokenAllocated(
         uint256 indexed vaultId,
-        address indexed token,
-        address[] indexed inheritors,
+        address token,
+        address[] inheritors,
         uint256[] amounts
     );
     event EthDeposited(uint256 indexed vaultId, uint256 _amount);
+
+    event EthWithdrawn(uint256 indexed vaultId, uint256 _amount);
     event tokensDeposited(
         uint256 indexed vaultId,
-        address[] indexed tokens,
+        address[] tokens,
+        uint256[] amounts
+    );
+    event tokensWithdrawn(
+        uint256 indexed vaultId,
+        address[] tokens,
         uint256[] amounts
     );
     event claimedTokens(
         uint256 indexed vaultId,
-        address indexed inheritor,
+        address inheritor,
         address indexed token,
         uint256 amount
     );
@@ -166,6 +175,10 @@ contract SafeKeep is Ownable, ReentrancyGuard {
         address indexed inheritor,
         uint256 _amount
     );
+
+    event pingVault(uint256 vaultId);
+
+    event backupAddress(uint256 vaultId, address backup);
 
     ///////////////////
     //VIEW FUNCTIONS//
@@ -376,7 +389,6 @@ contract SafeKeep is Ownable, ReentrancyGuard {
     {
         inheritors_ = vaultDefaultIndex[_vaultId]._inheritors;
     }
-
     //////////////////////
     ///WRITE FUNCTIONS///
     ////////////////////
@@ -412,7 +424,6 @@ contract SafeKeep is Ownable, ReentrancyGuard {
             //vaultId is unique so add to array
             userVaults[inheritors[k]].push(s.VAULT_ID);
         }
-        s.VAULT_ID++;
 
         emit vaultCreated(
             s.VAULT_ID,
@@ -421,7 +432,9 @@ contract SafeKeep is Ownable, ReentrancyGuard {
             _startingBal,
             inheritors
         );
-        emit inheritorsAdded(s.VAULT_ID, inheritors);
+
+        emit inheritorsAddedVaultCreated(s.VAULT_ID, inheritors);
+        s.VAULT_ID++;
         return vaultDefaultIndex[s.VAULT_ID]._id;
     }
 
@@ -462,7 +475,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
             userVaults[_newInheritors[k]].push(_vaultId);
         }
         _ping(_vaultId);
-        emit inheritorsAdded(_vaultId, _newInheritors);
+        emit inheritorsAdded(_vaultId, _newInheritors, _weiShare);
         return (_newInheritors, _weiShare);
     }
 
@@ -488,7 +501,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
             reset(_vaultId, _inheritors[k]);
         }
         _ping(_vaultId);
-        emit inheritorsAdded(_vaultId, _inheritors);
+        emit inheritorsRemoved(_vaultId, _inheritors);
         return _inheritors;
     }
 
@@ -783,6 +796,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
         //reduce balance after checks
         (v._VAULT_WEI_BALANCE -= _amount);
         payable(v._owner).transfer(_amount);
+        emit EthWithdrawn(_vaultId, _amount);
         _ping(_vaultId);
         return (v._VAULT_WEI_BALANCE);
     }
@@ -821,6 +835,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
             }
         }
         _ping(_vaultId);
+        emit tokensWithdrawn(_vaultId, tokenAdds, _amounts);
         return true;
     }
 
@@ -835,6 +850,7 @@ contract SafeKeep is Ownable, ReentrancyGuard {
 
     function ping(uint256 _vaultId) external {
         _ping(_vaultId);
+        emit pingVault(_vaultId);
     }
 
     function anInheritor(uint256 vaultId, address inheritor_)
@@ -866,10 +882,11 @@ contract SafeKeep is Ownable, ReentrancyGuard {
 
     function transferBackup(uint256 _vaultId, address _newBackup)
         public
-        vaultBackup(_vaultId)
+        vaultOwner(_vaultId)
         returns (address)
     {
         vaultDefaultIndex[_vaultId].backup = _newBackup;
+        emit backupAddress(_vaultId, _newBackup);
         return _newBackup;
     }
 

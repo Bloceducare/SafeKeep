@@ -4,6 +4,12 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "inheritor",
         "type": "address"
@@ -23,6 +29,12 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address[]",
         "name": "inheritors",
         "type": "address[]"
@@ -41,6 +53,12 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
         "indexed": false,
         "internalType": "uint256",
         "name": "_amount",
@@ -48,6 +66,25 @@
       }
     ],
     "name": "EthDeposited",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "EthWithdrawn",
     "type": "event"
   },
   {
@@ -73,7 +110,32 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "backup",
+        "type": "address"
+      }
+    ],
+    "name": "backupAddress",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "inheritor",
         "type": "address"
@@ -99,9 +161,21 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address[]",
         "name": "newInheritors",
         "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "newWeiShares",
+        "type": "uint256[]"
       }
     ],
     "name": "inheritorsAdded",
@@ -112,6 +186,31 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "newInheritors",
+        "type": "address[]"
+      }
+    ],
+    "name": "inheritorsAddedVaultCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address[]",
         "name": "inheritors",
         "type": "address[]"
@@ -124,13 +223,32 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "pingVault",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "token",
         "type": "address"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address[]",
         "name": "inheritors",
         "type": "address[]"
@@ -150,6 +268,12 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address[]",
         "name": "tokens",
         "type": "address[]"
@@ -169,6 +293,37 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address[]",
+        "name": "tokens",
+        "type": "address[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "tokensWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -196,90 +351,182 @@
     "type": "event"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "_whitelistedAssets",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
       {
         "internalType": "address[]",
         "name": "_newInheritors",
         "type": "address[]"
       },
-      { "internalType": "uint256[]", "name": "_weiShare", "type": "uint256[]" }
+      {
+        "internalType": "uint256[]",
+        "name": "_weiShare",
+        "type": "uint256[]"
+      }
     ],
     "name": "addInheritors",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
       {
         "internalType": "address[]",
         "name": "_inheritors",
         "type": "address[]"
       },
-      { "internalType": "uint256[]", "name": "_ethShares", "type": "uint256[]" }
+      {
+        "internalType": "uint256[]",
+        "name": "_ethShares",
+        "type": "uint256[]"
+      }
     ],
     "name": "allocateEther",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "tokenAdd", "type": "address" },
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenAdd",
+        "type": "address"
+      },
       {
         "internalType": "address[]",
         "name": "_inheritors",
         "type": "address[]"
       },
-      { "internalType": "uint256[]", "name": "_shares", "type": "uint256[]" }
+      {
+        "internalType": "uint256[]",
+        "name": "_shares",
+        "type": "uint256[]"
+      }
     ],
     "name": "allocateTokens",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "_inheritor", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_inheritor",
+        "type": "address"
+      }
     ],
     "name": "checkAddressEtherAllocation",
     "outputs": [
-      { "internalType": "uint256", "name": "_allocated", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_allocated",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "_inheritor", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_inheritor",
+        "type": "address"
+      }
     ],
     "name": "checkAddressTokenAllocations",
     "outputs": [
       {
         "components": [
-          { "internalType": "address", "name": "token", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct SafeKeep.tokenAllocs[]",
         "name": "tAllocs",
@@ -291,18 +538,30 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_inheritor", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_inheritor",
+        "type": "address"
+      }
     ],
     "name": "checkAllAddressVaults",
     "outputs": [
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkAllEtherAllocations",
     "outputs": [
@@ -313,7 +572,11 @@
             "name": "inheritor_",
             "type": "address"
           },
-          { "internalType": "uint256", "name": "weiAlloc_", "type": "uint256" }
+          {
+            "internalType": "uint256",
+            "name": "weiAlloc_",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct SafeKeep.allInheritorEtherAllocs[]",
         "name": "eAllocs",
@@ -325,14 +588,26 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkAllVaultTokenBalances",
     "outputs": [
       {
         "components": [
-          { "internalType": "address", "name": "token_", "type": "address" },
-          { "internalType": "uint256", "name": "bal_", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "token_",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "bal_",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct SafeKeep.tokenBal[]",
         "name": "_tBal",
@@ -344,56 +619,108 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkBackupAddressAndPing",
     "outputs": [
-      { "internalType": "address", "name": "_backup", "type": "address" },
-      { "internalType": "uint256", "name": "_p", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "_backup",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_p",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "token", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
     ],
     "name": "checkMyVaultTokenBalance",
     "outputs": [
-      { "internalType": "uint256", "name": "bal_", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "bal_",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_vaultOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_vaultOwner",
+        "type": "address"
+      }
     ],
     "name": "checkOwnerVault",
     "outputs": [
-      { "internalType": "uint256", "name": "_ID", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_ID",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkVault",
     "outputs": [
       {
         "components": [
-          { "internalType": "address", "name": "_owner", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+          },
           {
             "internalType": "uint256",
             "name": "_VAULT_WEI_BALANCE",
             "type": "uint256"
           },
-          { "internalType": "uint256", "name": "_lastPing", "type": "uint256" },
-          { "internalType": "uint256", "name": "_id", "type": "uint256" },
-          { "internalType": "address", "name": "backup", "type": "address" },
+          {
+            "internalType": "uint256",
+            "name": "_lastPing",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "backup",
+            "type": "address"
+          },
           {
             "internalType": "address[]",
             "name": "_inheritors",
@@ -415,41 +742,73 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkVaultDepositedTokens",
     "outputs": [
-      { "internalType": "address[]", "name": "_tok", "type": "address[]" }
+      {
+        "internalType": "address[]",
+        "name": "_tok",
+        "type": "address[]"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "checkVaultEtherBalance",
     "outputs": [
-      { "internalType": "uint256", "name": "etherBalance", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "etherBalance",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "token", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
     ],
     "name": "checkVaultTokenBalance",
     "outputs": [
-      { "internalType": "uint256", "name": "bal_", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "bal_",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "claim",
     "outputs": [],
@@ -458,11 +817,25 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "_backup", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_backup",
+        "type": "address"
+      }
     ],
     "name": "claimOwnership",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -473,18 +846,40 @@
         "name": "inheritors",
         "type": "address[]"
       },
-      { "internalType": "uint256", "name": "_startingBal", "type": "uint256" },
-      { "internalType": "address", "name": "_backupAddress", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_startingBal",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_backupAddress",
+        "type": "address"
+      }
     ],
     "name": "createVault",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "payable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
     ],
     "name": "depositEther",
     "outputs": [
@@ -499,21 +894,45 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_id", "type": "uint256" },
-      { "internalType": "address[]", "name": "tokenDeps", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" }
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokenDeps",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      }
     ],
     "name": "depositTokens",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "getAllInheritors",
     "outputs": [
@@ -529,13 +948,23 @@
   {
     "inputs": [],
     "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      }
     ],
     "name": "ping",
     "outputs": [],
@@ -544,7 +973,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
       {
         "internalType": "address[]",
         "name": "_inheritors",
@@ -553,7 +986,11 @@
     ],
     "name": "removeInheritors",
     "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -567,27 +1004,59 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "_newBackup", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_newBackup",
+        "type": "address"
+      }
     ],
     "name": "transferBackup",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address", "name": "_newOwner", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -595,42 +1064,99 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "vaultDefaultIndex",
     "outputs": [
-      { "internalType": "address", "name": "_owner", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "_VAULT_WEI_BALANCE",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "_lastPing", "type": "uint256" },
-      { "internalType": "uint256", "name": "_id", "type": "uint256" },
-      { "internalType": "address", "name": "backup", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "_lastPing",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "backup",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
     ],
     "name": "withdrawEth",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vaultId", "type": "uint256" },
-      { "internalType": "address[]", "name": "tokenAdds", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" }
+      {
+        "internalType": "uint256",
+        "name": "_vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "tokenAdds",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_amounts",
+        "type": "uint256[]"
+      }
     ],
     "name": "withdrawTokens",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  { "stateMutability": "payable", "type": "receive" }
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  }
 ]

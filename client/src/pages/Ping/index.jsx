@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { showCreateVaultModal } from "../../state/ui";
@@ -14,20 +14,68 @@ import {
 } from "./style";
 import { FaCheck } from "react-icons/fa";
 import DashboardHero from "../../components/DashboardHero";
-import { pingVaultAsync } from "./state";
+import { getPingsAsync, pingVaultAsync } from "./state";
 import PingModal from "./components/PingModal";
+import { getDate } from "../../utils/formatter";
+import CustomButton from "../../components/Button";
 
 function Ping() {
   const dispatch = useDispatch();
   const {
     data: { id },
   } = useSelector(vault);
-  const { crud } = useSelector(ping);
+  const { crud, data, loading, error, status } = useSelector(ping);
 
   const handleShowModal = () => {
-    if (id === "0") return dispatch(showCreateVaultModal());
+    if (!id) return dispatch(showCreateVaultModal());
     return dispatch(pingVaultAsync(id));
   };
+
+  const handlePings = () => dispatch(getPingsAsync());
+  useEffect(() => {
+    handlePings();
+  }, []);
+
+  const _noData = status === "success" && data?.length === 0 && "No Pings yet";
+  // console.log(data, 'data')
+  const _data = status === "success" && data?.length > 0 && (
+    <>
+      <LastPingDiv>
+        <h2>Last Ping</h2>
+        <PingTableHeading header="true">
+          <ColC noMargin="true">Date</ColC>
+          <ColC noMargin="true">Time</ColC>
+        </PingTableHeading>
+        {data.map((item) => (
+          <Fragment key={item.time}>
+            <PingTable>
+              <ColC> {getDate(item.time)?.date} </ColC>
+              <ColC textRight="right" isEmpty="none">
+                {getDate(item.time)?.time}
+              </ColC>
+            </PingTable>
+          </Fragment>
+        ))}
+      </LastPingDiv>
+
+      <form>
+        <PingFreqForm>
+          <CustomSelect />
+          <PingFreqBtn>
+            <FaCheck />
+          </PingFreqBtn>
+        </PingFreqForm>
+      </form>
+    </>
+  );
+
+  const _error = status === "rejected" && !loading && (
+    <>
+      Error Loading your pings{" "}
+      <CustomButton text="try again" onClick={handlePings} />{" "}
+    </>
+  );
+  const _loading = loading && "Loading Pings";
   return (
     <div>
       <ToastContainer />
@@ -50,35 +98,9 @@ function Ping() {
         margin="3rem auto"
         crud={crud}
       />
-
-      <LastPingDiv>
-        <h2>Last Ping</h2>
-        <PingTableHeading header="true">
-          <ColC noMargin="true">Date</ColC>
-          <ColC noMargin="true">Time</ColC>
-        </PingTableHeading>
-        <PingTable>
-          <ColC>Sunday, 10th October 2021 </ColC>
-          <ColC textRight="right" isEmpty="none">
-            2021{" "}
-          </ColC>
-        </PingTable>
-        <PingTable>
-          <ColC>Sunday, 10th October 2021 </ColC>
-          <ColC textRight="right" isEmpty="none">
-            2021{" "}
-          </ColC>
-        </PingTable>
-      </LastPingDiv>
-
-      <form>
-        <PingFreqForm>
-          <CustomSelect />
-          <PingFreqBtn>
-            <FaCheck />
-          </PingFreqBtn>
-        </PingFreqForm>
-      </form>
+      {!id ? "Please create a vault first" : <Fragment>{_data}</Fragment>}
+      {_error}
+      {id && _loading}
     </div>
   );
 }

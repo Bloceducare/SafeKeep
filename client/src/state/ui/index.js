@@ -9,10 +9,21 @@ export const UI = createSlice({
     connectModal: false,
     pingModal: false,
     backupAddressModal: false,
+    confirmationModal: false,
+    editAliasModal: false,
+    allocateSingleEthModal: false,
   },
   reducers: {
     showCreateVaultModal: (state) => {
       state.createVaultModal = true;
+    },
+
+    showConfirmationModal: (state) => {
+      state.confirmationModal = true;
+    },
+
+    hideConfirmationModal: (state) => {
+      state.confirmationModal = false;
     },
 
     hideCreateVaultModal: (state) => {
@@ -55,6 +66,18 @@ export const UI = createSlice({
     hideBackupAddressModal: (state) => {
       state.backupAddressModal = false;
     },
+    showEditAliasModal: (state) => {
+      state.editAliasModal = true;
+    },
+    hideEditAliasModal: (state) => {
+      state.editAliasModal = false;
+    },
+    showAllocateEthSingleModal: (state) => {
+      state.allocateSingleEthModal = true;
+    },
+    hideAllocateSingleEthModal: (state) => {
+      state.allocateSingleEthModal = false;
+    },
   },
 });
 
@@ -72,6 +95,12 @@ export const {
   hidePingModal,
   showBackupAddressModal,
   hideBackupAddressModal,
+  showConfirmationModal,
+  hideConfirmationModal,
+  showEditAliasModal,
+  hideEditAliasModal,
+  showAllocateEthSingleModal,
+  hideAllocateSingleEthModal,
 } = UI.actions;
 
 export default UI.reducer;

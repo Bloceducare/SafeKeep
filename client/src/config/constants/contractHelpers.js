@@ -5,6 +5,7 @@ import { getSafeKeepAddress } from "../../utils/addressHelper";
 
 //Abis
 import safeKeepAbi from "../abi/safekeep.json";
+import erc20Abi from "../abi/erc20abi.json";
 
 const getContract = (abi, address, signer) => {
   const provider = new ethers.providers.JsonRpcProvider(
@@ -24,6 +25,10 @@ const safeKeepContract = async (address, sign) => {
 
 export const getSafeKeepContract = async (useSigner) => {
   return await safeKeepContract(getSafeKeepAddress(), useSigner);
+};
+
+export const getErc20Contract = async (address) => {
+  return getContract(erc20Abi, address);
 };
 
 export const getContractInstance = (address, abi) => {

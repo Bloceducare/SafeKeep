@@ -1,6 +1,6 @@
 const CONTRACTS = {
   safekeep: {
-    4: "0x3b16c4985dFC8451c0337e68C0ddA52b0FB6b843",
+    4: "0x10cF4DEB8D84f03fAe9319900ce257E3C407870C",
     1: "",
   },
 };

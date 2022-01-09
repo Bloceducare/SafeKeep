@@ -7,7 +7,6 @@ font-size:1rem;
 
 const largesize = `
 margin-left:2rem;
-// font-size:1.5rem;
 `;
 
 const noOutline = `

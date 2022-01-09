@@ -30,6 +30,7 @@ function AuthenticatedHeade(props) {
 
   const handleLogout = async () => {
     await logout();
+    window.localStorage.removeItem("safekeepAddress");
     return window.location.assign("/");
     //return props.history.push("/");
   };
