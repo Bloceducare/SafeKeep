@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Modal, Form, Col, Row } from "react-bootstrap";
-import { editInheritorAliasAsync, allocateEthAsync } from "../../state";
+import { Modal, Form, Row } from "react-bootstrap";
+import {  allocateEthAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import MDBody from "../../../../components/Modal/ModalBody";
 import ModalHeader from "../../../../components/Modal/ModalHeader";
@@ -39,7 +39,7 @@ function AllocateSingleEthModal(props) {
     setUserInputs(ethAllocated/(10**18));
 
     return () => dispatch(hideAllocateSingleEthModal());
-  }, [ethAllocated]);
+  }, [ethAllocated, dispatch]);
 
   return (
     <>
@@ -70,7 +70,6 @@ function AllocateSingleEthModal(props) {
                 placeholder="Addres"
                 name="ethAllocated"
                 className="mb-4 text-muted"
-                value={ethAllocated}
                 disabled ={crud}
                 style={{ backgroundColor: "transparent" }}
                 onChange={handleChange}

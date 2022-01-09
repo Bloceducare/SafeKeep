@@ -4,7 +4,7 @@ import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import { createVaultAsync } from "../../../state";
 import { Modal, Form, Col, Row } from "react-bootstrap";
-import { FaTrashAlt, FaTrash } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import CustomButton from "../../../../../components/Button";
 import MDBody from "../../../../../components/Modal/ModalBody";
 import ModalHeader from "../../../../../components/Modal/ModalHeader";
@@ -49,7 +49,7 @@ function CreateVaultModal() {
     return fieldError?.name;
   };
   const handleChange = (e, item, idx) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
     if (name === "alias" || name === "inheritors") {
       const newSelected = [...userInputs.inheritors];
       newSelected[idx][name] = e?.target?.value;
@@ -59,12 +59,12 @@ function CreateVaultModal() {
     valid(e.target.name, e.target.value);
   };
 
-  const handleInheritors = (value) => {
-    for (let i = 0; i < value.length; i++) {
-      if (!value[i].value) return;
-    }
-    setUserInputs({ ...userInputs, inheritors: value });
-  };
+  // const handleInheritors = (value) => {
+  //   for (let i = 0; i < value.length; i++) {
+  //     if (!value[i].value) return;
+  //   }
+  //   setUserInputs({ ...userInputs, inheritors: value });
+  // };
 
   //console.log(userInputs);
 

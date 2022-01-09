@@ -1,4 +1,4 @@
-import { useEffect, Fragment } from "react";
+import { useEffect, Fragment, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { showCreateVaultModal } from "../../state/ui";
@@ -24,17 +24,19 @@ function Ping() {
   const {
     data: { id },
   } = useSelector(vault);
-  const { crud, data, loading, error, status } = useSelector(ping);
+  const { crud, data, loading, status } = useSelector(ping);
 
   const handleShowModal = () => {
     if (!id) return dispatch(showCreateVaultModal());
     return dispatch(pingVaultAsync(id));
   };
 
-  const handlePings = () => dispatch(getPingsAsync());
+  const handlePings = useCallback(() => {
+    dispatch(getPingsAsync());
+  }, [dispatch]);
   useEffect(() => {
     handlePings();
-  }, []);
+  }, [handlePings]);
 
   const _noData = status === "success" && data?.length === 0 && "No Pings yet";
   // console.log(data, 'data')
@@ -75,7 +77,7 @@ function Ping() {
       <CustomButton text="try again" onClick={handlePings} />{" "}
     </>
   );
-  const _loading = loading && "Loading Pings";
+  const _loading = status ==='pending' && "Loading Pings";
   return (
     <div>
       <ToastContainer />
@@ -98,7 +100,8 @@ function Ping() {
         margin="3rem auto"
         crud={crud}
       />
-      {!id ? "Please create a vault first" : <Fragment>{_data}</Fragment>}
+      {(!id  && status ==='fulfilled' ) ? "Please create a vault first" : <Fragment>{_data}</Fragment>}
+      {_noData}
       {_error}
       {id && _loading}
     </div>

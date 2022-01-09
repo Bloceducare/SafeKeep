@@ -1,5 +1,4 @@
 import { toast } from "react-toastify";
-import { currentChainExplorer } from "../config/constants/endpoints";
 import { currentNetworkConfig } from "../utils/networkConfig";
 
 /**

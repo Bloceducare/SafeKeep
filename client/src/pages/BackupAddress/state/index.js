@@ -8,7 +8,6 @@ import {
 } from "../../../state/ui";
 import { graphqlEndpoint } from "../../../config/constants/endpoints";
 import getOwner from "../../../utils/getOwner";
-import revealEthErr from "../../../utils/revealEthErr";
 
 export const getBackupAddressAsync = createAsyncThunk(
   "ping/getBackupAddress",
@@ -29,7 +28,7 @@ export const getBackupAddressAsync = createAsyncThunk(
 
     try {
       const data = await request(graphqlEndpoint, backupAddressQuery);
-      console.log(data, "backup data");
+  
       const currentBackup = data?.vaults[0]?.backup;
       const result = data?.vaults[0]?.backups;
       const currentBackupTime = data?.vaults[0]?.currentBackupTime;

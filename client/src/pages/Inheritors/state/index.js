@@ -67,6 +67,7 @@ export const getInheritorsAsync = createAsyncThunk(
       return inheritorsDetails;
     } catch (error) {
       toastify("error", revealEthErr(error));
+      /*eslint-disable */
       throw { ...error, message: "inheritors failed" };
     }
   }

@@ -8,7 +8,6 @@ import { vault } from "../../selectors";
 import SpaceBetween from "../../../../components/Layout/SpaceBetween";
 import { NoTokenImage } from "../Deposit/NotokenImage";
 import { tokenValue } from "../../../../utils/formatter";
-import state from "../../../Inheritors/state";
 import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 
@@ -122,7 +121,7 @@ const Show = ({
   fetchError,
   error,
 }) => {
-  console.log(data);
+
   if (loading) return loadingC;
   if (fetchError) return error;
   if (!data?.id) return noContent;

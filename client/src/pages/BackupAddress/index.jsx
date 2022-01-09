@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { Spinner, Button } from "react-bootstrap";
@@ -33,13 +33,15 @@ function BackupAddress() {
     return dispatch(updateBackupAddressAsync(data));
   };
 
-  const handleBackupAddress = () => {
-    dispatch(getBackupAddressAsync());
-  };
 
+
+  const  handleBackupAddress = useCallback(() => {
+    dispatch(getBackupAddressAsync());
+
+  },[dispatch])
   useEffect(() => {
     handleBackupAddress();
-  }, []);
+  }, [handleBackupAddress]);
 
   const _loading = loading && "Loading...";
   const _error = status === "rejected" && (

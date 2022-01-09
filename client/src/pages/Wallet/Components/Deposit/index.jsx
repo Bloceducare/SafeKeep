@@ -175,11 +175,11 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
     clearFields();
 
-    return () => {
+  return () => {
       cancel = true;
       clearFields();
     };
-  }, [modalStatus, dispatch, userWalletAssets, operationType]);
+  }, [modalStatus, dispatch, userWalletAssets, operationType, tokens]);
 
   const tkValue = (coin, price) => {
     if (!price || !coin) return;
@@ -258,10 +258,10 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
     if (tokenType === "erc20Tokens") {
       if (!selectedAssets.length) return;
 
-      const tokenDeps = selectedAssets.map((asset) => asset.token_address);
-      const _amounts = selectedAssets.map((asset) =>
-        ethers.utils.parseEther(asset.userTokenAmt)
-      );
+      // const tokenDeps = selectedAssets.map((asset) => asset.token_address);
+      // const _amounts = selectedAssets.map((asset) =>
+      //   ethers.utils.parseEther(asset.userTokenAmt)
+      // );
       //  const _id = id;
       // const data = { _id, tokenDeps, _amounts };
       //  return dispatch(depositERC20TokenAsync(data));

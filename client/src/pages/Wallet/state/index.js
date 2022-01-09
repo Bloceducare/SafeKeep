@@ -27,6 +27,7 @@ import axios from "axios";
 import revealEthErr from "../../../utils/revealEthErr";
 import getOwner from "../../../utils/getOwner";
 import toastify from "../../../utils/toast";
+/* eslint-disable */
 
 // -> Helper function specific here  update token data
 const updateEtherBalance = (tokens, payload, type) => {
@@ -190,8 +191,7 @@ export const createVaultAsync = createAsyncThunk(
     const contract = await getSafeKeepContract(true);
     const owner = getState().user.address;
     //dispatch an action to hide modal
-    const { inheritors, _startingBal, _backupAddress, walletAddress, alias } =
-      data;
+    const { inheritors, _startingBal, _backupAddress, alias } = data;
     const payableAmount = _startingBal;
 
     try {
@@ -297,10 +297,6 @@ export const depositERC20TokenAsync = createAsyncThunk(
       toastify("info", "depositing tokens pending for confirmation");
       dispatch(hideDepositWithdrawalModal());
       const despositConfirmation = await txn.wait();
-      console.log(
-        despositConfirmation?.transactionHash,
-        "despositConfirmation"
-      );
       if (despositConfirmation?.events[0]?.data?.toString()) {
         toastify(
           "success",

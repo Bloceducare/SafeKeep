@@ -5,7 +5,7 @@ import { store } from "../state";
 import { MoralisDappProvider } from "./MoralisProvider/DappProvider";
 
 export const Provider = ({ children }) => {
-  console.log(process.env.REACT_APP_APP_ID, process.env.REACT_APP_SERVER_URL);
+ // console.log(process.env.REACT_APP_APP_ID, process.env.REACT_APP_SERVER_URL);
   return (
     <ReduxProvider store={store}>
       <MoralisProvider

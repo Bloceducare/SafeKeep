@@ -2,7 +2,6 @@ import { useMoralis } from "react-moralis";
 import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoute = ({ auth, component: Component, ...rest }) => {
-  console.log("authss", auth);
   return (
     <Route
       {...rest}

@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 import { request, gql } from "graphql-request";
 import { graphqlEndpoint } from "../../../config/constants/endpoints";
 import { getSafeKeepContract } from "../../../config/constants/contractHelpers";
-import { hidePingModal, showPingModal } from "../../../state/ui";
 import getOwner from "../../../utils/getOwner";
 import revealEthErr from "../../../utils/revealEthErr";
+import toastify from "../../../utils/toast";
 
 export const getPingsAsync = createAsyncThunk(
   "ping/getPings",
@@ -31,27 +31,27 @@ export const getPingsAsync = createAsyncThunk(
   }
 );
 
-let startPing;
-let endPing;
 export const pingVaultAsync = createAsyncThunk(
   "ping/pingVault",
   async (id, { dispatch }) => {
     const contract = await getSafeKeepContract(true);
-    dispatch(startPing());
+
     try {
       if (id === "0") return;
       const response = await contract.ping(id);
-      dispatch(showPingModal());
-      dispatch(endPing());
-      await response.wait();
-      dispatch(hidePingModal());
-      //return toast.success("ping submission confirmed");
-      return dispatch(getPingsAsync(true));
-    } catch (error) {
-      dispatch(endPing());
 
+      toastify("info", "Ping sent successfully");
+      const confirmations = await response.wait();
+
+      toastify(
+        "success",
+        "vailt pinged successfully 🚀",
+        confirmations.transactionHash
+      );
+      dispatch(getPingsAsync());
+    } catch (error) {
       toast.error(error.message);
-      dispatch(hidePingModal());
+
       console.log(error);
     }
   }
@@ -64,14 +64,6 @@ export const ping = createSlice({
     crud: null,
     data: null,
     error: null,
-  },
-  reducers: {
-    startPinging: (state) => {
-      state.crud = true;
-    },
-    endPinging: (state) => {
-      state.crud = false;
-    },
   },
 
   extraReducers: (builder) => {
@@ -93,13 +85,19 @@ export const ping = createSlice({
         state.status = "rejected";
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(pingVaultAsync.pending, (state, payload) => {
+        state.crud = true;
+      })
+      .addCase(pingVaultAsync.fulfilled, (state, { payload }) => {
+        state.crud = false;
+        // state.data = payload;
+      })
+      .addCase(pingVaultAsync.rejected, (state, { payload }) => {
+        state.crud = false;
+        state.error = payload;
       });
   },
 });
-
-const { startPinging, endPinging } = ping.actions;
-
-startPing = startPinging;
-endPing = endPinging;
 
 export default ping.reducer;

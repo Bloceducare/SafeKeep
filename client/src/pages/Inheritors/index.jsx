@@ -45,9 +45,7 @@ function Inheritors() {
     dispatch(showAllocateEthSingleModal());
  
   }
-  const handleSingleAllocateEth = (address) => {
-    // 
-  }
+
   const handleShowConfirmationModal = (data) => {
     setCurrentData(data);
     dispatch(showConfirmationModal());
@@ -55,7 +53,7 @@ function Inheritors() {
 
   useEffect(() => {
     dispatch(getInheritorsAsync(address));
-  }, [address]);
+  }, [address, dispatch]);
 
   const _loading = loading && "Loading...";
 

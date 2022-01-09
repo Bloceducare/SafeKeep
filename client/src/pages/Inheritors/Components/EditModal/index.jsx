@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Modal, Form, Col, Row } from "react-bootstrap";
+import { Modal, Form, Row } from "react-bootstrap";
 import { editInheritorAliasAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import MDBody from "../../../../components/Modal/ModalBody";
@@ -37,7 +37,7 @@ function EditAliasModal(props) {
     setUserInputs(alias);
 
     return () => dispatch(hideEditAliasModal());
-  }, [alias]);
+  }, [alias, dispatch]);
 
   return (
     <>
