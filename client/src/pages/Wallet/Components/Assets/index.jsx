@@ -121,7 +121,6 @@ const Show = ({
   fetchError,
   error,
 }) => {
-
   if (loading) return loadingC;
   if (fetchError) return error;
   if (!data?.id) return noContent;

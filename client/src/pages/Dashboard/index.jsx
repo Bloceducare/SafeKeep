@@ -1,5 +1,10 @@
-import React from "react";
+import { useEffect } from "react";
 import { Link, Route, Switch } from "react-router-dom";
+import { useDispatch} from 'react-redux'
+import { useMoralis } from "react-moralis";
+import { checkVaultAsync } from '../Wallet/state'
+import {  getUserAddress  } from '../../state/user'
+ 
 import {
   DashboardWrapper,
   OtherDashboardSection,
@@ -19,14 +24,32 @@ import WalletIcon from "../../assets/wallet.svg";
 import PingIcon from "../../assets/ping.svg";
 import InheritIcon from "../../assets/inherit.svg";
 import BackupIcon from "../../assets/backup.svg";
+import CreateVaultModal from "../Wallet/Components/Deposit/CreateVault";
+import { AuthenticatedHea } from "../../components/Header";
+
 
 function Dashboard() {
+  const dispatch = useDispatch();
+  const { user } = useMoralis();
+  const address = user?.get("ethAddress");
+
+  useEffect(() => {
+    if (!address) return;
+    dispatch(getUserAddress(address));
+    localStorage.setItem("safekeepAddress", address);
+
+    if (address) {
+      dispatch(checkVaultAsync(address));
+    }
+  }, [address, dispatch]);
+
   return (
-    <div>
+    <div>    
+    <AuthenticatedHea />
+      <CreateVaultModal />
       <DashboardWrapper>
         <DashboardSection>
           <Header>Dashboard</Header>
-
           <TopSection>
             <List>
               <li>

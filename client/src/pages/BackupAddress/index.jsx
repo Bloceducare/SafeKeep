@@ -16,8 +16,8 @@ function BackupAddress() {
   const id = useSelector(vaultId);
   const { crud, data, status, loading, currentBackup, currentBackupTime } =
     useSelector(backupAdd);
-  const [backupAddress, setBackupAddress] = useState("");
 
+  const [backupAddress, setBackupAddress] = useState("");
   const handleChange = (e) => {
     if (!id) return dispatch(showCreateVaultModal());
     setBackupAddress(e.target.value);
@@ -33,12 +33,15 @@ function BackupAddress() {
     return dispatch(updateBackupAddressAsync(data));
   };
 
-
-
-  const  handleBackupAddress = useCallback(() => {
+  const handleBackupAddress = useCallback(() => {
     dispatch(getBackupAddressAsync());
+  }, [dispatch]);
 
-  },[dispatch])
+  // const handleClearData = useCallback(() => {
+  //   if(status === "success"){
+  //     setBackupAddress("")
+  //   }
+  // }, [])
   useEffect(() => {
     handleBackupAddress();
   }, [handleBackupAddress]);

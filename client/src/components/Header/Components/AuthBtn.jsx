@@ -20,21 +20,21 @@ const AuthBtn = () => {
     Moralis,
   } = useMoralis();
 
-  async function authWalletConnect() {
-    const user = authenticate({
-      provider: "walletconnect",
-      chainId: 56,
-      // mobileLinks: [
-      //   "metamask",
-      //   "trust",
-      //   "rainbow",
-      //   "argent",
-      //   "imtoken",
-      //   "pillar",
-      // ],
-      signingMessage: "Welcome!",
-    });
-  }
+  // async function authWalletConnect() {
+  //   const user = authenticate({
+  //     provider: "walletconnect",
+  //     chainId: 56,
+  //     // mobileLinks: [
+  //     //   "metamask",
+  //     //   "trust",
+  //     //   "rainbow",
+  //     //   "argent",
+  //     //   "imtoken",
+  //     //   "pillar",
+  //     // ],
+  //     signingMessage: "Welcome!",
+  //   });
+  // }
 
   useEffect(() => {
     if (!isWeb3Enabled && isAuthenticated) {
@@ -60,13 +60,13 @@ const AuthBtn = () => {
         >
           Connect
         </button>
-        <button
+        {/* <button
           onClick={() => authWalletConnect()}
           type="button"
           class="btn btn-outline-secondary text-white mx-2"
         >
           Wallet Connect
-        </button>
+        </button> */}
       </>
     ) : (
       <LogoutButton />

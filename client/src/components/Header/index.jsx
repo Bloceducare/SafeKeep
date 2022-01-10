@@ -3,29 +3,13 @@ import { useMoralis } from "react-moralis";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import ConnectModal from "./Components/ConnectModal";
-import IsAuthenticating from "./Components/ConnectModal/isAuthenticating";
+// import IsAuthenticating from "./Components/ConnectModal/isAuthenticating";
 import { maskAddress } from "../../utils/maskAddress";
 import Logoimg from "../../assets/logo.png";
+import isWebe3Enabled from '../../hooks/useWeb3Enabled'
 
-function Header() {
-  const { isAuthenticated } = useMoralis();
 
-  const _header = !isAuthenticated ? (
-    <UnAuthenticatedHeader />
-  ) : (
-    <AuthenticatedHea />
-  );
-  return (
-    <>
-      <IsAuthenticating text={null} />
-      {_header}
-    </>
-  );
-}
-
-export default Header;
-
-function AuthenticatedHeade(props) {
+ function AuthenticatedHeade(props) {
   const { user, logout } = useMoralis();
 
   const handleLogout = async () => {
@@ -42,7 +26,7 @@ function AuthenticatedHeade(props) {
           {` `}
         </div>
         <div className="d-flex align-items-center">
-          {maskAddress(user.get("ethAddress"))}
+          {maskAddress(user?.get("ethAddress"))}
           <Button variant="dark" onClick={handleLogout} className="mx-2">
             Logout
           </Button>
@@ -54,7 +38,9 @@ function AuthenticatedHeade(props) {
 
 export const AuthenticatedHea = withRouter(AuthenticatedHeade);
 
-function UnAuthenticatedHeader() {
+export function UnAuthenticatedHeader() {
+  const isWalletAvailable = isWebe3Enabled()
+
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="md">
@@ -82,12 +68,16 @@ function UnAuthenticatedHeader() {
                   Roadmap
                 </Link>
               </Nav.Item>
-              <Nav.Item>
-                <Link to="/dashboard/wallet/assets" className="nav-link">
-                  Dashboard
-                </Link>
-              </Nav.Item>
-              <ConnectModal />
+
+              {isWalletAvailable ===false && <Nav.Item className="text-danger">
+               
+               Install a wallet to use SafeKeep
+               
+              </Nav.Item> }
+
+              {
+                isWalletAvailable && <ConnectModal />
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>

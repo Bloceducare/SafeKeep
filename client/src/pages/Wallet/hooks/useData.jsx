@@ -14,7 +14,6 @@ const Eth = () => {
       });
   }, []);
 
-
   const imgsrc = data?.image?.small;
   const symbol = data?.symbol;
   const name = data?.id;

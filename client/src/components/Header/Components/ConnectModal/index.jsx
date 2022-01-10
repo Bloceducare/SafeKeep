@@ -1,17 +1,21 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useMoralis } from "react-moralis";
 import { Button, Modal } from "react-bootstrap";
 import Metamask from "../../../../assets/metamaskIcon.svg";
-import WalletConnect from "../../../../assets/walletConnectIcon.svg";
+// import WalletConnect from "../../../../assets/walletConnectIcon.svg";
 import { Wallet } from "./style";
 import { connectModalStatus } from "../../../../selectors";
 import { showConnectModal, hideConnectModal } from "../../../../state/ui";
 
+
 function ConnectMOdal() {
   const dispatch = useDispatch();
-  const { authenticate, isWeb3Enabled, isAuthenticated, enableWeb3 } =
+  const { authenticate} =
     useMoralis();
+  // const {  isWeb3Enabled, isAuthenticated, enableWeb3 } =
+  //   useMoralis();
+
 
   const showModal = useSelector(connectModalStatus);
   async function authWalletConnect() {
@@ -37,17 +41,17 @@ function ConnectMOdal() {
     dispatch(showConnectModal());
   };
 
-  useEffect(() => {
-    if (!isWeb3Enabled && isAuthenticated) {
-      enableWeb3({ provider: "walletconnect", chainId: 56 });
-    }
-  }, [isWeb3Enabled, isAuthenticated, enableWeb3]);
+  // useEffect(() => {
+  //   if (!isWeb3Enabled && isAuthenticated) {
+  //     enableWeb3({ provider: "walletconnect", chainId: 56 });
+  //   }
+  // }, [isWeb3Enabled, isAuthenticated, enableWeb3]);
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
-      window.localStorage.removeItem("WALLETCONNECT_DEEPLINK_CHOICE");
-    }
-  });
+  // document.addEventListener("visibilitychange", () => {
+  //   if (document.visibilityState === "hidden") {
+  //     window.localStorage.removeItem("WALLETCONNECT_DEEPLINK_CHOICE");
+  //   }
+  // });
 
   const handleConnect = (type) => {
     if (type === "metamask") {
@@ -80,7 +84,7 @@ function ConnectMOdal() {
               </div>
             </Wallet>
           </div>
-          <div onClick={() => handleConnect("walletconnect")}>
+          {/* <div onClick={() => handleConnect("walletconnect")}>
             <Wallet>
               <div>
                 <h5>Wallet connect</h5>
@@ -89,7 +93,7 @@ function ConnectMOdal() {
                 <img src={WalletConnect} alt="walletconnect" width="30" />
               </div>
             </Wallet>
-          </div>
+          </div> */}
         </Modal.Body>
       </Modal>
     </>

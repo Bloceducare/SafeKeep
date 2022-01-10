@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Btn, Tbody } from "./style";
-import { FaTrashAlt, FaEdit, FaPlus, FaAddressBook, FaEthereum } from "react-icons/fa";
+import {
+  FaTrashAlt,
+  FaEdit,
+  FaPlus,
+  FaAddressBook,
+  FaEthereum,
+} from "react-icons/fa";
 import DashboardHero from "../../components/DashboardHero";
 import CustomSearchInput from "../../components/CustomSearchInput";
 import AddModal from "./Components/AddModal";
@@ -14,9 +20,12 @@ import { inheritors } from "./selector";
 import { getInheritorsAsync, deleteInheritorAsync } from "./state";
 import CustomButton from "../../components/Button";
 import ConfirmationModalComponent from "../../components/ConfirmModal";
-import { showConfirmationModal, showAllocateEthSingleModal } from "../../state/ui";
+import {
+  showConfirmationModal,
+  showAllocateEthSingleModal,
+} from "../../state/ui";
 import EditAliasModal from "./Components/EditModal";
-import AllocateSingleEthModal from './Components/AllocateEthSingle'
+import AllocateSingleEthModal from "./Components/AllocateEthSingle";
 import { tokenValue } from "../../utils/formatter";
 import { currentNetworkConfig } from "../../utils/networkConfig";
 
@@ -32,19 +41,15 @@ function Inheritors() {
   const [currentData, setCurrentData] = useState({});
   const [aliasNotAvailable, setAliasAvailable] = useState(false);
 
-
   const handleShow = () => {
-
     if (!id) return dispatch(showCreateVaultModal());
     dispatch(showCreateInheritorsModal());
   };
 
-
   const handleSingleAllocateModal = (data) => {
     setCurrentData(data);
     dispatch(showAllocateEthSingleModal());
- 
-  }
+  };
 
   const handleShowConfirmationModal = (data) => {
     setCurrentData(data);
@@ -76,7 +81,7 @@ function Inheritors() {
 
   const handleAliasEdit = (inheritor, isAddOperation) => {
     setCurrentData(inheritor);
-    setAliasAvailable(isAddOperation)
+    setAliasAvailable(isAddOperation);
     dispatch(showEditAliasModal());
     //
   };
@@ -102,44 +107,44 @@ function Inheritors() {
                     bvar="edit"
                     cvar="edit"
                     onClick={() => handleAliasEdit(item)}
-        
                   >
                     <FaEdit className="mx-1" />
                   </Btn>
-                ) :   <Btn
-                bvar="edit"
-                cvar="edit"
-                onClick={() => handleAliasEdit(item, true)}
-              >
-                 <FaPlus className="mx-1" /> 
-                <FaAddressBook className="mx-1" /> 
-              </Btn> }
+                ) : (
+                  <Btn
+                    bvar="edit"
+                    cvar="edit"
+                    onClick={() => handleAliasEdit(item, true)}
+                  >
+                    <FaPlus className="mx-1" />
+                    <FaAddressBook className="mx-1" />
+                  </Btn>
+                )}
 
-              
-
-{tokenValue(item.ethAllocated) ?  (
+                {tokenValue(item.ethAllocated) ? (
                   <Btn
                     bvar="success"
                     cvar="success"
-                     onClick={() => handleSingleAllocateModal(item)}
+                    onClick={() => handleSingleAllocateModal(item)}
                   >
-                     <FaEdit className="mx-1" /> 
-                   
+                    <FaEdit className="mx-1" />
+
                     <FaEthereum className="mx-1" />
                   </Btn>
-                ) : <Btn
-                bvar="success"
-                cvar="success"
-                 onClick={() => handleSingleAllocateModal(item)}
-              >
-                <FaPlus className="mx-1" /> 
-                <FaEthereum className="mx-1" />
-              </Btn> }
-
+                ) : (
+                  <Btn
+                    bvar="success"
+                    cvar="success"
+                    onClick={() => handleSingleAllocateModal(item)}
+                  >
+                    <FaPlus className="mx-1" />
+                    <FaEthereum className="mx-1" />
+                  </Btn>
+                )}
               </td>
               <td>
                 {tokenValue(item.ethAllocated)}{" "}
-                {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "} 
+                {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "}
               </td>
             </tr>
           ))}
@@ -164,8 +169,8 @@ function Inheritors() {
           <h5>{currentData?.alias}</h5>
         </p>
       </ConfirmationModalComponent>
-      <EditAliasModal  aliasNotAvailable ={aliasNotAvailable} {...currentData} />
-      <AllocateSingleEthModal  {...currentData} />
+      <EditAliasModal aliasNotAvailable={aliasNotAvailable} {...currentData} />
+      <AllocateSingleEthModal {...currentData} />
       <div>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
