@@ -77,7 +77,7 @@ function Ping() {
       <CustomButton text="try again" onClick={handlePings} />{" "}
     </>
   );
-  const _loading = status ==='pending' && "Loading Pings";
+  const _loading = status === "pending" && "Loading Pings";
   return (
     <div>
       <ToastContainer />
@@ -100,7 +100,11 @@ function Ping() {
         margin="3rem auto"
         crud={crud}
       />
-      {(!id  && status ==='fulfilled' ) ? "Please create a vault first" : <Fragment>{_data}</Fragment>}
+      {!id && status === "fulfilled" ? (
+        "Please create a vault first"
+      ) : (
+        <Fragment>{_data}</Fragment>
+      )}
       {_noData}
       {_error}
       {id && _loading}

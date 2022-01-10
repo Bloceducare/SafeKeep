@@ -42,7 +42,9 @@ function EditAliasModal(props) {
   return (
     <>
       <Modal show={editAliasModal} onHide={handleModal}>
-        <ModalHeader title={`${aliasNotAvailable ? 'Add Alias' : ' Edit Alias'}`} />
+        <ModalHeader
+          title={`${aliasNotAvailable ? "Add Alias" : " Edit Alias"}`}
+        />
         <MDBody>
           <Form onSubmit={handleSubmit}>
             <Row className="mx-1 mt-2 mb-2">

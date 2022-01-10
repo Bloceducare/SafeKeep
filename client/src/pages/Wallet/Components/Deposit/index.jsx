@@ -175,7 +175,7 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
     clearFields();
 
-  return () => {
+    return () => {
       cancel = true;
       clearFields();
     };
