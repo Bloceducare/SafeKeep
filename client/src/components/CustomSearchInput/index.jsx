@@ -9,7 +9,7 @@ function CustomSearchInput({ ...others }) {
       </span>
       <input
         type="text"
-        class="form-control"
+        className="form-control"
         placeholder="Search"
         {...others}
       />

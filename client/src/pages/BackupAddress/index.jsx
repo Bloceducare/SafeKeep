@@ -64,7 +64,7 @@ function BackupAddress() {
                 {" "}
                 {item.address}
                 {item.createdAt === currentBackupTime && (
-                  <span class="badge badge-light mx-2">current</span>
+                  <span className="badge badge-light mx-2">current</span>
                 )}
               </td>
               <td className="user-table-details">

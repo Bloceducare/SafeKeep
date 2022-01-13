@@ -1,55 +1,68 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { ethers } from "ethers";
 import { Modal, Form, Row } from "react-bootstrap";
-import { allocateEthAsync } from "../../state";
+import { allocateTokensAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import MDBody from "../../../../components/Modal/ModalBody";
 import ModalHeader from "../../../../components/Modal/ModalHeader";
 import { FormControl } from "../AddModal/style";
-import { hideAllocateSingleEthModal } from "../../../../state/ui";
+import { hideAllocateTokenModal } from "../../../../state/ui";
 import { inheritors } from "../../selector";
 import { useEffect } from "react";
+import SearchableTokenList from "../../../../components/SearchableTokenList";
 
-function AllocateSingleEthModal(props) {
-  const { alias, address, ethAllocated } = props;
+function AllocateTokenModal(props) {
+  const { alias, address } = props;
   const dispatch = useDispatch();
   const { crud } = useSelector(inheritors);
   const {
-    ui: { allocateSingleEthModal },
+    ui: { allocateTokenModal },
     vault: {
-      data: { id },
+      data: { id, tokens },
     },
   } = useSelector((state) => state);
-  const [userInputs, setUserInputs] = useState(0);
 
-  const handleChange = (e) => {
-    setUserInputs(e.target.value);
-  };
+
+  const [selectedAssets, setSelectedAssets] = useState([{ userTokenAmt: 0 }]);
+
   const handleModal = () => {
-    dispatch(hideAllocateSingleEthModal());
+    dispatch(hideAllocateTokenModal());
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const tokenAdd = selectedAssets.map(
+      (asset) => asset.token_address || asset.address
+    );
     const data = {
       _inheritors: [address],
-      _ethShares: [String(Number(userInputs) * 10 ** 18)],
+      _shares: selectedAssets.map((asset) =>
+        ethers.utils.parseEther(asset.userTokenAmt)
+      ),
       _vaultId: id,
+      tokenAdd: tokenAdd[0],
     };
-    dispatch(allocateEthAsync(data));
+    console.log(data);
+   dispatch(allocateTokensAsync(data));
   };
 
   useEffect(() => {
-    setUserInputs(ethAllocated / 10 ** 18);
+    // setUserInputs(ethAllocated / 10 ** 18);
+    // return () => dispatch(hideAllocateTokenModal());
+  }, []);
 
-    return () => dispatch(hideAllocateSingleEthModal());
-  }, [ethAllocated, dispatch]);
+  //filter out tokens with zero balance and eth
+
+  const filteredTokens = tokens.filter((token) => {
+    return token.balance > 0 && token.symbol !== "ETH";
+  });
 
   return (
     <>
-      <Modal show={allocateSingleEthModal} onHide={handleModal}>
+      <Modal show={allocateTokenModal} onHide={handleModal}>
         <ModalHeader
-          title={`${true ? "Add Allocation" : "Update Allocation"}`}
+          title={`${true ? "Allocate Tokens" : "Update Allocation"}`}
         />
         <MDBody>
           <Form onSubmit={handleSubmit}>
@@ -75,22 +88,24 @@ function AllocateSingleEthModal(props) {
               )}
             </Row>
 
-            <FormControl
-              placeholder="Addres"
-              name="ethAllocated"
-              className="mb-4 text-muted"
-              disabled={crud}
-              style={{ backgroundColor: "transparent" }}
-              onChange={handleChange}
-              value={userInputs}
-            />
-
+            {/* <MultiSearchableTokenList
+              selectedAssets={selectedAssets}
+              assets={filteredTokens}
+              latestData={(latest) => setSelectedAssets(latest)}
+            /> */}
+            <SearchableTokenList 
+              assets = {filteredTokens}
+              latestAssetList = {(latest) => setSelectedAssets(latest)} 
+              selectedAssets={selectedAssets}
+              // selectedAssets,
+             />
             <div className="d-flex justify-content-center align-items-center">
               <CustomButton
                 disabled={crud}
                 text={`${crud ? "Allocating" : "Allocate"}`}
                 size="small"
               />
+
             </div>
           </Form>
         </MDBody>
@@ -99,4 +114,4 @@ function AllocateSingleEthModal(props) {
   );
 }
 
-export default AllocateSingleEthModal;
+export default AllocateTokenModal;

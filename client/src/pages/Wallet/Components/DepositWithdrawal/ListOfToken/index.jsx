@@ -33,7 +33,7 @@ const Token = ({ name, balance, symbol, logo, onGetAsset }) => {
   );
 };
 
-function ListOfToken({ data, selected, display, isSearching }) {
+function ListOfToken({ data = [], selected, display, isSearching }) {
   const bal = (token) => {
     const p = token?.balance / Math.pow(10, token?.decimals);
 

@@ -56,14 +56,14 @@ const AuthBtn = () => {
             authenticate({ signingMessage: "Sign in to Safekeep" })
           }
           type="button"
-          class="btn btn-outline-secondary text-white"
+          className="btn btn-outline-secondary text-white"
         >
           Connect
         </button>
         {/* <button
           onClick={() => authWalletConnect()}
           type="button"
-          class="btn btn-outline-secondary text-white mx-2"
+          className="btn btn-outline-secondary text-white mx-2"
         >
           Wallet Connect
         </button> */}

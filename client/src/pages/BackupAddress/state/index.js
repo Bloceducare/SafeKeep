@@ -49,7 +49,7 @@ export const updateBackupAddressAsync = createAsyncThunk(
     const { _vaultId, _newBackup } = data;
     const contract = await getSafeKeepContract(true);
     try {
-     dispatch(startAddInheritors());
+      dispatch(startAddInheritors());
       const response = await contract.transferBackup(_vaultId, _newBackup);
       dispatch(showBackupAddressModal());
       toast.info("pending -  backup address txn sent to blockchain");

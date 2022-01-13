@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BtnDiv } from "./style";
-import Deposit from "./Components/Deposit";
+import Deposit from "./Components/DepositWithdrawal";
 import Assets from "./Components/Assets";
 import CustomButton from "../../components/Button";
 import { modal, vault } from "./selectors";
