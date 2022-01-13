@@ -5,11 +5,9 @@ import { AddBtn, AssetDiv, P } from "./style";
 import { showCreateVaultModal } from "../../../../state/ui";
 import NoVault from "../NoVault";
 import { vault } from "../../selectors";
-import SpaceBetween from "../../../../components/Layout/SpaceBetween";
-import { NoTokenImage } from "../Deposit/NotokenImage";
-import { tokenValue } from "../../../../utils/formatter";
 import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
+import TokenPanel from "../../../../components/TokenPanel";
 
 const Tokens = () => {
   const tokenData = useSelector((state) => state.vault.data.tokens);
@@ -17,29 +15,7 @@ const Tokens = () => {
     tokenData &&
     tokenData
       .filter((item) => item.amount !== 0)
-      ?.map((token) => (
-        <SpaceBetween className="mb-2">
-          <div className="d-flex align-items-center">
-            <div className="">
-              <NoTokenImage />
-            </div>
-            <div>
-              <div>
-                <span>{token.name}</span>
-              </div>
-              <div>
-                <span>$0.00</span>
-              </div>
-            </div>
-          </div>
-          <div className="text-right">
-            <div>
-              {tokenValue(token.amount)} {token.symbol}
-            </div>
-            <div>Value</div>
-          </div>
-        </SpaceBetween>
-      ))
+      ?.map((token) => <TokenPanel token={token} key={token.id} />)
   );
 };
 function Assets() {

@@ -8,11 +8,11 @@ const Roadmap = () => {
     <>
       <H1>RoadMap</H1>
       <Container className="roadmap-container">
-        <div class="timeline-block timeline-block-right">
+        <div className="timeline-block timeline-block-right">
           <Hr />
-          <div class="timeline-content">
+          <div className="timeline-content">
             <MDBAnimation
-              class="timeline-content"
+              className="timeline-content"
               reveal
               type="fadeInRight"
               duration="3s"
@@ -30,11 +30,11 @@ const Roadmap = () => {
           </div>
         </div>
 
-        <div class="timeline-block timeline-block-left">
+        <div className="timeline-block timeline-block-left">
           <Hr />
-          <div class="timeline-content">
+          <div className="timeline-content">
             <MDBAnimation
-              class="timeline-content"
+              className="timeline-content"
               reveal
               type="fadeInLeft"
               duration="3s"
@@ -49,11 +49,11 @@ const Roadmap = () => {
           </div>
         </div>
 
-        <div class="timeline-block timeline-block-right">
+        <div className="timeline-block timeline-block-right">
           <Hr />
-          <div class="timeline-content">
+          <div className="timeline-content">
             <MDBAnimation
-              class="timeline-content"
+              className="timeline-content"
               reveal
               type="fadeInRight"
               duration="3s"

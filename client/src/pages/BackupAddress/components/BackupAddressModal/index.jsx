@@ -19,7 +19,7 @@ const BackupAddressModal = () => {
         <ModalHeader title={""} />
         <ModalBody style={{ textAlign: "center" }}>
           <CheckMarkContainer>
-            <div class="icon icon--order-success svg">
+            <div className="icon icon--order-success svg">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="72px"

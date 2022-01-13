@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { request, gql } from "graphql-request";
 import { getSafeKeepContract } from "../../../config/constants/contractHelpers";
-import { toast } from "react-toastify";
 import {
   hideAllocateSingleEthModal,
+  hideAllocateTokenModal,
   hideConfirmationModal,
   hideCreateInheritorsModal,
   hideEditAliasModal,
@@ -15,6 +15,7 @@ import {
 } from "../../../config/constants/endpoints";
 import revealEthErr from "../../../utils/revealEthErr";
 import toastify from "../../../utils/toast";
+import tokenDetails from "../../../utils/tokenDetails";
 
 export const getInheritorsAsync = createAsyncThunk(
   "inheritors/getInheritors",
@@ -27,17 +28,51 @@ export const getInheritorsAsync = createAsyncThunk(
           inheritors {
             id
             ethAllocated
+            tokens {id amountAllocated}
+            
           }
         }
       }
     `;
 
     const data = await request(graphqlEndpoint, inheritorQuery);
-
     const result = await data.vaults[0].inheritors;
 
     try {
       const emptyData = [];
+      const emptyTokenData = [];
+      for (let i = 0; i < result.length; i++) {
+        const el = result[i]?.tokens;
+        try {
+          const resultArray = await Promise.all(
+            el &&
+              el.map(async (i) => {
+                const token = await tokenDetails(i.id);
+                return {
+                  id: i.id,
+                  amountAllocated: i.amountAllocated,
+                  ...token,
+                };
+              })
+          );
+          emptyTokenData.push({ ...result[i], tokens: resultArray });
+        } catch (error) {
+          emptyTokenData.push({
+            ...result[i],
+            tokens: [
+              {
+                id: "",
+                amountAllocated: 0,
+                symbol: "",
+                name: "",
+                decimals: "",
+                address: result[i].id,
+              },
+            ],
+          });
+        }
+      }
+
       try {
         for (let i = 0; i < result.length; i++) {
           const element = result[i].id;
@@ -51,19 +86,17 @@ export const getInheritorsAsync = createAsyncThunk(
         }
       } catch (error) {
         console.log(error);
-
         // toast.error("Something went wrong getting your inheritors alias");
       }
 
-      const inheritorsDetails = result.map((item, idx) => {
+      const inheritorsDetails = emptyTokenData.map((item, idx) => {
         return {
-          id: emptyData[idx]?.id ?? "",
-          address: item?.id ?? "",
+          ...item,
+          address: item.id,
           alias: emptyData[idx]?.alias ?? "",
-          ethAllocated: item.ethAllocated ?? 0,
-          tokens: [],
         };
       });
+
       return inheritorsDetails;
     } catch (error) {
       toastify("error", revealEthErr(error));
@@ -185,7 +218,8 @@ export const deleteInheritorAsync = createAsyncThunk(
         );
         return;
       }
-      toast.error(revealEthErr(error));
+
+      toastify("error", revealEthErr(error));
       console.log(error);
       if (revealEthErr(error).includes("transaction failed ")) {
         toastify("error", "transaction failed");
@@ -229,7 +263,6 @@ export const allocateEthAsync = createAsyncThunk(
 
       dispatch(hideAllocateSingleEthModal());
       toastify("info", "pending  - txn sent to blockchain");
-      dispatch(hideConfirmationModal());
 
       const confirmations = await tx.wait();
 
@@ -250,6 +283,49 @@ export const allocateEthAsync = createAsyncThunk(
   }
 );
 
+export const allocateTokensAsync = createAsyncThunk(
+  "inheritors/allocateTokens",
+  async (data, { dispatch }) => {
+    const contract = await getSafeKeepContract(true);
+    const { _vaultId, _inheritors, _shares, tokenAdd } = data;
+
+    try {
+      const tx = await contract.allocateTokens(
+        _vaultId,
+        tokenAdd,
+        _inheritors,
+        _shares
+      );
+      dispatch(hideAllocateTokenModal());
+      toastify("info", "pending  - txn sent to blockchain");
+      const confirmations = await tx.wait();
+      toastify(
+        "success",
+        "Tokens allocated successfully 🚀",
+        confirmations.transactionHash
+      );
+
+      const { name, symbol, address, decimals } = await tokenDetails(tokenAdd);
+      const modifiedShares = _inheritors.map((item) => Number(item * 10 ** 18));
+      const tokenInfo = {
+        address,
+        symbol,
+        name,
+        shares: Number([_shares].toString()),
+        decimals,
+      };
+
+      return { _inheritors, _shares: modifiedShares, tokenAdd, tokenInfo };
+    } catch (error) {
+      if (revealEthErr(error).includes("you are not the vault owner")) {
+        return toastify(("error", "You are not the vault owner"));
+      }
+
+      toastify(("error", revealEthErr(error)));
+    }
+  }
+);
+
 export const inheritors = createSlice({
   name: "inheritors",
   initialState: {
@@ -257,6 +333,8 @@ export const inheritors = createSlice({
     status: null,
     error: null,
     crud: null,
+    loaded: null,
+    loading: true,
   },
 
   extraReducers: (builder) => {
@@ -290,17 +368,21 @@ export const inheritors = createSlice({
         state.crud = false;
       })
       .addCase(getInheritorsAsync.pending, (state) => {
-        state.loading = true;
+        if (!state.loaded) {
+         // state.loading = true;
+        }
+        state.status = "pending";
       })
       .addCase(getInheritorsAsync.fulfilled, (state, { payload }) => {
         state.data = payload;
         state.status = "success";
         state.loading = false;
+        state.loaded = true;
       })
       .addCase(getInheritorsAsync.rejected, (state, { payload }) => {
         state.loading = false;
         state.status = "rejected";
-        state.error = payload?.message;
+        //  state.error = payload?.message;
       })
       .addCase(editInheritorAliasAsync.pending, (state) => {
         state.crud = true;
@@ -351,6 +433,37 @@ export const inheritors = createSlice({
         state.status = "success";
       })
       .addCase(allocateEthAsync.rejected, (state, { payload }) => {
+        state.crud = false;
+        state.status = "rejected";
+      })
+      .addCase(allocateTokensAsync.pending, (state) => {
+        state.crud = true;
+        state.status = "pending";
+      })
+      .addCase(allocateTokensAsync.fulfilled, (state, { payload }) => {
+        if (payload) {
+          const {
+            tokenInfo: { address, shares },
+          } = payload;
+          let em = [];
+          let copy = [...state.data];
+          for (let i = 0; i < copy.length; i++) {
+            const el = copy[i];
+            let c = el.tokens.map((e, ix) => {
+              let amt = e.id === address ? shares : e.amountAllocated;
+              return {
+                ...e,
+                amountAllocated: amt,
+              };
+            });
+            em.push({ ...el, tokens: c });
+          }
+          state.data = em;
+        }
+        state.crud = false;
+        state.status = "success";
+      })
+      .addCase(allocateTokensAsync.rejected, (state, { payload }) => {
         state.crud = false;
         state.status = "rejected";
       });

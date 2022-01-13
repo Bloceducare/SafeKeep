@@ -12,6 +12,7 @@ export const UI = createSlice({
     confirmationModal: false,
     editAliasModal: false,
     allocateSingleEthModal: false,
+    allocateTokenModal: false,
   },
   reducers: {
     showCreateVaultModal: (state) => {
@@ -78,6 +79,12 @@ export const UI = createSlice({
     hideAllocateSingleEthModal: (state) => {
       state.allocateSingleEthModal = false;
     },
+    hideAllocateTokenModal: (state) => {
+      state.allocateTokenModal = false;
+    },
+    showAllocateTokenModal: (state) => {
+      state.allocateTokenModal = true;
+    },
   },
 });
 
@@ -101,6 +108,8 @@ export const {
   hideEditAliasModal,
   showAllocateEthSingleModal,
   hideAllocateSingleEthModal,
+  hideAllocateTokenModal,
+  showAllocateTokenModal,
 } = UI.actions;
 
 export default UI.reducer;

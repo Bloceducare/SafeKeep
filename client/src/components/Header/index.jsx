@@ -6,10 +6,9 @@ import ConnectModal from "./Components/ConnectModal";
 // import IsAuthenticating from "./Components/ConnectModal/isAuthenticating";
 import { maskAddress } from "../../utils/maskAddress";
 import Logoimg from "../../assets/logo.png";
-import isWebe3Enabled from '../../hooks/useWeb3Enabled'
+import isWebe3Enabled from "../../hooks/useWeb3Enabled";
 
-
- function AuthenticatedHeade(props) {
+function AuthenticatedHeade(props) {
   const { user, logout } = useMoralis();
 
   const handleLogout = async () => {
@@ -39,7 +38,7 @@ import isWebe3Enabled from '../../hooks/useWeb3Enabled'
 export const AuthenticatedHea = withRouter(AuthenticatedHeade);
 
 export function UnAuthenticatedHeader() {
-  const isWalletAvailable = isWebe3Enabled()
+  const isWalletAvailable = isWebe3Enabled();
 
   return (
     <>
@@ -69,15 +68,13 @@ export function UnAuthenticatedHeader() {
                 </Link>
               </Nav.Item>
 
-              {isWalletAvailable ===false && <Nav.Item className="text-danger">
-               
-               Install a wallet to use SafeKeep
-               
-              </Nav.Item> }
+              {isWalletAvailable === false && (
+                <Nav.Item className="text-danger">
+                  Install a wallet to use SafeKeep
+                </Nav.Item>
+              )}
 
-              {
-                isWalletAvailable && <ConnectModal />
-              }
+              {isWalletAvailable && <ConnectModal />}
             </Nav>
           </Navbar.Collapse>
         </Container>

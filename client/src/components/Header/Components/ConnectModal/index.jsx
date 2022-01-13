@@ -8,14 +8,11 @@ import { Wallet } from "./style";
 import { connectModalStatus } from "../../../../selectors";
 import { showConnectModal, hideConnectModal } from "../../../../state/ui";
 
-
 function ConnectMOdal() {
   const dispatch = useDispatch();
-  const { authenticate} =
-    useMoralis();
+  const { authenticate } = useMoralis();
   // const {  isWeb3Enabled, isAuthenticated, enableWeb3 } =
   //   useMoralis();
-
 
   const showModal = useSelector(connectModalStatus);
   async function authWalletConnect() {

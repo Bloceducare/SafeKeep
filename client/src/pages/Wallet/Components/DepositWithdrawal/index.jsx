@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ethers } from "ethers";
 import { Modal } from "react-bootstrap";
@@ -9,7 +8,6 @@ import SpaceBetween from "../../../../components/Layout/SpaceBetween";
 import ModalBody from "../../../../components/Modal/ModalBody";
 import ModalHeader from "../../../../components/Modal/ModalHeader";
 import { useERC20Balance } from "../../../../hooks/useERC20Balance";
-import ListOfToken from "./ListOfToken";
 import { DepositBtn, Balance } from "./style";
 import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
 import { useNativeBalance } from "../../../../hooks/useNativeBalance";
@@ -23,10 +21,8 @@ import { modal, vault, transactionStatus } from "../../selectors";
 import { ToastContainer } from "react-toastify";
 import useTokenPrice from "../../../../hooks/useTokenPrice";
 import { hideDepositWithdrawalModal } from "../../../../state/ui";
-import Cross from "../../../../components/Cross";
-import PlusIcon from "../../../../components/PlusIcon";
-import CaretDown from "../CaretDown";
-import NormalizedInput from "../NormalizedInput";
+
+import MultiSearchableTokenList from "../../../../components/MultSearchableTokenList";
 
 const nativeToken = (data) => {
   const { nativeName, decimal = 18, balance } = data;
@@ -78,40 +74,32 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
   const modalStatus = useSelector(modal);
   const { chainId } = useMoralisDapp();
   const { assets: userWalletAssets = [] } = useERC20Balance();
-  const [filteredAssets, setFilteredAssets] = useState([]);
-  const [fetchAsset, setFetchAsset] = useState(false);
   const [selectedAssets, setSelectedAssets] = useState([{}]);
   const [tokenType, setTokenType] = useState("native");
   const [nativeBal, setNativeBal] = useState(0);
-  const [displayOptions, setDisplayOptions] = useState(false);
-  const [currentIdx, setCurrentIdx] = useState(null);
-  const [filtering, setFiltering] = useState(false);
   const [assets, setAssets] = useState(userWalletAssets);
   const native = useNativeBalance();
+
+  let normalizedInputRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    // console.log(normalizedInputRef)
+    if (
+      normalizedInputRef.current &&
+      !normalizedInputRef.current.contains(event.target)
+    ) {
+      // console.log('yo there')
+      // setDisplayOptions(false);
+      // props.onClickOutside && props.onClickOutside();
+    } else {
+      //  setDisplayOptions(false);
+      // console.log('yooooo')
+    }
+  };
 
   const handleTokenType = (e) => {
     setTokenType(e.target.value);
   };
-
-  const handleSelected = (tok) => {
-    setDisplayOptions(false);
-    const newSelected = [...selectedAssets];
-    newSelected[currentIdx] = { ...tok, userTokenAmt: 0, title: tok.symbol };
-    setSelectedAssets(newSelected);
-    setFetchAsset(!fetchAsset);
-    setFiltering(false);
-  };
-
-  const handleShOptions = (idx) => {
-    setCurrentIdx(idx);
-    setDisplayOptions(true);
-  };
-
-  // const handleBlur = () => {
-  //   setCurrentIdx(null);
-  //   setDisplayOptions(false);
-
-  // };
 
   const handleChange = (e, idx) => {
     if (tokenType === "native") return setNativeBal(e?.target?.value);
@@ -120,28 +108,6 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
       newSelected[idx].userTokenAmt = e?.target?.value;
       setSelectedAssets(newSelected);
     }
-  };
-
-  const handleRemove = (idx) => {
-    const newSelected = [...selectedAssets];
-    newSelected.splice(idx, 1);
-    setSelectedAssets(newSelected);
-  };
-
-  const handleAdd = () => {
-    setSelectedAssets([...selectedAssets, { userTokenAmt: 0 }]);
-  };
-
-  const handleFilter = (e, idx) => {
-    setFiltering(true);
-    const typed = e.target.value?.toLowerCase();
-    const filtered = assets.filter((asset) => {
-      return (
-        asset?.name?.toLowerCase().includes(typed) ||
-        asset?.symbol?.toLowerCase().includes(typed)
-      );
-    });
-    setFilteredAssets(filtered);
   };
 
   const handleModal = () => {
@@ -154,6 +120,7 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
     setNativeBal(0);
     setSelectedAssets([{ userTokenAmt: 0 }]);
   };
+
   useEffect(() => {
     let cancel = false;
     if (cancel) return;
@@ -175,9 +142,12 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
     clearFields();
 
+    // document.addEventListener('click', handleClickOutside, true);
+
     return () => {
       cancel = true;
       clearFields();
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, [modalStatus, dispatch, userWalletAssets, operationType, tokens]);
 
@@ -254,18 +224,6 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
         return dispatch(withdrawERC20TokenAsync(data));
       }
     }
-
-    if (tokenType === "erc20Tokens") {
-      if (!selectedAssets.length) return;
-
-      // const tokenDeps = selectedAssets.map((asset) => asset.token_address);
-      // const _amounts = selectedAssets.map((asset) =>
-      //   ethers.utils.parseEther(asset.userTokenAmt)
-      // );
-      //  const _id = id;
-      // const data = { _id, tokenDeps, _amounts };
-      //  return dispatch(depositERC20TokenAsync(data));
-    }
   };
 
   const { approving, depositing, withdrawing } = txnStatus;
@@ -322,78 +280,11 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
   const _ERC20Bal = (
     <form onSubmit={handleTransaction}>
-      <div style={{ position: "relative" }}>
-        <PlusIcon onClick={handleAdd} disabled={!assets.length} />
-
-        {selectedAssets.map((item, idx) => (
-          <React.Fragment key={`${item.token_addrress}-${idx}`}>
-            <div
-              style={{
-                position: "relative",
-                margin: "0.5rem 1.5rem",
-                marginTop: `${idx === 0 ? "2rem" : "1.2rem"}`,
-              }}
-            >
-              <SpaceBetween>
-                <Balance>
-                  Balance: <span>{tkBal(item) ? tkBal(item) : 0}</span>
-                </Balance>
-                <div>
-                  <Balance>~${tkValue(item, tokenPrice) ?? 0}</Balance>
-                </div>
-              </SpaceBetween>
-              <Cross
-                onClick={() => handleRemove(idx)}
-                style={{
-                  top: "50%",
-                  right: "-1.7rem",
-                }}
-              />
-              <TokenNameAmtContainer>
-                <div style={{ position: "relative" }}>
-                  <NormalizedInput
-                    onChange={(e) => handleFilter(e, idx)}
-                    value={selectedAssets[idx]?.title}
-                    onFocus={() => handleShOptions(idx)}
-                    //  onBlur={handleBlur}
-                  />
-                  <CaretDown
-                    onClick={() => handleShOptions(idx)}
-                    selected={`${currentIdx === idx ? displayOptions : ""}`}
-                  />
-                </div>
-                <div style={{ display: "flex" }}>
-                  <NormalizedInput
-                    value={selectedAssets[idx]?.userTokenAmt}
-                    onChange={(e) => handleChange(e, idx, item)}
-                    style={{ textAlign: "right" }}
-                  />
-
-                  <CustomButton
-                    style={{
-                      margin: "0.4rem",
-                    }}
-                    text="Max"
-                    noMargin
-                    className="bordered"
-                    onClick={() => setMax(item, idx)}
-                    type="button"
-                  />
-                </div>
-              </TokenNameAmtContainer>
-
-              {currentIdx === idx && (
-                <ListOfToken
-                  display={displayOptions}
-                  selected={handleSelected}
-                  data={filtering ? filteredAssets : assets}
-                  isSearching={filtering}
-                />
-              )}
-            </div>
-          </React.Fragment>
-        ))}
-      </div>
+      <MultiSearchableTokenList
+        selectedAssets={selectedAssets}
+        assets={assets}
+        latestData={(latest) => setSelectedAssets(latest)}
+      />
 
       {selectedAssets.length > 0 && (
         <DepositBtn>
@@ -472,8 +363,3 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 }
 
 export default Deposit;
-
-const TokenNameAmtContainer = styled(SpaceBetween)`
-  border-radius: 0.5rem;
-  border: 1px solid #e6e6e6;
-`;
