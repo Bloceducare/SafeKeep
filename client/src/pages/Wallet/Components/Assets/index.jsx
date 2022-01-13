@@ -55,9 +55,9 @@ function Assets() {
           <P>Available Balance</P>
           <h5>USD 0.0000</h5>
         </Col>
-        <Col lg="2" md="2" sm="2">
+        {/* <Col lg="2" md="2" sm="2">
           <AddBtn onClick={handleShowModal}> + </AddBtn>
-        </Col>
+        </Col> */}
       </Row>
 
       {data?.id && <Tokens />}
