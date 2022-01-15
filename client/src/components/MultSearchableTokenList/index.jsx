@@ -51,23 +51,22 @@ const MultiSearchableTokenList = ({
                 marginTop: `${idx === 0 ? "2rem" : "1.2rem"}`,
               }}
             >
-
               <Cross
                 onClick={() => handleRemove(idx)}
                 style={{
                   top: "50%",
                   right: "-1.7rem",
                 }}
-                />
+              />
 
-                <SpaceBetween>
-                  <Balance>
-                    Balance: <span>{tkBal(item) ? tkBal(item) : 0}</span>
-                  </Balance>
-                  <div>
-                    <Balance>~${tkValue(item, tokenPrice) ?? 0}</Balance>
-                  </div>
-                </SpaceBetween>
+              <SpaceBetween>
+                <Balance>
+                  Balance: <span>{tkBal(item) ? tkBal(item) : 0}</span>
+                </Balance>
+                <div>
+                  <Balance>~${tkValue(item, tokenPrice) ?? 0}</Balance>
+                </div>
+              </SpaceBetween>
               <SearchableTokenList
                 idx={idx}
                 assets={assets}

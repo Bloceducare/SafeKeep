@@ -43,6 +43,7 @@ export const getDate = (tim) => {
   if (!tim) return "";
   const date = (new Date(tim * 1000) + "").slice(0, 16);
   const time = (new Date(tim * 1000) + "").slice(16, 24);
+  const combined = new Date(tim * 1000).toLocaleString();
 
-  return { date, time };
+  return { date, time, combined };
 };

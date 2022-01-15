@@ -70,7 +70,7 @@ const SearchableTokenList = ({
   console.log("selectedAssets", selectedAssets);
   return (
     <>
-    {/* <SpaceBetween>
+      {/* <SpaceBetween>
                   <Balance>
                     Balance: <span>{tkBal(item) ? tkBal(item) : 0}</span>
                   </Balance>

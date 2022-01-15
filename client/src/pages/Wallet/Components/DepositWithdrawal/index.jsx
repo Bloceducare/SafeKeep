@@ -310,7 +310,6 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
   return (
     <>
       <ToastContainer />
-
       <Modal show={showModal} onHide={handleModal}>
         <ModalHeader title={`${operationType} Crypto`} />
         <ModalBody>

@@ -15,6 +15,7 @@ import {
   BottomSection,
   OtherSectionWrapper,
   DashboardIcon,
+  MobileNav,
 } from "./styles";
 import Wallet from "../Wallet";
 import Inheritors from "../Inheritors";
@@ -26,11 +27,13 @@ import InheritIcon from "../../assets/inherit.svg";
 import BackupIcon from "../../assets/backup.svg";
 import CreateVaultModal from "../Wallet/Components/DepositWithdrawal/CreateVault";
 import { AuthenticatedHea } from "../../components/Header";
+import { isMobile, isTablet } from "react-device-detect";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const { user } = useMoralis();
   const address = user?.get("ethAddress");
+  const { isAuthenticated } = useMoralis();
 
   useEffect(() => {
     if (!address) return;
@@ -42,43 +45,76 @@ function Dashboard() {
     }
   }, [address, dispatch]);
 
+  const _MobileNav = (
+    <MobileNav>
+      <div>
+        <Link to="/dashboard">
+          <DashboardIcon src={WalletIcon} alt="wallet" />
+        </Link>
+      </div>
+      <div>
+        <Link to="/dashboard/backupaddress">
+          <DashboardIcon src={BackupIcon} alt="backup" />
+        </Link>
+      </div>
+      <div>
+        {" "}
+        <Link to="/dashboard/ping">
+          <DashboardIcon src={PingIcon} alt="ping" />
+        </Link>
+      </div>
+      <div>
+        <Link to="/dashboard/inheritors">
+          <DashboardIcon src={InheritIcon} alt="inherit" />
+        </Link>
+      </div>
+    </MobileNav>
+  );
+
+  const _DesktopNav = (
+    <DashboardSection>
+      <Header>Dashboard</Header>
+      <TopSection>
+        <List>
+          <li>
+            <Link to="/dashboard">
+              <DashboardIcon src={WalletIcon} alt="wallet" />
+              Wallet
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/backupaddress">
+              <DashboardIcon src={BackupIcon} alt="backup" />
+              Backup Address
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/ping">
+              <DashboardIcon src={PingIcon} alt="ping" />
+              Ping
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/inheritors">
+              <DashboardIcon src={InheritIcon} alt="inherit" />
+              Inheritors
+            </Link>
+          </li>
+        </List>
+      </TopSection>
+      <BottomSection></BottomSection>
+    </DashboardSection>
+  );
+
   return (
     <div>
-      <AuthenticatedHea />
+      {(isMobile || isTablet) && _MobileNav}
+
+      {isAuthenticated && <AuthenticatedHea />}
       <CreateVaultModal />
       <DashboardWrapper>
-        <DashboardSection>
-          <Header>Dashboard</Header>
-          <TopSection>
-            <List>
-              <li>
-                <Link to="/dashboard">
-                  <DashboardIcon src={WalletIcon} alt="wallet" />
-                  Wallet
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/backupaddress">
-                  <DashboardIcon src={BackupIcon} alt="backup" />
-                  Backup Address
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/ping">
-                  <DashboardIcon src={PingIcon} alt="ping" />
-                  Ping
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard/inheritors">
-                  <DashboardIcon src={InheritIcon} alt="inherit" />
-                  Inheritors
-                </Link>
-              </li>
-            </List>
-          </TopSection>
-          <BottomSection></BottomSection>
-        </DashboardSection>
+        {!isMobile && _DesktopNav}
+
         <OtherDashboardSection>
           <OtherSectionWrapper>
             <Switch>

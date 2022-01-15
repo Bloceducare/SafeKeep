@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { Spinner, Button } from "react-bootstrap";
+import { Spinner, Button, Row, Col } from "react-bootstrap";
 import CustomButton from "../../components/Button";
 import CustomInput from "../../components/CustomInput";
 import { showCreateVaultModal } from "../../state/ui";
@@ -10,6 +10,8 @@ import { vaultId, backupAdd } from "./selector";
 import { getBackupAddressAsync, updateBackupAddressAsync } from "./state";
 import { CurrentAddress, Table } from "./style";
 import { getDate } from "../../utils/formatter";
+import styled from "styled-components";
+import WrapAddress from "../../components/WrapAddress";
 
 function BackupAddress() {
   const dispatch = useDispatch();
@@ -55,34 +57,45 @@ function BackupAddress() {
   );
   const _renderBackupAddress = data && data.length > 0 && (
     <>
-      <Table className="table borderless gig-table-section">
-        <p className="text-muted">Backup Address Change History </p>
-        <tbody>
-          {[...data].reverse().map((item) => (
-            <tr key={item.id}>
-              <td className="user-name">
-                {" "}
-                {item.address}
-                {item.createdAt === currentBackupTime && (
-                  <span className="badge badge-light mx-2">current</span>
-                )}
-              </td>
-              <td className="user-table-details">
-                {" "}
-                {getDate(item.createdAt)?.time}{" "}
-              </td>
-              <td className="user-table-details">
-                {" "}
-                {getDate(item.createdAt)?.date}{" "}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <p className="text-muted">Backup Address Change History </p>
+      {[...data].reverse().map((item, index) => (
+        <Row
+          key={item?.id ?? item.address}
+          style={{
+            borderBottom: `${
+              index === data.length - 1
+                ? "none"
+                : data.length > 1
+                ? "1px solid rgb(230, 230, 230, 0.5)"
+                : "none"
+            }`,
+          }}
+          className="mb-3 py-1"
+        >
+          <Col lg="6">
+            <WrapAddress>
+              {item.address}
+              {item.createdAt === currentBackupTime && (
+                <span className="badge badge-light mx-2">current</span>
+              )}
+            </WrapAddress>
+          </Col>
+          <Col lg="6">
+            <OtherSection>
+              <span>{getDate(item.createdAt)?.date} </span>
+              <span>{getDate(item.createdAt)?.time} </span>
+            </OtherSection>
+          </Col>
+        </Row>
+      ))}
     </>
   );
   return (
-    <div>
+    <div
+      style={{
+        overflow: "hidden",
+      }}
+    >
       <ToastContainer />
       <BackupAddressModal />
       <div>
@@ -141,7 +154,7 @@ function BackupAddress() {
           >
             Current Address
           </p>
-          <CurrentAddress>{currentBackup} </CurrentAddress>
+          <CurrentAddress>{currentBackup}</CurrentAddress>
         </section>
       )}
 
@@ -156,3 +169,9 @@ function BackupAddress() {
 }
 
 export default BackupAddress;
+
+const OtherSection = styled.div`
+  @media screen and (min-width: 768px) {
+    text-align: right;
+  }
+`;

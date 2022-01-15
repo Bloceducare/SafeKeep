@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import WrapAddress from "../../components/WrapAddress";
 
-export const CurrentAddress = styled.div`
+export const CurrentAddress = styled(WrapAddress)`
   background: #a8c2ff;
   border-radius: 10px;
   color: black;
-  padding: 0.8rem;
-  /* font-size:1.2rem; */
-  /* letter-spacing:0.04rem; */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 `;
 
 export const Table = styled.table`

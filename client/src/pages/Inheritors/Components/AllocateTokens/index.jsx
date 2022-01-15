@@ -23,7 +23,6 @@ function AllocateTokenModal(props) {
     },
   } = useSelector((state) => state);
 
-
   const [selectedAssets, setSelectedAssets] = useState([{ userTokenAmt: 0 }]);
 
   const handleModal = () => {
@@ -44,7 +43,7 @@ function AllocateTokenModal(props) {
       tokenAdd: tokenAdd[0],
     };
     console.log(data);
-   dispatch(allocateTokensAsync(data));
+    dispatch(allocateTokensAsync(data));
   };
 
   useEffect(() => {
@@ -93,19 +92,18 @@ function AllocateTokenModal(props) {
               assets={filteredTokens}
               latestData={(latest) => setSelectedAssets(latest)}
             /> */}
-            <SearchableTokenList 
-              assets = {filteredTokens}
-              latestAssetList = {(latest) => setSelectedAssets(latest)} 
+            <SearchableTokenList
+              assets={filteredTokens}
+              latestAssetList={(latest) => setSelectedAssets(latest)}
               selectedAssets={selectedAssets}
               // selectedAssets,
-             />
+            />
             <div className="d-flex justify-content-center align-items-center">
               <CustomButton
                 disabled={crud}
                 text={`${crud ? "Allocating" : "Allocate"}`}
                 size="small"
               />
-
             </div>
           </Form>
         </MDBody>
