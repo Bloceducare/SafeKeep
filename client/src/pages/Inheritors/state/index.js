@@ -55,6 +55,7 @@ export const getInheritorsAsync = createAsyncThunk(
                 };
               })
           );
+
           emptyTokenData.push({ ...result[i], tokens: resultArray });
         } catch (error) {
           emptyTokenData.push({
@@ -369,7 +370,7 @@ export const inheritors = createSlice({
       })
       .addCase(getInheritorsAsync.pending, (state) => {
         if (!state.loaded) {
-         // state.loading = true;
+          // state.loading = true;
         }
         state.status = "pending";
       })

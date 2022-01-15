@@ -8,18 +8,24 @@ import { getErc20Contract } from "../config/constants/contractHelpers";
  */
 
 const tokenDetails = async (add) => {
+  if (localStorage[`safekeep@${add}`]) {
+    let info = JSON.parse(localStorage[`safekeep@${add}`]);
+    return info;
+  }
   const contract = await getErc20Contract(add);
-
   const symbol = contract && (await contract.symbol());
   const name = contract && (await contract.name());
   const decimals = contract && (await contract.decimals());
-
-  return {
+  let result = {
     name,
     symbol,
     decimals,
-    address:add,
+    address: add,
   };
+
+  localStorage.setItem(`safekeep@${add}`, JSON.stringify(result));
+
+  return result;
 };
 
 export default tokenDetails;

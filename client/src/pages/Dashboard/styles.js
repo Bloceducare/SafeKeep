@@ -71,3 +71,20 @@ export const List = styled.ul`
     margin: 2rem 0;
   }
 `;
+
+export const MobileNav = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  img {
+    width: 3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+  background: #0b0d2e;
+  width: 100%;
+  height: 5rem;
+  z-index: 100;
+`;

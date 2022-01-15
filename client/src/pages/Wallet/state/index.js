@@ -7,7 +7,6 @@ import {
 
 import {
   getContractInstance,
-  getErc20Contract,
   getSafeKeepContract,
 } from "../../../config/constants/contractHelpers";
 import {
@@ -27,6 +26,7 @@ import axios from "axios";
 import revealEthErr from "../../../utils/revealEthErr";
 import getOwner from "../../../utils/getOwner";
 import toastify from "../../../utils/toast";
+import tokenDetails from "../../../utils/tokenDetails";
 /* eslint-disable */
 
 // -> Helper function specific here  update token data
@@ -118,6 +118,73 @@ export const getNativeAsync = createAsyncThunk(
   }
 );
 
+export const getTokensHistoryAsync = createAsyncThunk(
+  "tokenPrice/getTokensHistory",
+  async (payload) => {
+    const tokensHistoryQuery = gql`
+    {
+      vaults(where: { owner: "${getOwner}" }) {
+        tokenTransactionHistory (first:10 skip:${payload}) {
+          id 
+          tokenAddress
+          type 
+          amount
+          createdAt
+         }
+      }
+    }
+    `;
+
+    let initialData = [];
+    try {
+      const data = await request(graphqlEndpoint, tokensHistoryQuery);
+      console.log("data", data.vaults[0]?.tokenTransactionHistory);
+      const info = data.vaults[0]?.tokenTransactionHistory;
+
+      try {
+        const resultArray = await Promise.all(
+          info &&
+            info
+              .filter((i) => i.tokenAddress !== "0x00")
+              .map(async (idx) => {
+                const token = await tokenDetails(idx?.tokenAddress);
+                return {
+                  ...idx,
+                  ...token,
+                };
+              })
+        );
+
+        return resultArray;
+
+        //  console.log("resuttttl", resultArray, initialData);
+
+        //  emptyTokenData.push({ ...result[i], tokens: resultArray });
+      } catch (error) {
+        // emptyTokenData.push({
+        //   ...result[i],
+        //   tokens: [
+        //     {
+        //       id: "",
+        //       amountAllocated: 0,
+        //       symbol: "",
+        //       name: "",
+        //       decimals: "",
+        //       address: result[i].id,
+        //     },
+        //   ],
+        // });
+
+        console.log(error, "error hee");
+      }
+
+      return info;
+    } catch (error) {
+      console.log("error occ", error);
+    }
+  }
+);
+
 export const checkVaultAsync = createAsyncThunk(
   "vault/getUserVaultDetails",
   async () => {
@@ -133,6 +200,7 @@ export const checkVaultAsync = createAsyncThunk(
           tokens {
             id
             amount
+            allocated
           }
         }
       }
@@ -148,17 +216,13 @@ export const checkVaultAsync = createAsyncThunk(
 
       const tokensInfo = [];
       for (let i = 0; i < tokens.length; i++) {
-        const tokenContract = tokens[i] && (await getErc20Contract(tokens[i]));
-        const tokneSymbol = tokenContract && (await tokenContract.symbol());
-        const tokenName = tokenContract && (await tokenContract.name());
+        const details = await tokenDetails(tokens[i]);
+
         tokensInfo.push({
-          address: tokens[i],
-          symbol: tokneSymbol,
-          name: tokenName,
           amount: Number(rawToken[i].amount) ?? 0,
           token_address: tokens[i],
           balance: Number(rawToken[i].amount) ?? 0,
-          decimals: "18",
+          ...details,
         });
       }
       tokensInfo.push({
@@ -443,6 +507,13 @@ export const vault = createSlice({
     fetchError: null,
     loading: null,
     userAssets: [],
+    tokensHistory: {
+      data: [],
+      loading: null,
+      error: null,
+      loaded: false,
+      status: null,
+    },
   },
 
   reducers: {
@@ -573,6 +644,20 @@ export const vault = createSlice({
       })
       .addCase(checkVaultIdAsync.rejected, (state, { payload }) => {
         state.idError = payload;
+      })
+      .addCase(getTokensHistoryAsync.pending, (state) => {
+        state.tokensHistory.status = "pending";
+      })
+      .addCase(getTokensHistoryAsync.fulfilled, (state, { payload }) => {
+        console.log(payload, "payload");
+        state.tokensHistory.data = payload;
+        state.tokensHistory.loading = false;
+        state.tokensHistory.loaded = true;
+      })
+      .addCase(getTokensHistoryAsync.rejected, (state, { payload }) => {
+        state.tokensHistory.loading = false;
+        state.tokensHistory.status = "rejected";
+        state.tokensHistory.error = error;
       });
   },
 });

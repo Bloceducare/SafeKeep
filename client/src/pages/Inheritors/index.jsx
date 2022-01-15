@@ -1,5 +1,6 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { Btn } from "./style";
 import {
   FaTrashAlt,
@@ -33,12 +34,12 @@ import { currentNetworkConfig } from "../../utils/networkConfig";
 import AllocateTokenModal from "./Components/AllocateTokens";
 import TokenPanel from "../../components/TokenPanel";
 import { Col, Row } from "react-bootstrap";
-// import { BsChevronBarDown } from "react-icons/bs";
-import Check from '../../assets/check.svg';
+import Check from "../../assets/check.svg";
+import WrapAddress from "../../components/WrapAddress";
 
 function Inheritors() {
   const dispatch = useDispatch();
-  const { data, loading,  crud, status, loaded } = useSelector(inheritors);
+  const { data, loading, crud, status, loaded } = useSelector(inheritors);
   const {
     user: { address },
     vault: {
@@ -47,9 +48,6 @@ function Inheritors() {
   } = useSelector((state) => state);
   const [currentData, setCurrentData] = useState({});
   const [aliasNotAvailable, setAliasAvailable] = useState(false);
-
-
-
 
   const handleShow = () => {
     if (!id) return dispatch(showCreateVaultModal());
@@ -71,16 +69,13 @@ function Inheritors() {
     dispatch(showAllocateTokenModal());
   };
 
-
-
   useEffect(() => {
-  id &&  dispatch(getInheritorsAsync(address));
-  
+    id && dispatch(getInheritorsAsync(address));
   }, [address, dispatch, id]);
 
-  const _loading =  loading && "Loading...";
+  const _loading = loading && "Loading...";
 
-  const _error = status === "rejected" &&  (
+  const _error = status === "rejected" && (
     <div>
       An error occurred
       <CustomButton
@@ -103,97 +98,111 @@ function Inheritors() {
     dispatch(showEditAliasModal());
   };
 
-  const _data = loaded &&  (
+  const _data = loaded && (
     <>
-      {
-       data.map(((item, index) => (
-         <>
-          <Row key={item?.id ?? item?.address}  className="mb-4 p-2 d-flex align-items-center " style={{outline:'1px solid', borderRadius:'5px'}}>
-     
-        <Col lg="2" md="2" sm="2" className="my-1">
-          <span>
-          <img src={Check} alt="check" style={{width:'25px', height:'25px', marginRight:"0.5rem"}}/>
-            {item?.alias}</span>
-        </Col>
-        <Col lg="5" md="5" sm="5" className="d-flex align-items-center" >
-          <span>{item?.id ?? item?.address}</span> 
-        </Col>
-        <Col lg="5" md="5" sm="5" style ={{textAlign:'right'}} className="d-flex align-items-center" >
-        <Btn
-                    bvar="danger"
-                    cvar="danger"
-                    onClick={() => handleShowConfirmationModal(item)}
-                  >
-                    <FaTrashAlt className="mx-1" />
-                  </Btn>
-                  {item.alias ? (
-                    <Btn
-                      bvar="edit"
-                      cvar="edit"
-                      onClick={() => handleAliasEdit(item)}
-                    >
-                      <FaEdit className="mx-1" />
-                    </Btn>
-                  ) : (
-                    <Btn
-                      bvar="edit"
-                      cvar="edit"
-                      onClick={() => handleAliasEdit(item, true)}
-                    >
-                      <FaPlus className="mx-1" />
-                      <FaAddressBook className="ml-1" />
-                    </Btn>
-                  )}
+      {data.map((item, index) => (
+        <>
+          <Row
+            className="mb-3 py-2"
+            key={item?.id ?? item?.address}
+            style={{
+              outline: "1px solid",
+              borderRadius: "5px",
+              paddingLeft: "0",
+              paddingRight: "0",
 
-                  {tokenValue(item.ethAllocated) ? (
-                    <Btn
-                      bvar="success"
-                      cvar="success"
-                      onClick={() => handleSingleAllocateModal(item)}
-                    >
-                      <FaEdit className="mx-1" />
+            }}
+          >
+            <Col lg="2" className="my-1">
+              <span>
+                <img
+                  src={Check}
+                  alt="check"
+                  style={{
+                    width: "25px",
+                    height: "25px",
+                    marginRight: "0.5rem",
+                  }}
+                />
+                {item?.alias}
+              </span>
+            </Col>
+            <Col lg="5" className="d-flex align-items-center">
+              <WrapAddress className="d-flex align-items-center">
+                {item?.id ?? item?.address}
+              </WrapAddress>
+            </Col>
+            <ActionContainer
+              lg="5"
+              className="d-flex align-items-center justify-content-end"
+            >
+              <Btn
+                bvar="danger"
+                cvar="danger"
+                onClick={() => handleShowConfirmationModal(item)}
+              >
+                <FaTrashAlt className="mx-1" />
+              </Btn>
+              {item.alias ? (
+                <Btn
+                  bvar="edit"
+                  cvar="edit"
+                  onClick={() => handleAliasEdit(item)}
+                >
+                  <FaEdit className="mx-1" />
+                </Btn>
+              ) : (
+                <Btn
+                  bvar="edit"
+                  cvar="edit"
+                  onClick={() => handleAliasEdit(item, true)}
+                >
+                  <FaPlus className="mx-1" />
+                  <FaAddressBook className="ml-1" />
+                </Btn>
+              )}
+              {tokenValue(item.ethAllocated) ? (
+                <Btn
+                  bvar="success"
+                  cvar="success"
+                  onClick={() => handleSingleAllocateModal(item)}
+                >
+                  <FaEdit className="mx-1" />
 
-                      <FaEthereum className="mx-1" />
-                    </Btn>
-                  ) : (
-                    <Btn
-                      bvar="success"
-                      cvar="success"
-                      onClick={() => handleSingleAllocateModal(item)}
-                    >
-                      <FaPlus className="mx-1" />
-                      <FaEthereum className="mx-1" />
-                    </Btn>
-                  )}
+                  <FaEthereum className="mx-1" />
+                </Btn>
+              ) : (
+                <Btn
+                  bvar="success"
+                  cvar="success"
+                  onClick={() => handleSingleAllocateModal(item)}
+                >
+                  <FaPlus className="mx-1" />
+                  <FaEthereum className="mx-1" />
+                </Btn>
+              )}
+              <Btn
+                bvar="edit"
+                cvar="edit"
+                onClick={() => handleShowTokenAllocationModal(item, true)}
+              >
+                <FaPlus className="mx-1" />
+                <FaMoneyBill />
+              </Btn>
+              {tokenValue(item.ethAllocated)}{" "}
+              {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "}
+            </ActionContainer>
 
-                  <Btn
-                    bvar="edit"
-                    cvar="edit"
-                    onClick={() => handleShowTokenAllocationModal(item, true)}
-                  >
-                    <FaPlus  className="mx-1"  />
-                    <FaMoneyBill />
-                  </Btn>
-             
-                  {tokenValue(item.ethAllocated)}{" "}
-                  {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "}
-                  
-       {/* {
-         item?.tokens?.length >= 0 &&  <BsChevronBarDown className ='mx-3' onClick ={()=> handleCollapse(index)} />
-       } */}
-
-        </Col>
-
-       {item.tokens.map((token, idx) => (
-                  <TokenPanel  className={`${idx===0 ? 'mt-3':''} my-1`} token={token} key={token?.id} />
-                ))}
-     
-      </Row>
-      
-         </>
-       )))
-      }
-     
+            {item.tokens.map((token, idx) => (
+              <TokenPanel
+                className={`${idx === 0 ? "mt-3" : ""} my-1`}
+                token={token}
+                key={token?.id}
+              />
+            ))}
+          </Row>
+        </>
+      ))}
     </>
   );
 
@@ -247,7 +256,7 @@ function Inheritors() {
 
       <section>
         {id && _loading}
-        { _error}
+        {_error}
         {_data}
       </section>
     </div>
@@ -255,3 +264,9 @@ function Inheritors() {
 }
 
 export default Inheritors;
+
+
+export const ActionContainer = styled(Col)`
+
+
+`

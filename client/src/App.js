@@ -8,19 +8,8 @@ import Roadmap from "./pages/Roadmap";
 import Footer from "./components/Footer";
 import { UnAuthenticatedHeader } from "./components/Header";
 import { useHistory } from "react-router-dom";
+import { useMoralis } from "react-moralis";
 
-const MainPages = () => {
-  return (
-    <>
-      <UnAuthenticatedHeader />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/road-map" component={Roadmap} />
-      </Switch>
-    </>
-  );
-};
 const NotFound = () => {
   const router = useHistory();
   return (
@@ -46,11 +35,17 @@ const NotFound = () => {
 };
 
 function App() {
+  const { isAuthenticated } = useMoralis();
   return (
     <>
+      {" "}
+      {!isAuthenticated && <UnAuthenticatedHeader />}
       <Switch>
-        <Route exact path="/" component={MainPages} />
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/road-map" component={Roadmap} />
         <Route path="/dashboard" component={Dashboard} />
+
         <Route component={NotFound} />
       </Switch>
       <Footer />

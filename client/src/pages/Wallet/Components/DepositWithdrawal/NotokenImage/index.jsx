@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const NoTokenImage = styled.div`
-  margin-right: 0.4rem;
-  width: 2rem;
-  height: 2rem;
+  margin-right: 0.6rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background: #0f2027; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
