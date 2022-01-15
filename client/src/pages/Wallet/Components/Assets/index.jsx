@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Container, Row, Col } from "react-bootstrap";
-import { AddBtn, P } from "./style";
+import { Container,  } from "react-bootstrap";
+import {  P } from "./style";
 import { showCreateVaultModal } from "../../../../state/ui";
 import NoVault from "../NoVault";
 import { vault } from "../../selectors";

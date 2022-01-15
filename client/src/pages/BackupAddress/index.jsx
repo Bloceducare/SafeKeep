@@ -8,7 +8,7 @@ import { showCreateVaultModal } from "../../state/ui";
 import BackupAddressModal from "./components/BackupAddressModal";
 import { vaultId, backupAdd } from "./selector";
 import { getBackupAddressAsync, updateBackupAddressAsync } from "./state";
-import { CurrentAddress, Table } from "./style";
+import { CurrentAddress } from "./style";
 import { getDate } from "../../utils/formatter";
 import styled from "styled-components";
 import WrapAddress from "../../components/WrapAddress";
