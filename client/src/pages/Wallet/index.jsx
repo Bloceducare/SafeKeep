@@ -11,10 +11,9 @@ import {
 } from "../../state/ui";
 import { Row, Col, Tab, Nav } from "react-bootstrap";
 import TokenHistoryPanel from "../../components/TokenHistoryPanel";
-
 import { getTokensHistoryAsync } from "../Wallet/state";
-import useInfiniteScroll from "react-infinite-scroll-hook";
-import { Switch, Route } from "react-router";
+// import useInfiniteScroll from "react-infinite-scroll-hook";
+
 
 function Wallet() {
   const dispatch = useDispatch();
@@ -52,14 +51,8 @@ function Wallet() {
           <p>Available Balance</p>
           <h5>USD 0.0000</h5>
         </Col>
-        {/* <Col lg="2" md="2" sm="2">
-          <AddBtn onClick={handleShowModal}> + </AddBtn>
-        </Col> */}
       </Row>
-      {/* 
-<Switch>
-  <Route path = "/test" component = {WalletContent} />
-</Switch> */}
+
       <WalletContent />
     </>
   );
@@ -110,36 +103,15 @@ export default Wallet;
 
 export const TokensHistory = () => {
   const dispatch = useDispatch();
-  const [page, setPage] = useState(0);
 
   const {
-    tokensHistory: { data, error, loaded, status },
+    tokensHistory: { data,  loaded, status },
   } = useSelector(vault);
 
-  const hasMore = true;
-  const fetchMoreData = () => {
-    console.log("fetching more data");
-    setPage((prev) => prev + 10);
-    dispatch(getTokensHistoryAsync(page));
-  };
 
-  const loading = true;
-  const hasNextPage = true;
-  const [infiniteRef] = useInfiniteScroll({
-    loading,
-    hasNextPage,
-    onLoadMore: fetchMoreData,
-    // When there is an error, we stop infinite loading.
-    // It can be reactivated by setting "error" state as undefined.
-    disabled: !!error,
-    // `rootMargin` is passed to `IntersectionObserver`.
-    // We can use it to trigger 'onLoadMore' when the sentry comes near to become
-    // visible, instead of becoming fully visible on the screen.
-    rootMargin: "0px 0px 400px 0px",
-  });
 
   useEffect(() => {
-    dispatch(getTokensHistoryAsync(page));
+    dispatch(getTokensHistoryAsync(0));
   }, [dispatch]);
 
   const _loading = !loaded && status === "loading" && "Loading";
