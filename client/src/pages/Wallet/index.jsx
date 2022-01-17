@@ -14,7 +14,6 @@ import TokenHistoryPanel from "../../components/TokenHistoryPanel";
 import { getTokensHistoryAsync } from "../Wallet/state";
 // import useInfiniteScroll from "react-infinite-scroll-hook";
 
-
 function Wallet() {
   const dispatch = useDispatch();
   const showHideModal = useSelector(modal);
@@ -105,10 +104,8 @@ export const TokensHistory = () => {
   const dispatch = useDispatch();
 
   const {
-    tokensHistory: { data,  loaded, status },
+    tokensHistory: { data, loaded, status },
   } = useSelector(vault);
-
-
 
   useEffect(() => {
     dispatch(getTokensHistoryAsync(0));
@@ -118,9 +115,7 @@ export const TokensHistory = () => {
   const _data = data && data.length > 0 && (
     <div>
       {data.map((item, index) => {
-        return (
-          <TokenHistoryPanel key={index} {...item} className="bg-success" />
-        );
+        return <TokenHistoryPanel key={index} {...item} />;
       })}
     </div>
   );

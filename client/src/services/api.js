@@ -1,25 +1,31 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query";
+import { graphqlEndpoint } from "../config/constants/endpoints";
+import { gql } from "graphql-request";
 
+//const currentUser = localStorage.safekeepAddress;
 export const Api = createApi({
-  reducerPath: "SampleApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://*************/" }),
+  reducerPath: "api",
+  baseQuery: graphqlRequestBaseQuery({ url: graphqlEndpoint }),
   endpoints: (builder) => ({
-    getCharacters: builder.query({
-      query: () => `getassets`,
+    getTokenHistory: builder.query({
+      query: (tk, skip = 0) => {
+        return {
+          document: gql`
+          {
+            vaults(where: { owner: "${localStorage.safekeepAddress}" }) {
+              tokens ( where:{id:"${tk}"}  skip:${skip} first:10) {
+                id
+                amount
+                history {id type amount createdAt}
+               }
+            }
+          }
+          `,
+        };
+      },
     }),
   }),
 });
 
-export const { useGetCharactersQuery } = Api;
-
-const fetchTokenPrice = async (tok) => {
-  // console.log(tok)
-  if (!tok?.token_address) return;
-  return await token
-    .getTokenPrice({ chain: chainId, address: tok.token_address })
-    .then((result) => {
-      return setCurrentAsset({ ...currentAsset, price: result?.usdPrice });
-      //    return console.log(result)
-    })
-    .catch((e) => {});
-};
+export const { useGetTokenHistoryQuery } = Api;

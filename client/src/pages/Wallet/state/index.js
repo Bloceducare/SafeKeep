@@ -120,7 +120,7 @@ export const getNativeAsync = createAsyncThunk(
 
 export const getTokensHistoryAsync = createAsyncThunk(
   "tokenPrice/getTokensHistory",
-  async (payload) => {
+  async (payload = 0) => {
     const tokensHistoryQuery = gql`
     {
       vaults(where: { owner: "${getOwner}" }) {
@@ -137,13 +137,15 @@ export const getTokensHistoryAsync = createAsyncThunk(
 
     let initialData = [];
     try {
-      const data = await request(graphqlEndpoint, tokensHistoryQuery);
-      console.log("data", data.vaults[0]?.tokenTransactionHistory);
-      const info = data.vaults[0]?.tokenTransactionHistory;
+      const data =
+        getOwner && (await request(graphqlEndpoint, tokensHistoryQuery));
+
+      const info = data?.vaults[0]?.tokenTransactionHistory;
 
       try {
-        const resultArray = await Promise.all(
+        const resultArray =
           info &&
+          (await Promise.all(
             info
               .filter((i) => i.tokenAddress !== "0x00")
               .map(async (idx) => {
@@ -153,7 +155,7 @@ export const getTokensHistoryAsync = createAsyncThunk(
                   ...token,
                 };
               })
-        );
+          ));
 
         return resultArray;
 
@@ -180,17 +182,41 @@ export const getTokensHistoryAsync = createAsyncThunk(
 
       return info;
     } catch (error) {
-      console.log("error occ", error);
+      console.log("error occ plus", error);
+    }
+  }
+);
+
+export const getTokenHistoryAsync = createAsyncThunk(
+  "tokenPrice/getTokenHistory",
+  async (address) => {
+    const tokenHistoryQuery = gql`
+    {
+      vaults(where: { owner: "${getOwner}" }) {
+        tokens ( where:{id:"${address}"} first:10 skip:0) {
+          id
+          history {id type amount createdAt}
+         }
+      }
+    }
+    `;
+
+    try {
+      const data = await request(graphqlEndpoint, tokenHistoryQuery);
+      const results = await data.vaults[0].tokens;
+      return results;
+    } catch (error) {
+      console.log("catch", error);
     }
   }
 );
 
 export const checkVaultAsync = createAsyncThunk(
   "vault/getUserVaultDetails",
-  async () => {
+  async (ow) => {
     const vaultQuery = gql`
       {
-        vaults(where: { owner: "${getOwner}" }) {
+        vaults(where: { owner: "${ow}" }) {
           id
           StartingAmount
           owner
@@ -208,7 +234,7 @@ export const checkVaultAsync = createAsyncThunk(
 
     try {
       const data = await request(graphqlEndpoint, vaultQuery);
-      if (data.vaults.length === 0) return "empty-data";
+      //  if (data.vaults.length === 0) return "empty-data";
       const tokens =
         (await data.vaults[0].tokens.map((token) => token.id)) || [];
       const rawToken =
@@ -243,7 +269,7 @@ export const checkVaultAsync = createAsyncThunk(
       return fullData;
     } catch (error) {
       toastify(error, revealEthErr(error));
-      console.log(error, "error");
+      console.log(error, "error gettting vault details");
       throw error;
     }
   }
@@ -649,7 +675,6 @@ export const vault = createSlice({
         state.tokensHistory.status = "pending";
       })
       .addCase(getTokensHistoryAsync.fulfilled, (state, { payload }) => {
-        console.log(payload, "payload");
         state.tokensHistory.data = payload;
         state.tokensHistory.loading = false;
         state.tokensHistory.loaded = true;

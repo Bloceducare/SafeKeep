@@ -7,9 +7,11 @@ import ping from "../pages/Ping/state";
 import backupAddress from "../pages/BackupAddress/state";
 import sharedTxn from "./shared";
 import userReducer from "./user";
+import { Api } from "../services/api";
 
 export const store = configureStore({
   reducer: {
+    [Api.reducerPath]: Api.reducer,
     backup: backupAddressReducer,
     user: userReducer,
     vault: vaultReducer,
@@ -19,4 +21,6 @@ export const store = configureStore({
     backupAddress,
     sharedTxn,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(Api.middleware),
 });

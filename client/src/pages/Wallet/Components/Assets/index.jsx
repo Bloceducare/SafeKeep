@@ -1,13 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Container,  } from "react-bootstrap";
-import {  P } from "./style";
+import { Container } from "react-bootstrap";
+import { P } from "./style";
 import { showCreateVaultModal } from "../../../../state/ui";
 import NoVault from "../NoVault";
 import { vault } from "../../selectors";
 import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import TokenPanel from "../../../../components/TokenPanel";
+import { Link } from "react-router-dom";
 
 const Tokens = () => {
   const tokenData = useSelector((state) => state.vault.data.tokens);
@@ -16,12 +17,18 @@ const Tokens = () => {
     tokenData
       .filter((item) => item.amount !== 0)
       ?.map((token, idx) => (
-        <TokenPanel
-          token={token}
-          key={token.id}
-          className={`${idx === 0 ? "mt-5" : ""} py-2 mb-3 pb-3`}
-          style={{ borderBottom: "0.3px solid rgb(182 182 182 / 46%)" }}
-        />
+        <Link
+          to={`/dashboard/${token.address}`}
+          key={idx}
+          className="text-white"
+        >
+          <TokenPanel
+            token={token}
+            key={token.id}
+            className={`${idx === 0 ? "mt-5" : ""} py-2 mb-3 pb-3`}
+            style={{ borderBottom: "0.3px solid rgb(182 182 182 / 46%)" }}
+          />
+        </Link>
       ))
   );
 };

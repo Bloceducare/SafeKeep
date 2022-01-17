@@ -110,7 +110,6 @@ function Inheritors() {
               borderRadius: "5px",
               paddingLeft: "0",
               paddingRight: "0",
-
             }}
           >
             <Col lg="2" className="my-1">
@@ -265,8 +264,4 @@ function Inheritors() {
 
 export default Inheritors;
 
-
-export const ActionContainer = styled(Col)`
-
-
-`
+export const ActionContainer = styled(Col)``;

@@ -26,8 +26,10 @@ import PingIcon from "../../assets/ping.svg";
 import InheritIcon from "../../assets/inherit.svg";
 import BackupIcon from "../../assets/backup.svg";
 import CreateVaultModal from "../Wallet/Components/DepositWithdrawal/CreateVault";
+import TokenHistory from "../../components/TokenSingleHistory";
 import { AuthenticatedHea } from "../../components/Header";
 import { isMobile, isTablet } from "react-device-detect";
+
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -35,14 +37,14 @@ function Dashboard() {
   const address = user?.get("ethAddress");
   const { isAuthenticated } = useMoralis();
 
+
   useEffect(() => {
     if (!address) return;
     dispatch(getUserAddress(address));
-    localStorage.setItem("safekeepAddress", address);
-
-    if (address) {
-      dispatch(checkVaultAsync(address));
-    }
+    new Promise((res, rej)=> res(''))
+    .then(() =>localStorage.setItem("safekeepAddress", address))
+    .then(() => dispatch(checkVaultAsync(address)))
+    
   }, [address, dispatch]);
 
   const _MobileNav = (
@@ -124,6 +126,11 @@ function Dashboard() {
               <Route
                 path="/dashboard/backupaddress"
                 component={BackupAddress}
+              />
+              <Route
+                exact
+                path="/dashboard/:address"
+                component={TokenHistory}
               />
             </Switch>
           </OtherSectionWrapper>
