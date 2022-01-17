@@ -45,7 +45,6 @@ function App() {
         <Route path="/about" component={About} />
         <Route path="/road-map" component={Roadmap} />
         <Route path="/dashboard" component={Dashboard} />
-
         <Route component={NotFound} />
       </Switch>
       <Footer />

@@ -8,36 +8,42 @@ const TokenHistoryPanel = ({
   amount = 0,
   id = 0,
   status = "pending",
-  type = "plus",
+  type = "",
   createdAt = "0",
   tokenAddress,
+  showName = true,
+  ...others
 }) => {
+
+  //console.log(others, amount, name, id, status, type, createdAt);
+ 
   return (
     <>
-      <SpaceBetween className="my-3">
+      <SpaceBetween className="my-3" {...others}>
         <div
           className="bg-primary rounded-circle d-flex align-items-center justify-content-center"
           style={{ padding: "0.8rem", marginRight: "0.5rem" }}
         >
           <FaArrowRight
             size={"1rem"}
-            transform="rotate(20deg)"
             style={{
               transform: `${
-                type === "plus"
+                type === "in"
                   ? "rotate(140deg)"
-                  : type === "minus"
+                  : type === "out"
                   ? "rotate(-40deg)"
                   : ""
               }`,
             }}
           />
         </div>
-        <div>
-          {tokenAddress === "0x00"
-            ? currentNetworkConfig.currencySymbol.toLocaleLowerCase()
-            : name}
-        </div>
+        {showName && (
+          <div>
+            {tokenAddress === "0x00"
+              ? currentNetworkConfig.currencySymbol.toLocaleLowerCase()
+              : name}
+          </div>
+        )}
         <div>{tokenValue(amount)?.toFixed(2)}</div>
 
         <div>{getDate(createdAt)?.combined}</div>

@@ -10,7 +10,7 @@ import { getErc20Contract } from "../config/constants/contractHelpers";
 const tokenDetails = async (add) => {
   if (localStorage[`safekeep@${add}`]) {
     let info = JSON.parse(localStorage[`safekeep@${add}`]);
-    return info;
+    return await info;
   }
   const contract = await getErc20Contract(add);
   const symbol = contract && (await contract.symbol());
