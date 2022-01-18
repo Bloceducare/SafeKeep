@@ -236,9 +236,9 @@ export const checkVaultAsync = createAsyncThunk(
       const data = await request(graphqlEndpoint, vaultQuery);
       //  if (data.vaults.length === 0) return "empty-data";
       const tokens =
-        (await data.vaults[0].tokens.map((token) => token.id)) || [];
+        (await data.vaults[0]?.tokens.map((token) => token.id)) || [];
       const rawToken =
-        (await data.vaults[0].tokens.map((token) => token)) || [];
+        (await data.vaults[0]?.tokens.map((token) => token)) || [];
 
       const tokensInfo = [];
       for (let i = 0; i < tokens.length; i++) {
@@ -255,16 +255,16 @@ export const checkVaultAsync = createAsyncThunk(
         address: "ethers",
         symbol: "ETH",
         name: "Ether",
-        amount: Number(data.vaults[0].StartingAmount),
+        amount: Number(data.vaults[0]?.StartingAmount),
       });
 
       const fullData = {
-        id: data.vaults[0].id ?? "",
-        startingAmount: Number(data.vaults[0].StartingAmount) ?? 0,
+        id: data.vaults[0]?.id ?? "",
+        startingAmount: Number(data.vaults[0]?.StartingAmount) ?? 0,
         tokens: tokensInfo ?? [],
-        backup: data.vaults[0].backup ?? "",
-        owner: data.vaults[0].owner ?? "",
-        inheritors: data.vaults[0].inheritors ?? [],
+        backup: data.vaults[0]?.backup ?? "",
+        owner: data.vaults[0]?.owner ?? "",
+        inheritors: data.vaults[0]?.inheritors ?? [],
       };
       return fullData;
     } catch (error) {

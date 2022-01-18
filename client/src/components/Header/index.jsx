@@ -7,9 +7,12 @@ import ConnectModal from "./Components/ConnectModal";
 import { maskAddress } from "../../utils/maskAddress";
 import Logoimg from "../../assets/logo.png";
 import isWebe3Enabled from "../../hooks/useWeb3Enabled";
+import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
 
 function AuthenticatedHeade(props) {
-  const { user, logout } = useMoralis();
+  const { logout } = useMoralis();
+  const  {walletAddress} =  useMoralisDapp()
+
 
   const handleLogout = async () => {
     await logout();
@@ -25,7 +28,7 @@ function AuthenticatedHeade(props) {
           {` `}
         </div>
         <div className="d-flex align-items-center">
-          {maskAddress(user?.get("ethAddress"))}
+          {maskAddress(walletAddress)}
           <Button variant="dark" onClick={handleLogout} className="mx-2">
             Logout
           </Button>
