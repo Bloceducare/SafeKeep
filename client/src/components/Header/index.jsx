@@ -11,8 +11,7 @@ import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
 
 function AuthenticatedHeade(props) {
   const { logout } = useMoralis();
-  const  {walletAddress} =  useMoralisDapp()
-
+  const { walletAddress } = useMoralisDapp();
 
   const handleLogout = async () => {
     await logout();

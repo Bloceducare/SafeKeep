@@ -1,18 +1,18 @@
 // import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useMoralis } from "react-moralis";
+import { useMoralis, useChain } from "react-moralis";
 import { Button, Modal } from "react-bootstrap";
 import Metamask from "../../../../assets/metamaskIcon.svg";
 // import WalletConnect from "../../../../assets/walletConnectIcon.svg";
 import { Wallet } from "./style";
 import { connectModalStatus } from "../../../../selectors";
 import { showConnectModal, hideConnectModal } from "../../../../state/ui";
+import { supportedChains } from "../../../../utils/networkConfig";
 
 function ConnectMOdal() {
   const dispatch = useDispatch();
-  const { authenticate } = useMoralis();
-  // const {  isWeb3Enabled, isAuthenticated, enableWeb3 } =
-  //   useMoralis();
+  const { authenticate, enableWeb3 } = useMoralis();
+  const { switchNetwork, chain } = useChain();
 
   const showModal = useSelector(connectModalStatus);
   async function authWalletConnect() {
@@ -50,9 +50,15 @@ function ConnectMOdal() {
   //   }
   // });
 
-  const handleConnect = (type) => {
+  const handleConnect = async (type) => {
     if (type === "metamask") {
-      authenticate({ signingMessage: "Sign in to Safekeep" });
+      if (chain?.chainId === supportedChains) {
+        await authenticate({ signingMessage: "Sign in to Safekeep" });
+      } else {
+        await enableWeb3();
+        await switchNetwork(0x4);
+        await authenticate({ signingMessage: "Sign in to Safekeep" });
+      }
     }
 
     if (type === "walletconnect") {
