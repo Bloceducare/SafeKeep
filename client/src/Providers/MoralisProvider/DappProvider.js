@@ -1,18 +1,27 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useMoralis } from "react-moralis";
+import { useChain, useMoralis } from "react-moralis";
 import MoralisDappContext from "./context";
 import { checkVaultAsync } from "../../pages/Wallet/state";
+import { supportedChains } from "../../utils/networkConfig";
 
 function MoralisDappProvider({ children }) {
   const dispatch = useDispatch();
-  const { web3 = "", Moralis, user } = useMoralis();
+  const { web3 = "", Moralis, user, enableWeb3 } = useMoralis();
+  const { switchNetwork } = useChain();
   const [walletAddress, setWalletAddress] = useState();
   const [chainId, setChainId] = useState();
 
   useEffect(() => {
-    Moralis.onChainChanged(function (chain) {
-      setChainId(chain);
+    Moralis.onChainChanged(async function (chain) {
+      if (chain === supportedChains) {
+        setChainId(chain);
+      } else {
+        console.log("chain changed", chain);
+        await enableWeb3();
+        await switchNetwork(0x4);
+        setChainId(chain);
+      }
     });
 
     Moralis.onAccountsChanged(async function (address) {

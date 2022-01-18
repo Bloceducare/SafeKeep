@@ -83,3 +83,5 @@ export const currentNetworkConfig = networkConfigs[currrentChainId];
 
 export const getWrappedNative = (chain) =>
   networkConfigs[chain]?.wrapped || null;
+
+export const supportedChains = "0x4";
