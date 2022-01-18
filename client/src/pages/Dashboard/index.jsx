@@ -30,21 +30,18 @@ import TokenHistory from "../../components/TokenSingleHistory";
 import { AuthenticatedHea } from "../../components/Header";
 import { isMobile, isTablet } from "react-device-detect";
 
-
 function Dashboard() {
   const dispatch = useDispatch();
   const { user } = useMoralis();
   const address = user?.get("ethAddress");
   const { isAuthenticated } = useMoralis();
 
-
   useEffect(() => {
     if (!address) return;
     dispatch(getUserAddress(address));
-    new Promise((res, rej)=> res(''))
-    .then(() =>localStorage.setItem("safekeepAddress", address))
-    .then(() => dispatch(checkVaultAsync(address)))
-    
+    new Promise((res, rej) => res(""))
+      .then(() => localStorage.setItem("safekeepAddress", address))
+      .then(() => dispatch(checkVaultAsync(address)));
   }, [address, dispatch]);
 
   const _MobileNav = (

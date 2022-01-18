@@ -14,9 +14,8 @@ const TokenHistoryPanel = ({
   showName = true,
   ...others
 }) => {
-
   //console.log(others, amount, name, id, status, type, createdAt);
- 
+
   return (
     <>
       <SpaceBetween className="my-3" {...others}>
