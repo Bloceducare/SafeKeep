@@ -18,29 +18,34 @@ import { getPingsAsync, pingVaultAsync } from "./state";
 import PingModal from "./components/PingModal";
 import { getDate } from "../../utils/formatter";
 import CustomButton from "../../components/Button";
+import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
 
 function Ping() {
   const dispatch = useDispatch();
+  const { walletAddress } = useMoralisDapp();
   const {
     data: { id },
   } = useSelector(vault);
-  const { crud, data, loading, status } = useSelector(ping);
+  const { crud, data, loading, status, loaded } = useSelector(ping);
 
   const handleShowModal = () => {
     if (!id) return dispatch(showCreateVaultModal());
-    return dispatch(pingVaultAsync(id));
+    const data = { id, walletAddress };
+    return dispatch(pingVaultAsync(data));
   };
 
   const handlePings = useCallback(() => {
-    dispatch(getPingsAsync());
-  }, [dispatch]);
+    if (!walletAddress) return;
+
+    dispatch(getPingsAsync(walletAddress));
+  }, [dispatch, walletAddress]);
   useEffect(() => {
     handlePings();
-  }, [handlePings]);
+  }, [handlePings, walletAddress]);
 
   const _noData = status === "success" && data?.length === 0 && "No Pings yet";
   // console.log(data, 'data')
-  const _data = status === "success" && data?.length > 0 && (
+  const _data = loaded && data?.length > 0 && (
     <>
       <LastPingDiv>
         <h2>Last Ping</h2>
