@@ -12,12 +12,22 @@ import { CurrentAddress } from "./style";
 import { getDate } from "../../utils/formatter";
 import styled from "styled-components";
 import WrapAddress from "../../components/WrapAddress";
+import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
 
 function BackupAddress() {
   const dispatch = useDispatch();
+  const { walletAddress } = useMoralisDapp();
+
   const id = useSelector(vaultId);
-  const { crud, data, status, loading, currentBackup, currentBackupTime } =
-    useSelector(backupAdd);
+  const {
+    crud,
+    data,
+    status,
+    loading,
+    currentBackup,
+    currentBackupTime,
+    loaded,
+  } = useSelector(backupAdd);
 
   const [backupAddress, setBackupAddress] = useState("");
   const handleChange = (e) => {
@@ -31,22 +41,19 @@ function BackupAddress() {
     const data = {
       _vaultId: id,
       _newBackup: backupAddress,
+      walletAddress,
     };
     return dispatch(updateBackupAddressAsync(data));
   };
 
   const handleBackupAddress = useCallback(() => {
-    dispatch(getBackupAddressAsync());
-  }, [dispatch]);
+    dispatch(getBackupAddressAsync(walletAddress));
+  }, [dispatch, walletAddress]);
 
-  // const handleClearData = useCallback(() => {
-  //   if(status === "success"){
-  //     setBackupAddress("")
-  //   }
-  // }, [])
   useEffect(() => {
+    if (!walletAddress) return;
     handleBackupAddress();
-  }, [handleBackupAddress]);
+  }, [handleBackupAddress, walletAddress]);
 
   const _loading = loading && "Loading...";
   const _error = status === "rejected" && (
@@ -55,7 +62,7 @@ function BackupAddress() {
       <CustomButton text="try again" onClick={handleBackupAddress} />{" "}
     </p>
   );
-  const _renderBackupAddress = data && data.length > 0 && (
+  const _renderBackupAddress = loaded && data && data.length > 0 && (
     <>
       <p className="text-muted">Backup Address Change History </p>
       {[...data].reverse().map((item, index) => (

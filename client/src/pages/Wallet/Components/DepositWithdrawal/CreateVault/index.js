@@ -1,6 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import { createVaultAsync } from "../../../state";
 import { Modal, Form, Col, Row } from "react-bootstrap";
@@ -13,12 +12,11 @@ import { hideCreateVaultModal } from "../../../../../state/ui";
 import { vault } from "../../../selectors";
 import { toast, ToastContainer } from "react-toastify";
 import PlusIcon from "../../../../../components/PlusIcon";
+import { useMoralisDapp } from "../../../../../Providers/MoralisProvider/DappProvider";
 // import validEthAddress from "../../../../../utils/validEthAddress";
 
 function CreateVaultModal() {
-  const { user } = useMoralis();
-  const walletAddress = user?.get("ethAddress");
-
+  const { walletAddress } = useMoralisDapp();
   const dispatch = useDispatch();
   const { createVaultModal } = useSelector((state) => state.ui);
   const {
@@ -59,15 +57,6 @@ function CreateVaultModal() {
     valid(e.target.name, e.target.value);
   };
 
-  // const handleInheritors = (value) => {
-  //   for (let i = 0; i < value.length; i++) {
-  //     if (!value[i].value) return;
-  //   }
-  //   setUserInputs({ ...userInputs, inheritors: value });
-  // };
-
-  //console.log(userInputs);
-
   const handleAddInheritor = () => {
     setUserInputs({
       ...userInputs,
@@ -96,10 +85,9 @@ function CreateVaultModal() {
       ...userInputs,
       inheritors: inherit,
       _startingBal: _startingBal && ethers?.utils?.parseEther(_startingBal),
-      walletAddress,
       alias,
+      walletAddress,
     };
-
     dispatch(createVaultAsync(data));
   };
 

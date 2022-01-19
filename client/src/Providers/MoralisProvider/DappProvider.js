@@ -17,7 +17,6 @@ function MoralisDappProvider({ children }) {
       if (chain === supportedChains) {
         setChainId(chain);
       } else {
-        console.log("chain changed", chain);
         await enableWeb3();
         await switchNetwork(0x4);
         setChainId(chain);
@@ -29,6 +28,7 @@ function MoralisDappProvider({ children }) {
       new Promise((res, rej) => res(""))
         .then(() => localStorage.setItem("safekeepAddress", address[0]))
         .then(() => dispatch(checkVaultAsync(address[0])));
+      // .then(() => console.log("Wallet address saved", address[0], walletAddress));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

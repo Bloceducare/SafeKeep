@@ -102,16 +102,8 @@ export const checkVaultIdAsync = createAsyncThunk(
 export const getNativeAsync = createAsyncThunk(
   "tokenPrice/getTokenPrice",
   async (data, { dispatch }) => {
-    //  const contract = await getSafeKeepContract(true)
-    //dispatch an action to hide modal
-    //  const {inheritors, _startingBal, _backupAddress} = data
-    //  const payableAmount = _startingBal
-
     try {
-      // const response =  await contract.createVault(inheritors, _startingBal, _backupAddress, {value:_startingBal})
-      //    const t = await contract.createVault(inheritors, _startingBal, _backupAddress, {value:payableAmount})
       dispatch(hideCreateVaultModal());
-      //    return await t.wait();
     } catch (error) {
       console.log(error, "error");
     }
@@ -123,7 +115,7 @@ export const getTokensHistoryAsync = createAsyncThunk(
   async (payload = 0) => {
     const tokensHistoryQuery = gql`
     {
-      vaults(where: { owner: "${getOwner}" }) {
+      vaults(where: { owner: "${localStorage.safekeepAddress}" }) {
         tokenTransactionHistory (first:10 skip:${payload}) {
           id 
           tokenAddress
@@ -135,10 +127,10 @@ export const getTokensHistoryAsync = createAsyncThunk(
     }
     `;
 
-    let initialData = [];
     try {
       const data =
         getOwner && (await request(graphqlEndpoint, tokensHistoryQuery));
+      //   console.log(data, "data");
 
       const info = data?.vaults[0]?.tokenTransactionHistory;
 
@@ -158,11 +150,8 @@ export const getTokensHistoryAsync = createAsyncThunk(
           ));
 
         return resultArray;
-
-        //  console.log("resuttttl", resultArray, initialData);
-
-        //  emptyTokenData.push({ ...result[i], tokens: resultArray });
       } catch (error) {
+        console.log("fiet error", error);
         // emptyTokenData.push({
         //   ...result[i],
         //   tokens: [
@@ -213,10 +202,10 @@ export const getTokenHistoryAsync = createAsyncThunk(
 
 export const checkVaultAsync = createAsyncThunk(
   "vault/getUserVaultDetails",
-  async (ow) => {
+  async (owner) => {
     const vaultQuery = gql`
       {
-        vaults(where: { owner: "${ow}" }) {
+        vaults(where: { owner: "${owner}" }) {
           id
           StartingAmount
           owner
@@ -234,7 +223,6 @@ export const checkVaultAsync = createAsyncThunk(
 
     try {
       const data = await request(graphqlEndpoint, vaultQuery);
-      //  if (data.vaults.length === 0) return "empty-data";
       const tokens =
         (await data.vaults[0]?.tokens.map((token) => token.id)) || [];
       const rawToken =
@@ -268,7 +256,7 @@ export const checkVaultAsync = createAsyncThunk(
       };
       return fullData;
     } catch (error) {
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
       console.log(error, "error gettting vault details");
       throw error;
     }
@@ -281,7 +269,9 @@ export const createVaultAsync = createAsyncThunk(
     const contract = await getSafeKeepContract(true);
     const owner = getState().user.address;
     //dispatch an action to hide modal
-    const { inheritors, _startingBal, _backupAddress, alias } = data;
+    const { inheritors, _startingBal, _backupAddress, alias, walletAddress } =
+      data;
+
     const payableAmount = _startingBal;
 
     try {
@@ -306,7 +296,7 @@ export const createVaultAsync = createAsyncThunk(
           id: owner,
         });
       } catch (error) {
-        toastify(error, "inheritor alias submission failed");
+        toastify("error", "inheritor alias submission failed");
 
         console.log(error);
       }
@@ -317,10 +307,10 @@ export const createVaultAsync = createAsyncThunk(
         "vault created successfully 🚀",
         confirm.transactionHash
       );
-      dispatch(checkVaultAsync());
+      dispatch(checkVaultAsync(walletAddress));
       return true;
     } catch (error) {
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
       console.log(error, "error");
     }
   }
@@ -403,7 +393,7 @@ export const depositERC20TokenAsync = createAsyncThunk(
       // return dispatch(checkVaultAsync(_id));
     } catch (error) {
       dispatch(endDepositing());
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
       //   toast.error(error.TokenDeposit);
       console.log(error, "error");
     }
@@ -437,7 +427,7 @@ export const withdrawERC20TokenAsync = createAsyncThunk(
 
       return value;
     } catch (error) {
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
 
       console.log(error, "error");
     }
@@ -469,7 +459,7 @@ export const depositEtherAsync = createAsyncThunk(
       return amount;
     } catch (error) {
       dispatch(endDepositing());
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
       console.log(error, "error");
     }
   }
@@ -501,7 +491,7 @@ export const withdrawEtherAsync = createAsyncThunk(
       return amount;
     } catch (error) {
       dispatch(endWithdrawing());
-      toastify(error, revealEthErr(error));
+      toastify("error", revealEthErr(error));
       console.log(error, "error");
     }
   }
@@ -533,6 +523,7 @@ export const vault = createSlice({
     fetchError: null,
     loading: null,
     userAssets: [],
+    creatingVault: null,
     tokensHistory: {
       data: [],
       loading: null,
@@ -555,15 +546,19 @@ export const vault = createSlice({
     builder
       //create vault
       .addCase(createVaultAsync.pending, (state) => {
+        state.creatingVault = true;
+        state.createError = null;
         state.crud = true;
       })
 
       .addCase(createVaultAsync.fulfilled, (state, { payload }) => {
-        state.receipt = payload;
+        //  state.receipt = payload;
         state.crud = false;
+        state.creatingVault = false;
       })
       .addCase(createVaultAsync.rejected, (state, { payload }) => {
         state.createError = payload;
+        state.creatingVault = false;
       })
       //deposit ether to vault
       .addCase(depositEtherAsync.pending, (state) => {
@@ -635,6 +630,8 @@ export const vault = createSlice({
       })
 
       .addCase(checkVaultAsync.pending, (state) => {
+        state.fetchError = null;
+        state.createError = null;
         state.loading = true;
       })
       .addCase(checkVaultAsync.fulfilled, (state, { payload }) => {

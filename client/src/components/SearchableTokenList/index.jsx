@@ -67,7 +67,7 @@ const SearchableTokenList = ({
     latestAssetList(newSelected);
   };
 
-  console.log("selectedAssets", selectedAssets);
+  //console.log("selectedAssets", selectedAssets);
   return (
     <>
       {/* <SpaceBetween>

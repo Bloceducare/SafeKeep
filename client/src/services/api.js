@@ -1,9 +1,8 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query";
-import { graphqlEndpoint } from "../config/constants/endpoints";
 import { gql } from "graphql-request";
+import { graphqlEndpoint } from "../config/constants/endpoints";
 
-//const currentUser = localStorage.safekeepAddress;
 export const Api = createApi({
   reducerPath: "api",
   baseQuery: graphqlRequestBaseQuery({ url: graphqlEndpoint }),
@@ -24,6 +23,9 @@ export const Api = createApi({
           `,
         };
       },
+    }),
+    getAllTokensHistory: builder.query({
+      query: (tk, skip = 0) => {},
     }),
   }),
 });

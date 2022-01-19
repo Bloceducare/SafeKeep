@@ -7,14 +7,13 @@ import {
   showBackupAddressModal,
 } from "../../../state/ui";
 import { graphqlEndpoint } from "../../../config/constants/endpoints";
-import getOwner from "../../../utils/getOwner";
 
 export const getBackupAddressAsync = createAsyncThunk(
   "ping/getBackupAddress",
-  async (notFirstLoading) => {
+  async (walletAddress) => {
     const backupAddressQuery = gql`
     {
-      vaults(where: { owner: "${getOwner}" }) {
+      vaults(where: { owner: "${walletAddress}" }) {
         backup
         currentBackupTime
         backups   {
@@ -32,7 +31,7 @@ export const getBackupAddressAsync = createAsyncThunk(
       const currentBackup = data?.vaults[0]?.backup;
       const result = data?.vaults[0]?.backups;
       const currentBackupTime = data?.vaults[0]?.currentBackupTime;
-      return { notFirstLoading, currentBackup, result, currentBackupTime };
+      return { currentBackup, result, currentBackupTime };
     } catch (error) {
       //  toast.error(revealEthErr(error));
       throw error;
@@ -46,22 +45,18 @@ let endAddInheritors;
 export const updateBackupAddressAsync = createAsyncThunk(
   "backupAddress/updateBackupAddress",
   async (data, { dispatch }) => {
-    const { _vaultId, _newBackup } = data;
+    const { _vaultId, _newBackup, walletAddress } = data;
     const contract = await getSafeKeepContract(true);
     try {
       dispatch(startAddInheritors());
       const response = await contract.transferBackup(_vaultId, _newBackup);
       dispatch(showBackupAddressModal());
       toast.info("pending -  backup address txn sent to blockchain");
-      // dispatch ({type:"CLEAR_BACKUP_ADDRESS_INPUTS"})
       await response.wait();
       dispatch(hideBackupAddressModal());
       toast.success("backup address changes confirmed");
-      /**@param boolean
-       * @returns {Promise<void>}
-       * @description - this is a hack to get the new backup address to show up in the UI without having to refresh the page
-       */
-      dispatch(getBackupAddressAsync(true)); //prevent page from reloading
+
+      dispatch(getBackupAddressAsync(walletAddress)); //refresh the backup address
       return dispatch(endAddInheritors());
     } catch (error) {
       toast.error("Something happened updating your backup address");
@@ -82,6 +77,7 @@ export const backupAddress = createSlice({
     loading: false,
     currentBackup: "",
     currentBackupTime: "",
+    loaded: null,
   },
 
   reducers: {
@@ -96,7 +92,7 @@ export const backupAddress = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getBackupAddressAsync.pending, (state, { payload }) => {
-        if (!payload?.notFirstLoading) {
+        if (!state.loaded) {
           state.loading = true;
         }
         state.status = "pending";
@@ -106,6 +102,7 @@ export const backupAddress = createSlice({
         state.currentBackup = payload.currentBackup;
         state.currentBackupTime = payload.currentBackupTime;
         state.loading = false;
+        state.loaded = true;
         state.status = "success";
       })
       .addCase(getBackupAddressAsync.rejected, (state, payload) => {

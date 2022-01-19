@@ -9,9 +9,11 @@ import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import TokenPanel from "../../../../components/TokenPanel";
 import { Link } from "react-router-dom";
+import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
 
 const Tokens = () => {
   const tokenData = useSelector((state) => state.vault.data.tokens);
+
   return (
     tokenData &&
     tokenData
@@ -33,11 +35,13 @@ const Tokens = () => {
   );
 };
 function Assets() {
+  const { walletAddress } = useMoralisDapp();
+  const add = useSelector((state) => state.user.address);
   const dispatch = useDispatch();
-  const { data, loading, fetchError } = useSelector(vault);
+  const { data, loading, fetchError, creatingVault } = useSelector(vault);
 
   const handleShowModal = () => dispatch(showCreateVaultModal());
-  const handleReload = () => dispatch(checkVaultAsync());
+  const handleReload = () => dispatch(checkVaultAsync(walletAddress ?? add));
 
   const _noVault = (
     <>
@@ -56,6 +60,7 @@ function Assets() {
         content={_data}
         noContent={_noVault}
         fetchError={fetchError}
+        creating={creatingVault}
         error={
           <p className="mt-3">
             Error Occurred fetching vault{" "}
@@ -77,9 +82,11 @@ const Show = ({
   noContent,
   fetchError,
   error,
+  creating,
 }) => {
   if (loading) return loadingC;
   if (fetchError) return error;
+  if (creating) return <P>Creating...</P>;
   if (!data?.id) return noContent;
   if (data?.id) return content;
   return loadingC;

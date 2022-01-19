@@ -3,16 +3,15 @@ import { toast } from "react-toastify";
 import { request, gql } from "graphql-request";
 import { graphqlEndpoint } from "../../../config/constants/endpoints";
 import { getSafeKeepContract } from "../../../config/constants/contractHelpers";
-import getOwner from "../../../utils/getOwner";
 import revealEthErr from "../../../utils/revealEthErr";
 import toastify from "../../../utils/toast";
 
 export const getPingsAsync = createAsyncThunk(
   "ping/getPings",
-  async (othersPinging) => {
+  async (walletAddress) => {
     const pinQuery = gql`
     {
-      vaults(where: { owner: "${getOwner}" }) {
+      vaults(where: { owner: "${walletAddress}" }) {
         pings {
           time
         }
@@ -22,8 +21,10 @@ export const getPingsAsync = createAsyncThunk(
 
     try {
       const data = await request(graphqlEndpoint, pinQuery);
+
       const result = data?.vaults[0]?.pings;
-      return { othersPinging, result };
+
+      return { result };
     } catch (error) {
       toast.error(revealEthErr(error));
       throw error;
@@ -33,13 +34,13 @@ export const getPingsAsync = createAsyncThunk(
 
 export const pingVaultAsync = createAsyncThunk(
   "ping/pingVault",
-  async (id, { dispatch }) => {
+  async (data, { dispatch }) => {
+    const { id } = data;
     const contract = await getSafeKeepContract(true);
 
     try {
       if (id === "0") return;
       const response = await contract.ping(id);
-
       toastify("info", "Ping sent successfully");
       const confirmations = await response.wait();
 
@@ -48,7 +49,7 @@ export const pingVaultAsync = createAsyncThunk(
         "vailt pinged successfully 🚀",
         confirmations.transactionHash
       );
-      dispatch(getPingsAsync());
+      return { confirmations, time: Date.now() / 1000 };
     } catch (error) {
       toast.error(error.message);
 
@@ -64,19 +65,20 @@ export const ping = createSlice({
     crud: null,
     data: null,
     error: null,
+    loaded: null,
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getPingsAsync.pending, (state, payload) => {
         state.status = "pending";
-        if (!payload.othersPinging) {
-          state.loading = true;
-        }
       })
 
       .addCase(getPingsAsync.fulfilled, (state, { payload }) => {
-        state.loading = false;
+        if (!state.loaded) {
+          state.loading = false;
+        }
+        state.loaded = true;
         state.status = "success";
         state.data = payload?.result;
       })
@@ -91,7 +93,8 @@ export const ping = createSlice({
       })
       .addCase(pingVaultAsync.fulfilled, (state, { payload }) => {
         state.crud = false;
-        // state.data = payload;
+        const newData = [{ time: payload?.time }, ...state.data];
+        state.data = newData;
       })
       .addCase(pingVaultAsync.rejected, (state, { payload }) => {
         state.crud = false;
