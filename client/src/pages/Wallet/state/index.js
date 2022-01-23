@@ -112,11 +112,13 @@ export const getNativeAsync = createAsyncThunk(
 
 export const getTokensHistoryAsync = createAsyncThunk(
   "tokenPrice/getTokensHistory",
-  async (payload = 0) => {
+  async (data) => {
+    const { walletAddress, skip = 0 } = data;
+
     const tokensHistoryQuery = gql`
     {
-      vaults(where: { owner: "${localStorage.safekeepAddress}" }) {
-        tokenTransactionHistory (first:10 skip:${payload}) {
+      vaults(where: { owner: "${walletAddress}" }) {
+        tokenTransactionHistory (first:10 skip:${skip}) {
           id 
           tokenAddress
           type 
@@ -128,9 +130,7 @@ export const getTokensHistoryAsync = createAsyncThunk(
     `;
 
     try {
-      const data =
-        getOwner && (await request(graphqlEndpoint, tokensHistoryQuery));
-      //   console.log(data, "data");
+      const data = await request(graphqlEndpoint, tokensHistoryQuery);
 
       const info = data?.vaults[0]?.tokenTransactionHistory;
 
@@ -193,9 +193,11 @@ export const getTokenHistoryAsync = createAsyncThunk(
     try {
       const data = await request(graphqlEndpoint, tokenHistoryQuery);
       const results = await data.vaults[0].tokens;
+      console.log(results, "resultssss");
       return results;
     } catch (error) {
       console.log("catch", error);
+      throw error;
     }
   }
 );
@@ -670,16 +672,21 @@ export const vault = createSlice({
       })
       .addCase(getTokensHistoryAsync.pending, (state) => {
         state.tokensHistory.status = "pending";
+        state.tokensHistory.error = false;
+        if (!state.tokensHistory.loaded) {
+          state.tokensHistory.loading = true;
+        }
       })
       .addCase(getTokensHistoryAsync.fulfilled, (state, { payload }) => {
         state.tokensHistory.data = payload;
         state.tokensHistory.loading = false;
         state.tokensHistory.loaded = true;
+        state.tokensHistory.status = "fulfilled";
       })
       .addCase(getTokensHistoryAsync.rejected, (state, { payload }) => {
         state.tokensHistory.loading = false;
         state.tokensHistory.status = "rejected";
-        state.tokensHistory.error = error;
+        state.tokensHistory.error = true;
       });
   },
 });

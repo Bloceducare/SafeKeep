@@ -4,6 +4,9 @@ import { useChain, useMoralis } from "react-moralis";
 import MoralisDappContext from "./context";
 import { checkVaultAsync } from "../../pages/Wallet/state";
 import { supportedChains } from "../../utils/networkConfig";
+import { getBackupAddressAsync } from "../../pages/BackupAddress/state";
+import { getPingsAsync } from "../../pages/Ping/state";
+import { getInheritorsAsync } from "../../pages/Inheritors/state";
 
 function MoralisDappProvider({ children }) {
   const dispatch = useDispatch();
@@ -27,7 +30,10 @@ function MoralisDappProvider({ children }) {
       setWalletAddress(address[0]);
       new Promise((res, rej) => res(""))
         .then(() => localStorage.setItem("safekeepAddress", address[0]))
-        .then(() => dispatch(checkVaultAsync(address[0])));
+        .then(() => dispatch(checkVaultAsync(address[0])))
+        .then(() => dispatch(getBackupAddressAsync(address[0])))
+        .then(() => dispatch(getPingsAsync(address[0])))
+        .then(() => dispatch(getInheritorsAsync(address[0])));
       // .then(() => console.log("Wallet address saved", address[0], walletAddress));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
