@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import { BigText, BtnLeft, BtnRight, Container, Top, DivImg } from "./style";
-import { MDBAnimation } from "mdbreact";
+import Fade from "react-reveal/Fade";
 import { useMoralis } from "react-moralis";
 import Lock from "../../assets/lock.png";
 import { showConnectModal } from "../../state/ui";
@@ -33,9 +33,9 @@ function Home() {
           </div>
         </Top>
         <DivImg className="container-fluid">
-          <MDBAnimation reveal type="fadeInRight" duration="3s">
+          <Fade right>
             <Image src={Lock} fluid />
-          </MDBAnimation>
+          </Fade>
         </DivImg>
         <div>
           <p>
