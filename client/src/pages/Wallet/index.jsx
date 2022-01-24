@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BtnDiv } from "./style";
 import DepositWithdrawal from "./Components/DepositWithdrawal";
@@ -102,28 +102,50 @@ export default Wallet;
 
 export const TokensHistory = () => {
   const dispatch = useDispatch();
+  const { address } = useSelector((state) => state.user);
 
   const {
     tokensHistory: { data, loaded, status },
   } = useSelector(vault);
 
+  const getTokensHistory = () => {
+    const data = {
+      walletAddress: address,
+      skip: 0,
+    };
+    dispatch(getTokensHistoryAsync(data));
+  };
+  const callBackTokensHistory = useCallback(getTokensHistory, [
+    address,
+    dispatch,
+  ]);
+
   useEffect(() => {
-    dispatch(getTokensHistoryAsync(0));
-  }, [dispatch]);
+    address && callBackTokensHistory();
+  }, [address, callBackTokensHistory]);
 
   const _loading = !loaded && status === "loading" && "Loading";
-  const _data = data && data.length > 0 && (
+  const _data = data && data?.length > 0 && (
     <div>
       {data.map((item, index) => {
         return <TokenHistoryPanel key={index} {...item} />;
       })}
     </div>
   );
+  const _error = status === "rejected" && (
+    <p>
+      Error loading Histories{" "}
+      <CustomButton onClick={getTokensHistory} text="Try again" />{" "}
+    </p>
+  );
+
+  const _noHistory = loaded && data?.length === 0 && "No History yet";
   return (
     <>
       {_loading}
-
       {_data}
+      {_noHistory}
+      {_error}
     </>
   );
 };

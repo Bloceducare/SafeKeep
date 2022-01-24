@@ -1,5 +1,5 @@
-import { MDBAnimation } from "mdbreact";
 import React from "react";
+import Fade from "react-reveal/Fade";
 import { Container } from "react-bootstrap";
 import { H1, Hr } from "./style";
 
@@ -11,12 +11,8 @@ const Roadmap = () => {
         <div className="timeline-block timeline-block-right">
           <Hr />
           <div className="timeline-content">
-            <MDBAnimation
-              className="timeline-content"
-              reveal
-              type="fadeInRight"
-              duration="3s"
-            >
+            <Fade right className="timeline-content">
+         
               <h5>May - December, 2021</h5>
               <ul>
                 <li>Full beta testing</li>
@@ -26,37 +22,31 @@ const Roadmap = () => {
                 <li>Layer 2 implementation-polygon</li>
                 <li>Mobile implementation</li>
               </ul>
-            </MDBAnimation>
+            
+            </Fade>
           </div>
         </div>
 
         <div className="timeline-block timeline-block-left">
           <Hr />
           <div className="timeline-content">
-            <MDBAnimation
-              className="timeline-content"
-              reveal
-              type="fadeInLeft"
-              duration="3s"
-            >
+            <Fade left className="timeline-content">
+           
               <h5>Q1 2022</h5>
               <ul>
                 <li>Mainnet contract development</li>
                 <li>Mainnet contract audit</li>
                 <li>Mainnet contract testing</li>
               </ul>
-            </MDBAnimation>
+            </Fade>
           </div>
         </div>
 
         <div className="timeline-block timeline-block-right">
           <Hr />
           <div className="timeline-content">
-            <MDBAnimation
+            <Fade right
               className="timeline-content"
-              reveal
-              type="fadeInRight"
-              duration="3s"
             >
               <h5>Q2 2022</h5>
               <ul>
@@ -65,7 +55,7 @@ const Roadmap = () => {
                 <li>Social backup</li>
                 <li>Support for other web3 wallet</li>
               </ul>
-            </MDBAnimation>
+            </Fade>
           </div>
         </div>
       </Container>
