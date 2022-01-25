@@ -24,11 +24,24 @@ export const Api = createApi({
         };
       },
     }),
-    getAllTokensHistory: builder.query({
-      query: (tk, skip = 0) => {},
+    getNativeHiistory: builder.query({
+      query: (tk, skip = 0) => {
+        return {
+          document: gql` {
+            vaults(where: { owner: "${localStorage.safekeepAddress}" }) {
+              StartingAmount
+              nativeHistory {
+                id
+                amount
+                createdAt
+                type
+                }
+            }
+          }`,
+        };
+      },
     }),
   }),
 });
 
-console.log(Api, "checking api");
-export const { useGetTokenHistoryQuery } = Api;
+export const { useGetTokenHistoryQuery, useGetNativeHiistoryQuery } = Api;

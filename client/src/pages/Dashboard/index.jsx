@@ -29,6 +29,7 @@ import CreateVaultModal from "../Wallet/Components/DepositWithdrawal/CreateVault
 import TokenHistory from "../../components/TokenSingleHistory";
 import { AuthenticatedHea } from "../../components/Header";
 import { isMobile, isTablet } from "react-device-detect";
+import TokenNativeHistory from "../../components/TokenNativeHistory";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -124,6 +125,7 @@ function Dashboard() {
                 path="/dashboard/backupaddress"
                 component={BackupAddress}
               />
+              <Route path="/dashboard/ethers" component={TokenNativeHistory} />
               <Route
                 exact
                 path="/dashboard/:address"

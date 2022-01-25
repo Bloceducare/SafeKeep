@@ -12,7 +12,6 @@ const Roadmap = () => {
           <Hr />
           <div className="timeline-content">
             <Fade right className="timeline-content">
-         
               <h5>May - December, 2021</h5>
               <ul>
                 <li>Full beta testing</li>
@@ -22,7 +21,6 @@ const Roadmap = () => {
                 <li>Layer 2 implementation-polygon</li>
                 <li>Mobile implementation</li>
               </ul>
-            
             </Fade>
           </div>
         </div>
@@ -31,7 +29,6 @@ const Roadmap = () => {
           <Hr />
           <div className="timeline-content">
             <Fade left className="timeline-content">
-           
               <h5>Q1 2022</h5>
               <ul>
                 <li>Mainnet contract development</li>
@@ -45,9 +42,7 @@ const Roadmap = () => {
         <div className="timeline-block timeline-block-right">
           <Hr />
           <div className="timeline-content">
-            <Fade right
-              className="timeline-content"
-            >
+            <Fade right className="timeline-content">
               <h5>Q2 2022</h5>
               <ul>
                 <li>Back-up distribution percentage</li>
