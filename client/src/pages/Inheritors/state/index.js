@@ -196,7 +196,7 @@ export const deleteInheritorAsync = createAsyncThunk(
       dispatch(hideConfirmationModal());
       const confirmations = await tx.wait();
       try {
-        await axios.post(`${simpleBackendEndpoint}inheritor/delete`, {
+        await axios.post(`${simpleBackendEndpoint()}inheritor/delete`, {
           address: ids,
         });
       } catch (error) {
@@ -238,10 +238,13 @@ export const editInheritorAliasAsync = createAsyncThunk(
   async (data, { dispatch }) => {
     const { address, alias } = data;
     try {
-      const result = await axios.put(`${simpleBackendEndpoint}inheritor/edit`, {
-        address,
-        alias,
-      });
+      const result = await axios.put(
+        `${simpleBackendEndpoint()}inheritor/edit`,
+        {
+          address,
+          alias,
+        }
+      );
 
       dispatch(hideEditAliasModal());
       toastify("success", `${result?.data?.message}`);
