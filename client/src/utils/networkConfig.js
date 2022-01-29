@@ -1,4 +1,4 @@
-export const currrentChainId = "0x2a";
+export const currrentChainId = () => localStorage.safeKeepCurrentChainId;
 
 export const networkConfigs = {
   "0x1": {
@@ -10,9 +10,17 @@ export const networkConfigs = {
     currencySymbol: "ETH",
     blockExplorerUrl: "https://ropsten.etherscan.io/",
   },
-  "0x4": {
+  4: {
+    chainId: "0x4",
     currencySymbol: "ETH",
-    blockExplorerUrl: "https://kovan.etherscan.io/",
+    currencyName: "Ethereum",
+    blockExplorerUrl: "https://rinkeby.etherscan.io/",
+    rpcUrl: "https://rinkeby.infura.io/v3/ba80361523fe423bb149026a490266f0",
+    contractAddress: "0x1e63ba99ab74D0796dd897CBc58A0e741a8a1acc",
+    graphqlEndpoint: "https://api.thegraph.com/subgraphs/name/okeken/sfk6",
+    simpleBackendEndpoint: "https://crypto-safekeep.herokuapp.com/",
+    logo: "https://github.com/okeken/safekeep-token-list/blob/main/src/images/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png?raw=true",
+    decimals: "18",
   },
   "0x2a": {
     currencySymbol: "ETH",
@@ -44,6 +52,8 @@ export const networkConfigs = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     blockExplorerUrl: "https://bscscan.com/",
     wrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    logo: "",
+    thumbnail: "",
   },
   "0x61": {
     chainId: 97,
@@ -53,7 +63,7 @@ export const networkConfigs = {
     rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545/",
     blockExplorerUrl: "https://testnet.bscscan.com/",
   },
-  "0x89": {
+  137: {
     chainId: 137,
     chainName: "Polygon Mainnet",
     currencyName: "MATIC",
@@ -61,8 +71,13 @@ export const networkConfigs = {
     rpcUrl: "https://rpc-mainnet.maticvigil.com/",
     blockExplorerUrl: "https://explorer-mainnet.maticvigil.com/",
     wrapped: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+    contractAddress: "0x2902654876B74Da7A304916aF9BC35a8eb1223CB",
+    graphqlEndpoint: "https://api.thegraph.com/subgraphs/name/okeken/polygon",
+    simpleBackendEndpoint: "https://crypto-safekeep.herokuapp.com/",
+    logo: "https://github.com/okeken/safekeep-token-list/blob/main/src/images/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270.png?raw=true",
+    decimals: "18",
   },
-  "0x13881": {
+  80001: {
     chainId: 80001,
     chainName: "Mumbai",
     currencyName: "MATIC",
@@ -79,9 +94,19 @@ export const getChainById = (chain) => networkConfigs[chain]?.chainId || null;
 
 export const getExplorer = (chain) => networkConfigs[chain]?.blockExplorerUrl;
 
-export const currentNetworkConfig = networkConfigs[currrentChainId];
+export const currentNetworkConfig = () =>
+  networkConfigs[localStorage.safeKeepCurrentChainId];
+
+export const safekeepContractAddress = () =>
+  networkConfigs[currrentChainId()]?.contractAddress;
+
+export const graphqlEndpoint = () =>
+  networkConfigs[localStorage.safeKeepCurrentChainId]?.graphqlEndpoint;
+
+export const simpleBackendEndpoint = () =>
+  networkConfigs[currrentChainId()]?.simpleBackendEndpoint;
 
 export const getWrappedNative = (chain) =>
   networkConfigs[chain]?.wrapped || null;
 
-export const supportedChains = "0x4";
+export const supportedChains = ["0x4", "0x89"];

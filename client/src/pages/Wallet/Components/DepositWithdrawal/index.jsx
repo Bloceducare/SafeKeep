@@ -23,6 +23,7 @@ import useTokenPrice from "../../../../hooks/useTokenPrice";
 import { hideDepositWithdrawalModal } from "../../../../state/ui";
 
 import MultiSearchableTokenList from "../../../../components/MultSearchableTokenList";
+import { currentNetworkConfig } from "../../../../utils/networkConfig";
 
 const nativeToken = (data) => {
   const { nativeName, decimal = 18, balance } = data;
@@ -332,7 +333,10 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
                 htmlFor="customRadioInline1"
                 style={{ marginLeft: "0.5rem" }}
               >
-                {nativeToken(native)?.symbol}
+                {/* {nativeToken(native)?.symbol} */}
+                {currentNetworkConfig()?.currencySymbol}
+              
+               
               </label>
             </div>
             <div className="custom-control custom-radio custom-control-inline">

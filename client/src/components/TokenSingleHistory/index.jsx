@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useGetTokenHistoryQuery } from "../../services/api";
 import tokenDetails from "../../utils/tokenDetails";
@@ -17,6 +18,9 @@ const TokenHistory = () => {
   };
 
   const getNameCallBack = useCallback(getName, [add]);
+  const tokenData = useSelector(state => state.vault.data.tokens);
+  const tokenPrice = tokenData && tokenData.find(i => i.token_address ===address)
+ 
 
   useEffect(() => {
     getNameCallBack();
@@ -31,6 +35,8 @@ const TokenHistory = () => {
     add,
     amount,
     tokenHistory,
+    price:tokenPrice?.price,
+    decimals:tokenPrice?.decimals
   };
 
   return (

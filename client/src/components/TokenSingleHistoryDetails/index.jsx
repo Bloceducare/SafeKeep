@@ -3,6 +3,7 @@ import TokenHistoryPanel from "../TokenHistoryPanel";
 import { useHistory } from "react-router-dom";
 import { tokenValue } from "../../utils/formatter";
 import { Col, Nav, Tab, Row } from "react-bootstrap";
+import { currentNetworkConfig } from "../../utils/networkConfig";
 
 const TokenSingleHistoryDetails = ({
   name = "ETH",
@@ -10,10 +11,14 @@ const TokenSingleHistoryDetails = ({
   isError,
   isLoading = null,
   isSuccess = false,
+  isNative = false,
   amount,
+  price = 0,
+  decimals = 18,
 }) => {
   const history = useHistory();
   const goBack = () => history.goBack();
+
 
   const _allTokens =
     isSuccess &&
@@ -106,8 +111,9 @@ const TokenSingleHistoryDetails = ({
       <div className="d-flex justify-content-center  align-items-center flex-column text-center">
         <NoTokenImage className="p-5 mb-4" />
         <div className="fs-3 mb-3">
-          {tokenValue(amount) ?? 0} {name}
-          <p className="fs-5">~ 0.00</p>
+          {tokenValue(amount) ?? 0} {isNative ? currentNetworkConfig()?.currencyName : name}
+          <p className="fs-5">~ $ {(amount/10**Number(decimals)) * price.toFixed(2)}</p>
+        
         </div>
         {!!isLoading && "Loading"}
         {!!isError && "Error occurred while fetching data"}

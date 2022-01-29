@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useMoralis } from "react-moralis";
-import { checkVaultAsync } from "../Wallet/state";
+import { checkVaultAsync, updateTokenPriceAsync } from "../Wallet/state";
 import { getUserAddress } from "../../state/user";
 
 import {
@@ -30,6 +30,7 @@ import TokenHistory from "../../components/TokenSingleHistory";
 import { AuthenticatedHea } from "../../components/Header";
 import { isMobile, isTablet } from "react-device-detect";
 import TokenNativeHistory from "../../components/TokenNativeHistory";
+import { currentNetworkConfig } from "../../utils/networkConfig";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -42,8 +43,18 @@ function Dashboard() {
     dispatch(getUserAddress(address));
     new Promise((res, rej) => res(""))
       .then(() => localStorage.setItem("safekeepAddress", address))
-      .then(() => dispatch(checkVaultAsync(address)));
+      .then(() => dispatch(checkVaultAsync(address)))
+      .then(() => dispatch(updateTokenPriceAsync()));
   }, [address, dispatch]);
+  
+  //update tokens prices every 6 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(updateTokenPriceAsync())
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [dispatch]);
+
 
   const _MobileNav = (
     <MobileNav>
@@ -125,7 +136,7 @@ function Dashboard() {
                 path="/dashboard/backupaddress"
                 component={BackupAddress}
               />
-              <Route path="/dashboard/ethers" component={TokenNativeHistory} />
+              <Route path={`/dashboard/${currentNetworkConfig()?.currencyName}`} component={TokenNativeHistory} />
               <Route
                 exact
                 path="/dashboard/:address"

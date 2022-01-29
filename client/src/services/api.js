@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query";
 import { gql } from "graphql-request";
-import { graphqlEndpoint } from "../config/constants/endpoints";
+import { graphqlEndpoint } from "../utils/networkConfig";
 
 export const Api = createApi({
   reducerPath: "api",
-  baseQuery: graphqlRequestBaseQuery({ url: graphqlEndpoint }),
+  baseQuery: graphqlRequestBaseQuery({ url: graphqlEndpoint() }),
   endpoints: (builder) => ({
     getTokenHistory: builder.query({
       query: (tk, skip = 0) => {
@@ -26,6 +26,10 @@ export const Api = createApi({
     }),
     getNativeHiistory: builder.query({
       query: (tk, skip = 0) => {
+        console.log(
+          localStorage.safekeepAddress,
+          "localStorage.safekeepAddress"
+        );
         return {
           document: gql` {
             vaults(where: { owner: "${localStorage.safekeepAddress}" }) {

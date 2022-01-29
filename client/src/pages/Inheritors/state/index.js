@@ -9,18 +9,20 @@ import {
   hideCreateInheritorsModal,
   hideEditAliasModal,
 } from "../../../state/ui";
-import {
-  simpleBackendEndpoint,
-  graphqlEndpoint,
-} from "../../../config/constants/endpoints";
+
 import revealEthErr from "../../../utils/revealEthErr";
 import toastify from "../../../utils/toast";
 import tokenDetails from "../../../utils/tokenDetails";
+import {
+  graphqlEndpoint,
+  simpleBackendEndpoint,
+} from "../../../utils/networkConfig";
 
 export const getInheritorsAsync = createAsyncThunk(
   "inheritors/getInheritors",
   async (user, { _, getState }) => {
     const { address } = getState().user;
+
     const owner = user ?? address;
     const inheritorQuery = gql`
       {
@@ -35,8 +37,10 @@ export const getInheritorsAsync = createAsyncThunk(
       }
     `;
 
-    const data = await request(graphqlEndpoint, inheritorQuery);
-    const result = await data.vaults[0].inheritors;
+    const data =
+      graphqlEndpoint() && (await request(graphqlEndpoint(), inheritorQuery));
+    if (!data?.vaults[0]?.inheritors) return [];
+    const result = await data.vaults[0]?.inheritors;
 
     try {
       const emptyData = [];
@@ -78,7 +82,7 @@ export const getInheritorsAsync = createAsyncThunk(
         for (let i = 0; i < result.length; i++) {
           const element = result[i].id;
           const res = await axios.get(
-            `${simpleBackendEndpoint}inheritor/${element.toLowerCase()}`
+            `${simpleBackendEndpoint()}inheritor/${element.toLowerCase()}`
           );
           emptyData.push({
             id: res?.data?.data?._id ?? "",
@@ -93,7 +97,7 @@ export const getInheritorsAsync = createAsyncThunk(
       const inheritorsDetails = emptyTokenData.map((item, idx) => {
         return {
           ...item,
-          address: item.id,
+          address: item?.id,
           alias: emptyData[idx]?.alias ?? "",
         };
       });
@@ -132,7 +136,7 @@ export const addInheritorAsync = createAsyncThunk(
       const confirmations = await tx.wait();
       try {
         const response = await axios.post(
-          `${simpleBackendEndpoint}users/inheritors`,
+          `${simpleBackendEndpoint()}users/inheritors`,
           {
             data: aliasData,
             id: owner,
@@ -192,7 +196,7 @@ export const deleteInheritorAsync = createAsyncThunk(
       dispatch(hideConfirmationModal());
       const confirmations = await tx.wait();
       try {
-        await axios.post(`${simpleBackendEndpoint}inheritor/delete`, {
+        await axios.post(`${simpleBackendEndpoint()}inheritor/delete`, {
           address: ids,
         });
       } catch (error) {
@@ -234,10 +238,13 @@ export const editInheritorAliasAsync = createAsyncThunk(
   async (data, { dispatch }) => {
     const { address, alias } = data;
     try {
-      const result = await axios.put(`${simpleBackendEndpoint}inheritor/edit`, {
-        address,
-        alias,
-      });
+      const result = await axios.put(
+        `${simpleBackendEndpoint()}inheritor/edit`,
+        {
+          address,
+          alias,
+        }
+      );
 
       dispatch(hideEditAliasModal());
       toastify("success", `${result?.data?.message}`);

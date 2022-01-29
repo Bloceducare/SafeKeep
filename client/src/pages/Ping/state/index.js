@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { request, gql } from "graphql-request";
-import { graphqlEndpoint } from "../../../config/constants/endpoints";
 import { getSafeKeepContract } from "../../../config/constants/contractHelpers";
 import revealEthErr from "../../../utils/revealEthErr";
 import toastify from "../../../utils/toast";
+import { graphqlEndpoint } from "../../../utils/networkConfig";
 
 export const getPingsAsync = createAsyncThunk(
   "ping/getPings",
@@ -20,7 +20,9 @@ export const getPingsAsync = createAsyncThunk(
   `;
 
     try {
-      const data = await request(graphqlEndpoint, pinQuery);
+      const data =
+        graphqlEndpoint() && (await request(graphqlEndpoint(), pinQuery));
+      if (!data?.vaults[0]?.pings) return [];
 
       const result = data?.vaults[0]?.pings;
 

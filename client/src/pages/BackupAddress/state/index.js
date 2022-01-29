@@ -6,7 +6,7 @@ import {
   hideBackupAddressModal,
   showBackupAddressModal,
 } from "../../../state/ui";
-import { graphqlEndpoint } from "../../../config/constants/endpoints";
+import { graphqlEndpoint } from "../../../utils/networkConfig";
 
 export const getBackupAddressAsync = createAsyncThunk(
   "ping/getBackupAddress",
@@ -26,13 +26,17 @@ export const getBackupAddressAsync = createAsyncThunk(
   `;
 
     try {
-      const data = await request(graphqlEndpoint, backupAddressQuery);
+      const data =
+        graphqlEndpoint() &&
+        (await request(graphqlEndpoint(), backupAddressQuery));
+      if (!data?.vaults[0]?.backups) return [];
 
       const currentBackup = data?.vaults[0]?.backup;
       const result = data?.vaults[0]?.backups;
       const currentBackupTime = data?.vaults[0]?.currentBackupTime;
       return { currentBackup, result, currentBackupTime };
     } catch (error) {
+      console.log(error, "backup error");
       //  toast.error(revealEthErr(error));
       throw error;
     }

@@ -10,6 +10,7 @@ import CustomButton from "../../../../components/Button";
 import TokenPanel from "../../../../components/TokenPanel";
 import { Link } from "react-router-dom";
 import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
+import { currentNetworkConfig } from "../../../../utils/networkConfig";
 
 const Tokens = () => {
   const tokenData = useSelector((state) => state.vault.data.tokens);
@@ -20,7 +21,7 @@ const Tokens = () => {
       .filter((item) => item.amount !== 0)
       ?.map((token, idx) => (
         <Link
-          to={`/dashboard/${token.address}`}
+          to={`/dashboard/${token.isNative ? currentNetworkConfig()?.currencyName : token.address}`}
           key={idx}
           className="text-white"
         >

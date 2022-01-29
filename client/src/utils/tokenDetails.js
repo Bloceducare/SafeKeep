@@ -1,5 +1,5 @@
-import { getErc20Contract } from "../config/constants/contractHelpers";
-
+import Moralis from "moralis/dist/moralis.min.js";
+import { currrentChainId } from "./networkConfig";
 /**
  *
  * @param {string} add  - address of the token
@@ -8,19 +8,23 @@ import { getErc20Contract } from "../config/constants/contractHelpers";
  */
 
 const tokenDetails = async (add) => {
+  let chain = `0x${Number(currrentChainId()).toString(16)}`;
   if (localStorage[`safekeep@${add}`]) {
-    let info = JSON.parse(localStorage[`safekeep@${add}`]);
+    const info = JSON.parse(localStorage[`safekeep@${add}`]);
     return await info;
   }
-  const contract = await getErc20Contract(add);
-  const symbol = contract && (await contract.symbol());
-  const name = contract && (await contract.name());
-  const decimals = contract && (await contract.decimals());
+  let dt = await Moralis.Web3API.token.getTokenMetadata({
+    chain,
+    addresses: add,
+  });
+
   let result = {
-    name,
-    symbol,
-    decimals,
+    name: dt[0]?.name ?? null,
+    symbol: dt[0]?.symbol ?? null,
+    decimals: dt[0]?.decimals ?? null,
     address: add,
+    logo: dt[0]?.logo ?? null,
+    thumbnail: dt[0]?.thumbnail ?? null,
   };
 
   localStorage.setItem(`safekeep@${add}`, JSON.stringify(result));

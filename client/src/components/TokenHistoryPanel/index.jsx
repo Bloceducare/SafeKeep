@@ -12,6 +12,7 @@ const TokenHistoryPanel = ({
   createdAt = "0",
   tokenAddress,
   showName = true,
+  decimals = 18,
   ...others
 }) => {
   //console.log(others, amount, name, id, status, type, createdAt);
