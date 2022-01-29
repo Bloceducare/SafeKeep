@@ -52,7 +52,11 @@ function ConnectMOdal() {
 
   const handleConnect = async (type) => {
     if (type === "metamask") {
-      if (chain?.chainId === supportedChains) {
+      if (supportedChains.some((i) => i === chain?.chainId)) {
+       // console.log("chainId", chain?.chainId, chain, chain?.networkId);
+        localStorage.setItem("safeKeepCurrentChainId", chain?.networkId);
+        //console.log(supportedChains.some((i) => i === chain?.chainId), 'chainId');
+        // supportedChains.some((i) => i === chain?.chainId)
         await authenticate({ signingMessage: "Sign in to Safekeep" });
       } else {
         await enableWeb3();

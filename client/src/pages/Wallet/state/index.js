@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { request, gql } from "graphql-request";
 import {
-  graphqlEndpoint,
-  simpleBackendEndpoint,
-} from "../../../config/constants/endpoints";
-
-import {
   getContractInstance,
   getSafeKeepContract,
 } from "../../../config/constants/contractHelpers";
@@ -27,6 +22,13 @@ import revealEthErr from "../../../utils/revealEthErr";
 import getOwner from "../../../utils/getOwner";
 import toastify from "../../../utils/toast";
 import tokenDetails from "../../../utils/tokenDetails";
+import { tokenPrice } from "../../../services/moralis";
+import {
+  currentNetworkConfig,
+  currrentChainId,
+  graphqlEndpoint,
+  simpleBackendEndpoint,
+} from "../../../utils/networkConfig";
 /* eslint-disable */
 
 // -> Helper function specific here  update token data
@@ -51,6 +53,7 @@ const updateEtherBalance = (tokens, payload, type) => {
 const newTokenData = (wrapped, newDt, type) => {
   let tempArray = [];
   let tem = [];
+  if (!newDt) return wrapped;
   for (let i = 0; i < newDt.length; i++) {
     const element = newDt[i];
     wrapped.forEach((ie) => {
@@ -76,6 +79,33 @@ const newTokenData = (wrapped, newDt, type) => {
   tem = [];
   return true;
 };
+
+export const updateTokenPriceAsync = createAsyncThunk(
+  "wallet/updateTokenPrice",
+  async (_, { getState }) => {
+    const state = getState();
+    const tokenList = state.vault?.data?.tokens;
+    let chain = `0x${Number(currrentChainId()).toString(16)}`;
+    try {
+      let result = await Promise.all(
+        tokenList.map(async (x) => {
+          let token = await tokenPrice({
+            address: x?.address,
+            chain,
+          });
+          return {
+            ...x,
+            price: token?.usdPrice,
+          };
+        })
+      );
+
+      return result;
+    } catch (error) {
+      // throw error;
+    }
+  }
+);
 
 export const getUserWalletAsset = createAsyncThunk(
   "wallet/getUserWalletAsset",
@@ -130,9 +160,11 @@ export const getTokensHistoryAsync = createAsyncThunk(
     `;
 
     try {
-      const data = await request(graphqlEndpoint, tokensHistoryQuery);
-
+      const data =
+        graphqlEndpoint() &&
+        (await request(graphqlEndpoint(), tokensHistoryQuery));
       const info = data?.vaults[0]?.tokenTransactionHistory;
+      if (!info) return [];
 
       try {
         const resultArray =
@@ -191,9 +223,11 @@ export const getTokenHistoryAsync = createAsyncThunk(
     `;
 
     try {
-      const data = await request(graphqlEndpoint, tokenHistoryQuery);
+      const data =
+        graphqlEndpoint() &&
+        (await request(graphqlEndpoint(), tokenHistoryQuery));
+      if (!data?.vaults[0]?.tokens) return [];
       const results = await data.vaults[0].tokens;
-      console.log(results, "resultssss");
       return results;
     } catch (error) {
       console.log("catch", error);
@@ -224,7 +258,9 @@ export const checkVaultAsync = createAsyncThunk(
     `;
 
     try {
-      const data = await request(graphqlEndpoint, vaultQuery);
+      const data =
+        graphqlEndpoint() && (await request(graphqlEndpoint(), vaultQuery));
+      if (!data?.vaults[0]) return [];
       const tokens =
         (await data.vaults[0]?.tokens.map((token) => token.id)) || [];
       const rawToken =
@@ -233,7 +269,6 @@ export const checkVaultAsync = createAsyncThunk(
       const tokensInfo = [];
       for (let i = 0; i < tokens.length; i++) {
         const details = await tokenDetails(tokens[i]);
-
         tokensInfo.push({
           amount: Number(rawToken[i].amount) ?? 0,
           token_address: tokens[i],
@@ -241,15 +276,17 @@ export const checkVaultAsync = createAsyncThunk(
           ...details,
         });
       }
+      const nativeToken = currentNetworkConfig();
       tokensInfo.push({
-        address: "ethers",
-        symbol: "ETH",
-        name: "Ether",
+        address: nativeToken?.wrapped,
+        symbol: nativeToken?.currencySymbol,
+        name: nativeToken?.currencyName,
         amount: Number(data.vaults[0]?.StartingAmount),
+        logo: nativeToken?.logo,
+        decimals: nativeToken?.decimals,
       });
-
       const fullData = {
-        id: data.vaults[0]?.id ?? "",
+        id: data?.vaults[0]?.id ?? "",
         startingAmount: Number(data.vaults[0]?.StartingAmount) ?? 0,
         tokens: tokensInfo ?? [],
         backup: data.vaults[0]?.backup ?? "",
@@ -269,6 +306,7 @@ export const createVaultAsync = createAsyncThunk(
   "vault/createVault",
   async (data, { dispatch, getState }) => {
     const contract = await getSafeKeepContract(true);
+
     const owner = getState().user.address;
     //dispatch an action to hide modal
     const { inheritors, _startingBal, _backupAddress, alias, walletAddress } =
@@ -293,7 +331,7 @@ export const createVaultAsync = createAsyncThunk(
       });
 
       try {
-        await axios.post(`${simpleBackendEndpoint}users/inheritors`, {
+        await axios.post(`${simpleBackendEndpoint()}users/inheritors`, {
           data: aliasData,
           id: owner,
         });
@@ -654,6 +692,11 @@ export const vault = createSlice({
       .addCase(checkVaultAsync.rejected, (state) => {
         state.loading = false;
         state.fetchError = true;
+      })
+      .addCase(updateTokenPriceAsync.fulfilled, (state, { payload }) => {
+        if(payload){
+          state.data.tokens = payload
+        }
       })
 
       .addCase(getUserWalletAsset.fulfilled, (state, { payload }) => {

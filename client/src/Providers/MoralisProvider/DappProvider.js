@@ -1,40 +1,47 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useChain, useMoralis } from "react-moralis";
 import MoralisDappContext from "./context";
-import { checkVaultAsync } from "../../pages/Wallet/state";
 import { supportedChains } from "../../utils/networkConfig";
-import { getBackupAddressAsync } from "../../pages/BackupAddress/state";
-import { getPingsAsync } from "../../pages/Ping/state";
-import { getInheritorsAsync } from "../../pages/Inheritors/state";
 
 function MoralisDappProvider({ children }) {
-  const dispatch = useDispatch();
   const { web3 = "", Moralis, user, enableWeb3 } = useMoralis();
   const { switchNetwork } = useChain();
   const [walletAddress, setWalletAddress] = useState();
   const [chainId, setChainId] = useState();
 
+  const refetchData = async (address, chain) => {
+    if (!address) return;
+    new Promise((res, rej) => res(""))
+      .then(() => localStorage.setItem("safekeepAddress", address))
+      .then(() => localStorage.setItem("safeKeepCurrentChainId", Number(chain)))
+      .then(() => window.location.reload());
+  };
+
   useEffect(() => {
     Moralis.onChainChanged(async function (chain) {
-      if (chain === supportedChains) {
+      if (supportedChains.some((i) => i === chain)) {
         setChainId(chain);
+        console.log(
+          web3?.givenProvider?.selectedAddress || user?.get("ethAddress"),
+          "wall",
+          chain
+        );
+        refetchData(
+          web3?.givenProvider?.selectedAddress || user?.get("ethAddress"),
+          chain
+        );
       } else {
         await enableWeb3();
         await switchNetwork(0x4);
         setChainId(chain);
+        localStorage.setItem("safeKeepCurrentChainId", chain);
+        //  refetchData(walletAddress);
       }
     });
 
     Moralis.onAccountsChanged(async function (address) {
       setWalletAddress(address[0]);
-      new Promise((res, rej) => res(""))
-        .then(() => localStorage.setItem("safekeepAddress", address[0]))
-        .then(() => dispatch(checkVaultAsync(address[0])))
-        .then(() => dispatch(getBackupAddressAsync(address[0])))
-        .then(() => dispatch(getPingsAsync(address[0])))
-        .then(() => dispatch(getInheritorsAsync(address[0])));
-      // .then(() => console.log("Wallet address saved", address[0], walletAddress));
+      refetchData(address[0]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -19,7 +19,7 @@ function AllocateTokenModal(props) {
   const {
     ui: { allocateTokenModal },
     vault: {
-      data: { id, tokens },
+      data: { id, tokens=[] },
     },
   } = useSelector((state) => state);
 

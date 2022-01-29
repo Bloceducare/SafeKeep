@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useMoralis } from "react-moralis";
-import { checkVaultAsync } from "../Wallet/state";
+import { checkVaultAsync, updateTokenPriceAsync } from "../Wallet/state";
 import { getUserAddress } from "../../state/user";
 
 import {
@@ -42,7 +42,8 @@ function Dashboard() {
     dispatch(getUserAddress(address));
     new Promise((res, rej) => res(""))
       .then(() => localStorage.setItem("safekeepAddress", address))
-      .then(() => dispatch(checkVaultAsync(address)));
+      .then(() => dispatch(checkVaultAsync(address)))
+      .then(() => dispatch(updateTokenPriceAsync()));
   }, [address, dispatch]);
 
   const _MobileNav = (

@@ -7,7 +7,14 @@ const TokenPanel = ({ token, ...others }) => {
     <SpaceBetween className="py-2" {...others}>
       <div className="d-flex align-items-center">
         <div className="">
-          <NoTokenImage />
+          {
+            token?.logo ? <img src={token.logo} alt={token.name} width='40rem' style={{
+              width: "2.5rem",
+              height: "2.5rem",
+              marginRight: "0.5rem",
+              borderRadius: "50%",
+            }} /> : <NoTokenImage />
+          }
         </div>
         <div>
           <div>
@@ -15,7 +22,8 @@ const TokenPanel = ({ token, ...others }) => {
           </div>
           <div>
             <span className="text-muted text-capitalize ">
-              0/
+              
+            {(token?.price ?? 0).toFixed(2)}/
               {token?.symbol}
             </span>
           </div>
@@ -27,10 +35,12 @@ const TokenPanel = ({ token, ...others }) => {
           {tokenValue(token?.amount ?? token?.amountAllocated).toFixed(2)}
           <span className=" text-capitalize "> {token?.symbol}</span>
         </div>
-        <div>Value</div>
+        <div>$ {
+         (( token?.price ?? 0)  * tokenValue(token?.amount)).toFixed(2)
+          }</div>
         {/* <div>Available : 0</div> */}
       </div>
-      <div>0.01%</div>
+      
     </SpaceBetween>
   );
 };

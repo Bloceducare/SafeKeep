@@ -6,20 +6,21 @@ import { getSafeKeepAddress } from "../../utils/addressHelper";
 //Abis
 import safeKeepAbi from "../abi/safekeep.json";
 import erc20Abi from "../abi/erc20abi.json";
+import { currrentChainId, networkConfigs } from "../../utils/networkConfig";
 
 const getContract = (abi, address, signer) => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://rinkeby.infura.io/v3/ba80361523fe423bb149026a490266f0"
-  );
+  let rpcUrl = networkConfigs[currrentChainId()].rpcUrl;
+  const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
   const signerOrProvider = signer ? signer : provider;
   return new ethers.Contract(address, abi, signerOrProvider);
 };
 
 const safeKeepContract = async (address, sign) => {
+  console.log("safeKeepContract address", address);
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const signIt = sign && signer;
-  sign && window.ethereum.enable();
+  sign && window.ethereum.request({ method: 'eth_requestAccounts' });
   return getContract(safeKeepAbi, address, signIt);
 };
 

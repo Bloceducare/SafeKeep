@@ -189,9 +189,9 @@ function Inheritors() {
                 <FaMoneyBill />
               </Btn>
               {tokenValue(item.ethAllocated)}{" "}
-              {currentNetworkConfig.currencySymbol.toLocaleLowerCase()}{" "}
+              {currentNetworkConfig?.currencySymbol?.toLocaleLowerCase()}{" "}
             </ActionContainer>
-
+              
             {item.tokens.map((token, idx) => (
               <TokenPanel
                 className={`${idx === 0 ? "mt-3" : ""} my-1`}

@@ -35,6 +35,7 @@ function Ping() {
   };
 
   const handlePings = useCallback(() => {
+    console.log("handlePings", walletAddress);
     if (!walletAddress) return;
 
     dispatch(getPingsAsync(walletAddress));
