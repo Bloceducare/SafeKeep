@@ -245,6 +245,7 @@ export const checkVaultAsync = createAsyncThunk(
           id
           StartingAmount
           owner
+          totalEthAllocated
           inheritors {
             id
           }
@@ -261,6 +262,7 @@ export const checkVaultAsync = createAsyncThunk(
       const data =
         graphqlEndpoint() && (await request(graphqlEndpoint(), vaultQuery));
       if (!data?.vaults[0]) return [];
+
       const tokens =
         (await data.vaults[0]?.tokens.map((token) => token.id)) || [];
       const rawToken =
@@ -273,6 +275,7 @@ export const checkVaultAsync = createAsyncThunk(
           amount: Number(rawToken[i].amount) ?? 0,
           token_address: tokens[i],
           balance: Number(rawToken[i].amount) ?? 0,
+          allocated: Number(rawToken[i].allocated) ?? 0,
           ...details,
         });
       }
@@ -284,6 +287,8 @@ export const checkVaultAsync = createAsyncThunk(
         amount: Number(data.vaults[0]?.StartingAmount),
         logo: nativeToken?.logo,
         decimals: nativeToken?.decimals,
+        allocated: Number(data.vaults[0]?.totalEthAllocated),
+        isNative: true,
       });
       const fullData = {
         id: data?.vaults[0]?.id ?? "",
@@ -694,8 +699,8 @@ export const vault = createSlice({
         state.fetchError = true;
       })
       .addCase(updateTokenPriceAsync.fulfilled, (state, { payload }) => {
-        if(payload){
-          state.data.tokens = payload
+        if (payload) {
+          state.data.tokens = payload;
         }
       })
 

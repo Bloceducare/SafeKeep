@@ -20,7 +20,7 @@ const safeKeepContract = async (address, sign) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
   const signIt = sign && signer;
-  sign && window.ethereum.request({ method: 'eth_requestAccounts' });
+  sign && window.ethereum.request({ method: "eth_requestAccounts" });
   return getContract(safeKeepAbi, address, signIt);
 };
 

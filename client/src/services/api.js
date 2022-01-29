@@ -9,7 +9,6 @@ export const Api = createApi({
   endpoints: (builder) => ({
     getTokenHistory: builder.query({
       query: (tk, skip = 0) => {
-        console.log("url>>", graphqlEndpoint());
         return {
           document: gql`
           {
@@ -27,6 +26,10 @@ export const Api = createApi({
     }),
     getNativeHiistory: builder.query({
       query: (tk, skip = 0) => {
+        console.log(
+          localStorage.safekeepAddress,
+          "localStorage.safekeepAddress"
+        );
         return {
           document: gql` {
             vaults(where: { owner: "${localStorage.safekeepAddress}" }) {

@@ -19,8 +19,8 @@ export const networkConfigs = {
     contractAddress: "0x1e63ba99ab74D0796dd897CBc58A0e741a8a1acc",
     graphqlEndpoint: "https://api.thegraph.com/subgraphs/name/okeken/sfk6",
     simpleBackendEndpoint: "https://crypto-safekeep.herokuapp.com/",
-    logo:"https://github.com/okeken/safekeep-token-list/blob/main/src/images/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png?raw=true",
-    decimals: "18"
+    logo: "https://github.com/okeken/safekeep-token-list/blob/main/src/images/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png?raw=true",
+    decimals: "18",
   },
   "0x2a": {
     currencySymbol: "ETH",
@@ -52,8 +52,8 @@ export const networkConfigs = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     blockExplorerUrl: "https://bscscan.com/",
     wrapped: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
-    logo:"",
-    thumbnail:"",
+    logo: "",
+    thumbnail: "",
   },
   "0x61": {
     chainId: 97,
@@ -74,8 +74,8 @@ export const networkConfigs = {
     contractAddress: "0x2902654876B74Da7A304916aF9BC35a8eb1223CB",
     graphqlEndpoint: "https://api.thegraph.com/subgraphs/name/okeken/polygon",
     simpleBackendEndpoint: "https://crypto-safekeep.herokuapp.com/",
-    logo:"https://github.com/okeken/safekeep-token-list/blob/main/src/images/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270.png?raw=true",
-    decimals: "18"
+    logo: "https://github.com/okeken/safekeep-token-list/blob/main/src/images/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270.png?raw=true",
+    decimals: "18",
   },
   80001: {
     chainId: 80001,

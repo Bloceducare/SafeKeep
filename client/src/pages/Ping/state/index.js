@@ -20,8 +20,9 @@ export const getPingsAsync = createAsyncThunk(
   `;
 
     try {
-      const data = graphqlEndpoint() &&  await request(graphqlEndpoint(), pinQuery);
-      if(!data?.vaults[0]?.pings) return []
+      const data =
+        graphqlEndpoint() && (await request(graphqlEndpoint(), pinQuery));
+      if (!data?.vaults[0]?.pings) return [];
 
       const result = data?.vaults[0]?.pings;
 

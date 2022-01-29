@@ -21,22 +21,24 @@ function Wallet() {
   const [operationType, setOperationType] = useState("Deposit");
 
   const handleModal = (type) => {
-  //  console.log(data)
+    //  console.log(data)
     if (!data.id) return;
-  // if (data?.id === "0") return dispatch(showCreateVaultModal());
+    // if (data?.id === "0") return dispatch(showCreateVaultModal());
     setOperationType(type);
     dispatch(showDepositWithdrawalModal());
   };
 
-
-  const calcTotal = (arr)=> {
-    if(!arr) return 0;
+  const calcTotal = (arr, amount) => {
+    if (!arr) return 0
     const show = arr.reduce((acc, asset) => {
-      const am = asset.amount/Number(10** asset.decimals ?? "18");
-        return acc + (am * asset.price);
-    }, 0)   
-    return show.toFixed(4);
-}
+      const am = asset[amount] / Number(10 ** asset.decimals);
+      return acc + am * asset.price;
+    }, 0);
+    if(isNaN(show)) return '0.0000'
+    return show.toFixed(4)
+ 
+  };
+
 
   return (
     <>
@@ -55,11 +57,13 @@ function Wallet() {
       <Row className="p-3 mb-5" style={{ background: "#050913" }}>
         <Col lg="5" md="5" sm="5">
           <p>Total Balance</p>
-          <h5>USD { calcTotal(data?.tokens) }</h5>
+          <h5>USD {calcTotal(data?.tokens, 'amount') } </h5>
         </Col>
         <Col lg="5" md="5" sm="5">
           <p>Available Balance</p>
-          <h5>USD 0.0000</h5>
+          <h5>USD {(calcTotal(data?.tokens, 'amount') - calcTotal(data.tokens, 'allocated')).toFixed(4)  }
+
+          </h5>
         </Col>
       </Row>
 
