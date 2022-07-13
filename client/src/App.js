@@ -6,12 +6,14 @@ import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Roadmap from "./pages/Roadmap";
 import Footer from "./components/Footer";
-import { UnAuthenticatedHeader } from "./components/Header";
-import { useHistory } from "react-router-dom";
-import { useMoralis } from "react-moralis";
+import { AuthenticatedHea, UnAuthenticatedHeader } from "./components/Header";
+import {useRouter}  from "next/router";
+// import { useMoralis } from "react-moralis";
+import Profile from "./components/Profile";
+import { useAccount } from "wagmi";
 
 const NotFound = () => {
-  const router = useHistory();
+  const router = useRouter()
   return (
     <div
       style={{
@@ -35,11 +37,12 @@ const NotFound = () => {
 };
 
 function App() {
-  const { isAuthenticated } = useMoralis();
+  const { isConnected } = useAccount();
   return (
     <>
       {" "}
-      {!isAuthenticated && <UnAuthenticatedHeader />}
+      {!isConnected ? <UnAuthenticatedHeader /> : <AuthenticatedHea />}
+      <Profile />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
