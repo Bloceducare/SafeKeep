@@ -65,18 +65,18 @@ function Dashboard() {
         </Link>
       </div>
       <div>
-        <Link href="/dashboard/backupaddress">
+        <Link href="/backupaddress">
           <DashboardIcon src='/assets/backup.svg' alt="backup" />
         </Link>
       </div>
       <div>
         {" "}
-        <Link href="/dashboard/ping">
+        <Link href="/ping">
           <DashboardIcon src='/assets/ping.svg' alt="ping" />
         </Link>
       </div>
       <div>
-        <Link href="/dashboard/inheritors">
+        <Link href="/inheritors">
           <DashboardIcon src='/assets/inherit.svg' alt="inherit" />
         </Link>
       </div>
@@ -90,34 +90,34 @@ function Dashboard() {
         <List>
           <li>
             <Link href="/dashboard">
-              <>
+              <a className="text-white ">
               <DashboardIcon src='/assets/wallet.svg' alt="wallet" />
               Wallet
-              </>
+              </a>
             </Link>
           </li>
           <li>
-            <Link href="/dashboard/backupaddress">
-              <>
+            <Link href="/backupaddress">
+            <a className="text-white ">
               <DashboardIcon src='/assets/backup.svg' alt="backup" />
               Backup Address
-              </>
+              </a>
             </Link>
           </li>
           <li>
-            <Link href="/dashboard/ping">
-              <>
+            <Link href="/ping">
+            <a className="text-white ">
               <DashboardIcon src='/assets/ping.svg' alt="ping" />
               Ping
-              </>
+              </a>
             </Link>
           </li>
           <li>
-            <Link href="/dashboard/inheritors">
-              <>
+            <Link href="/inheritors">
+            <a className="text-white ">
               <DashboardIcon src='/assets/inherit.svg' alt="inherit" />
               Inheritors
-              </>
+              </a>
             </Link>
           </li>
         </List>
@@ -139,19 +139,19 @@ function Dashboard() {
          <Wallet />
             {/* <Switch>
               <Route exact path="/dashboard" component={Wallet} />
-              <Route path="/dashboard/inheritors" component={Inheritors} />
-              <Route path="/dashboard/ping" component={Ping} />
+              <Route path="/inheritors" component={Inheritors} />
+              <Route path="/ping" component={Ping} />
               <Route
-                path="/dashboard/backupaddress"
+                path="/backupaddress"
                 component={BackupAddress}
               />
               <Route
-                path={`/dashboard/${currentNetworkConfig()?.currencyName}`}
+                path={`/${currentNetworkConfig()?.currencyName}`}
                 component={TokenNativeHistory}
               />
               <Route
                 exact
-                path="/dashboard/:address"
+                path="/:address"
                 component={TokenHistory}
               />
             </Switch> */}

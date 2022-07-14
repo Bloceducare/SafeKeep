@@ -1,14 +1,14 @@
-import { Link, withRouter } from "react-router-dom";
+import  Link  from "next/link";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import ConnectModal from "./Components/ConnectModal";
 import { maskAddress } from "../../utils/maskAddress";
 // import Logoimg from "../../assets/logo.png";
-import isWebe3Enabled from "../../hooks/useWeb3Enabled";
+// import isWebe3Enabled from "../../hooks/useWeb3Enabled";
 import { useAccount, useDisconnect } from 'wagmi'
 
 
-function AuthenticatedHeade() {
+export function AuthenticatedHe() {
   const { address} = useAccount()
   const {disconnect} = useDisconnect()
 
@@ -36,7 +36,7 @@ function AuthenticatedHeade() {
   );
 }
 
-export const AuthenticatedHea = withRouter(AuthenticatedHeade);
+// export const AuthenticatedHea = AuthenticatedHeade;
 
 export function UnAuthenticatedHeader() {
   // const connector = useAccount()
@@ -54,17 +54,17 @@ export function UnAuthenticatedHeader() {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto justify-content-end">
               <Nav.Item>
-                <Link to="/" className="nav-link">
+                <Link href="/" className="nav-link">
                   Home
                 </Link>
               </Nav.Item>
               <Nav.Item>
-                <Link to="/about" className="nav-link">
+                <Link href="/about" className="nav-link">
                   About us
                 </Link>
               </Nav.Item>
               <Nav.Item>
-                <Link to="/road-map" className="nav-link">
+                <Link href="/road-map" className="nav-link">
                   Roadmap
                 </Link>
               </Nav.Item>

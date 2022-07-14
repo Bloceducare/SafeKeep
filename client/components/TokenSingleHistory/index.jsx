@@ -1,15 +1,16 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import {useRouter}  from "next/router";
 import { useGetTokenHistoryQuery } from "../../services/api";
 import tokenDetails from "../../utils/tokenDetails";
 import TokenSingleHistoryDetails from "../TokenSingleHistoryDetails";
 
 const TokenHistory = () => {
-  const { address } = useParams();
+  const { query } = useRouter();
+  
   const [name, setName] = useState("");
   const { data, isError, isLoading, isSuccess } =
-    useGetTokenHistoryQuery(address);
+    useGetTokenHistoryQuery(query.address);
   const tokenHistory = data?.vaults[0]?.tokens[0]?.history;
   const add = data?.vaults[0]?.tokens[0]?.id;
   const getName = async () => {
@@ -20,7 +21,7 @@ const TokenHistory = () => {
   const getNameCallBack = useCallback(getName, [add]);
   const tokenData = useSelector((state) => state.vault.data.tokens);
   const tokenPrice =
-    tokenData && tokenData.find((i) => i.token_address === address);
+    tokenData && tokenData.find((i) => i.token_address === query.address);
 
   useEffect(() => {
     getNameCallBack();
