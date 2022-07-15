@@ -1,4 +1,4 @@
-import DashboardView from "../../views/Dashboard"
+import DashboardView from "@views/Dashboard"
 
 const Dashboard = ()=>{
     return <div>

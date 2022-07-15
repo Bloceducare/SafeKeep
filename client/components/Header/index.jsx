@@ -3,8 +3,6 @@ import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import ConnectModal from "./Components/ConnectModal";
 import { maskAddress } from "../../utils/maskAddress";
-// import Logoimg from "../../assets/logo.png";
-// import isWebe3Enabled from "../../hooks/useWeb3Enabled";
 import { useAccount, useDisconnect } from 'wagmi'
 
 
@@ -14,13 +12,10 @@ export function AuthenticatedHe() {
 
   const handleLogout = async () => {
     disconnect()
-   // window.localStorage.removeItem("safekeepAddress");
-    // return window.location.assign("/");
   };
   return (
     <HeadWrapper>
-      <AuthenticatedHead>
-      
+      <AuthenticatedHead>  
         <div>
           <Logo src='/assets/logo.png' fluid />
           {` `}

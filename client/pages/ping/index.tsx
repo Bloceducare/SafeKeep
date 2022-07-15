@@ -1,9 +1,11 @@
+import Ping from "@views/Ping"
 
 
-
-const Ping = ()=>{
-    return (<>Ping</>)
+const PingPage = ()=>{
+    return (<>
+    <Ping />
+    </>)
 }
 
 
-export default Ping
+export default PingPage
