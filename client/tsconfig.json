@@ -23,7 +23,8 @@
       "@state/*":["state/*"],
       "@selectors/*":["selectors/*"],
       "@components/*":["components/*"],
-      "@hooks/*":["hooks/*"]
+      "@hooks/*":["hooks/*"],
+      "@views/*":["views/*"],
     },
   },
   "include": [
