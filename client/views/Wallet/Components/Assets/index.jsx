@@ -8,10 +8,10 @@ import { vault } from "../../selectors";
 import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import TokenPanel from "../../../../components/TokenPanel";
-import  Link  from "next/link";
+import Link from "next/link";
 // import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
 import { currentNetworkConfig } from "../../../../utils/networkConfig";
-import {  useAccount} from 'wagmi'
+import { useAccount } from "wagmi";
 
 const Tokens = () => {
   const tokenData = useSelector((state) => state.vault.data.tokens);
@@ -42,7 +42,7 @@ const Tokens = () => {
 };
 function Assets() {
   // const { walletAddress } = useMoralisDapp();
-  const {address:walletAddress} = useAccount()
+  const { address: walletAddress } = useAccount();
   const add = useSelector((state) => state.user.address);
   const dispatch = useDispatch();
   const { data, loading, fetchError, creatingVault } = useSelector(vault);

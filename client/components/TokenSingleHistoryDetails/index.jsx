@@ -1,6 +1,6 @@
 import { NoTokenImage } from "../../views/Wallet/Components/DepositWithdrawal/NotokenImage";
 import TokenHistoryPanel from "../TokenHistoryPanel";
-import {useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { tokenValue } from "../../utils/formatter";
 import { Col, Nav, Tab, Row } from "react-bootstrap";
 import { currentNetworkConfig } from "../../utils/networkConfig";
@@ -16,7 +16,7 @@ const TokenSingleHistoryDetails = ({
   price = 0,
   decimals = 18,
 }) => {
-  const history =useRouter();
+  const history = useRouter();
   const goBack = () => history.back();
 
   const _allTokens =

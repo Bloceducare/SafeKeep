@@ -7,10 +7,12 @@ import ping from "../views/Ping/state";
 import backupAddress from "../views/BackupAddress/state";
 import sharedTxn from "./shared";
 import userReducer from "./user";
+import auth from "./auth"
 import { Api } from "../services/api";
 
 export const store = combineReducers({
     [Api.reducerPath]: Api.reducer,
+    auth,
     backup: backupAddressReducer,
     user: userReducer,
     vault: vaultReducer,

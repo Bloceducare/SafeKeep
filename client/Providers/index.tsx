@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import { Provider as ReduxProvider } from "react-redux";
-import  store  from "@state/index";
+import store from "@state/index";
 import {
   WagmiConfig,
   createClient,
@@ -17,8 +17,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
-const alchemyId = "bBNkVoaEGbLlefduDC_79GkqhF2wqkO1";
-// const alchemyId = process.env.REACT_APP_ALCHEMY_ID;
+const alchemyId = process.env.ALCHEMY_ID;
 
 // Configure chains & providers with the Alchemy provider.
 // Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
@@ -60,12 +59,12 @@ const ProviderIndex = ({ children }) => {
   return (
     <>
       <ReduxProvider store={store}>
-        <WagmiConfig client={client}>{children}</WagmiConfig>
+        <WagmiConfig client={client}>    
+      {children}  
+          </WagmiConfig>
       </ReduxProvider>
     </>
   );
 };
 
-
-
-export default ProviderIndex
+export default ProviderIndex;

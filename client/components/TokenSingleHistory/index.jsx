@@ -1,16 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {useRouter}  from "next/router";
+import { useRouter } from "next/router";
 import { useGetTokenHistoryQuery } from "../../services/api";
 import tokenDetails from "../../utils/tokenDetails";
 import TokenSingleHistoryDetails from "../TokenSingleHistoryDetails";
 
 const TokenHistory = () => {
   const { query } = useRouter();
-  
+
   const [name, setName] = useState("");
-  const { data, isError, isLoading, isSuccess } =
-    useGetTokenHistoryQuery(query.address);
+  const { data, isError, isLoading, isSuccess } = useGetTokenHistoryQuery(
+    query.address
+  );
   const tokenHistory = data?.vaults[0]?.tokens[0]?.history;
   const add = data?.vaults[0]?.tokens[0]?.id;
   const getName = async () => {

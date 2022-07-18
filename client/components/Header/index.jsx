@@ -1,39 +1,37 @@
-import  Link  from "next/link";
+import Link from "next/link";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import ConnectModal from "./Components/ConnectModal";
 import { maskAddress } from "../../utils/maskAddress";
-import { useAccount, useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from "wagmi";
+import useAuth from "@hooks/useAuth";
 
+export function AuthenticatedHe({ children }) {
+  const { address } = useAccount();
+  const { logout } = useAuth();
 
-export function AuthenticatedHe() {
-  const { address} = useAccount()
-  const {disconnect} = useDisconnect()
-
-  const handleLogout = async () => {
-    disconnect()
-  };
   return (
-    <HeadWrapper>
-      <AuthenticatedHead>  
-        <div>
-          <Logo src='/assets/logo.png' fluid />
-          {` `}
-        </div>
-        <div className="d-flex align-items-center">
-          {maskAddress(address)}
-          <Button variant="dark" onClick={handleLogout} className="mx-2">
-            Logout
-          </Button>
-        </div>
-      </AuthenticatedHead>
-    </HeadWrapper>
+    <>
+      <HeadWrapper>
+        <AuthenticatedHead>
+          <div>
+            <Logo src="/assets/logo.png" fluid />
+            {` `}
+          </div>
+          <div className="d-flex align-items-center">
+            {maskAddress(address)}
+            <Button variant="dark" onClick={logout} className="mx-2">
+              Logout
+            </Button>
+          </div>
+        </AuthenticatedHead>
+      </HeadWrapper>
+      {children}
+    </>
   );
 }
 
-// export const AuthenticatedHea = AuthenticatedHeade;
-
-export function UnAuthenticatedHeader() {
+export function UnAuthenticatedHeader({ children }) {
   // const connector = useAccount()
 
   return (
@@ -41,7 +39,7 @@ export function UnAuthenticatedHeader() {
       <Navbar bg="dark" variant="dark" expand="md">
         <Container>
           <Navbar.Brand href="/">
-            <Logo src='/assets/logo.png' fluid />
+            <Logo src="/assets/logo.png" fluid />
             {` `}
             SafeKeep
           </Navbar.Brand>
@@ -66,7 +64,7 @@ export function UnAuthenticatedHeader() {
 
               <ConnectModal />
 
-            {/* <Nav.Item className="text-danger">
+              {/* <Nav.Item className="text-danger">
                 Install a wallet to use SafeKeep
               </Nav.Item> */}
               {/* {
@@ -78,6 +76,7 @@ export function UnAuthenticatedHeader() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      {children}
     </>
   );
 }

@@ -21,7 +21,8 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@views/*": ["views/*"],
-      "@servers/*": ["servers/*"]
+      "@servers/*": ["servers/*"],
+      "@config/*": ["config/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],

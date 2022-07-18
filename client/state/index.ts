@@ -3,13 +3,13 @@ import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, pers
 import {store as reducer} from './reducers'
 
 import storage from 'redux-persist/lib/storage'
-console.log(reducer)
+
 let store:any;
 
 const PERSISTED_KEYS: string[] = [""]
 
 const persistConfig: any = {
-  key: 'root-safekeep',
+  key: 'root-safekeep@0.0.0.4',
   whitelist: PERSISTED_KEYS,
   storage,
   // stateReconciler: false,
