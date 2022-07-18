@@ -1,8 +1,7 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { UnAuthenticatedHeader } from "@components/Header";
-const HomeComponent = dynamic( () => import('@views/index'), { ssr: false } )
-
+const HomeComponent = dynamic(() => import("@views/index"), { ssr: false });
 
 const Home = () => {
   return (
