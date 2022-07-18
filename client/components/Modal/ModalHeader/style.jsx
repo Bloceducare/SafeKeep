@@ -12,6 +12,6 @@ export const ModalHeader = styled(Modal.Header)`
   background: black;
   border-bottom: 0;
   button {
-    background-image: url('/assets/close.svg');
+    background-image: url("/assets/close.svg");
   }
 `;

@@ -1,10 +1,11 @@
-import Inheritors from "@views/Inheritors"
+import Inheritors from "@views/Inheritors";
 
-
-const InheritorsPage =()=>{
-    return <>
-    <Inheritors />
+const InheritorsPage = () => {
+  return (
+    <>
+      <Inheritors />
     </>
-}
+  );
+};
 
-export default InheritorsPage
+export default InheritorsPage;

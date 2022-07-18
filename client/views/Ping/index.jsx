@@ -19,12 +19,12 @@ import PingModal from "./components/PingModal";
 import { getDate } from "../../utils/formatter";
 import CustomButton from "../../components/Button";
 // import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
-import { useAccount}  from 'wagmi'
+import { useAccount } from "wagmi";
 
 function Ping() {
   const dispatch = useDispatch();
   // const { walletAddress } = useMoralisDapp();
-  const {address:walletAddress} = useAccount()
+  const { address: walletAddress } = useAccount();
   const {
     data: { id },
   } = useSelector(vault);

@@ -23,10 +23,7 @@ import { inheritors } from "./selector";
 import { getInheritorsAsync, deleteInheritorAsync } from "./state";
 import CustomButton from "../../components/Button";
 import ConfirmationModalComponent from "../../components/ConfirmModal";
-import {
-  showConfirmationModal,
-  showAllocateEthSingleModal,
-} from "@state/ui";
+import { showConfirmationModal, showAllocateEthSingleModal } from "@state/ui";
 import EditAliasModal from "./Components/EditModal";
 import AllocateSingleEthModal from "./Components/AllocateEthSingle";
 import { tokenValue } from "../../utils/formatter";
@@ -115,7 +112,7 @@ function Inheritors() {
             <Col lg="2" className="my-1">
               <span>
                 <img
-                  src='/assets/check.svg'
+                  src="/assets/check.svg"
                   alt="check"
                   style={{
                     width: "25px",

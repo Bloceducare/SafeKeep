@@ -43,7 +43,7 @@ export const Tbody = styled.tbody`
       position: absolute;
       width: 1.5rem;
       height: 1.5rem;
-      background-image: url('/assets/check.svg');
+      background-image: url("/assets/check.svg");
       background-size: contain;
     }
   }

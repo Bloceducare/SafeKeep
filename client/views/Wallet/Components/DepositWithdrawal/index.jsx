@@ -7,7 +7,7 @@ import CustomInput from "@components/CustomInput";
 import SpaceBetween from "@components/Layout/SpaceBetween";
 import ModalBody from "@components/Modal/ModalBody";
 import ModalHeader from "@components/Modal/ModalHeader";
-import {useERC20Balance  } from "@hooks/useERC20Balance";
+import { useERC20Balance } from "@hooks/useERC20Balance";
 import { DepositBtn, Balance } from "./style";
 // import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
 import { useNativeBalance } from "@hooks/useNativeBalance";
@@ -73,7 +73,7 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
 
   const txnStatus = useSelector(transactionStatus);
   const modalStatus = useSelector(modal);
-  const  chainId  ='0x4'
+  const chainId = "0x4";
   // const { chainId } = useMoralisDapp();
   const { assets: userWalletAssets = [] } = useERC20Balance();
   const [selectedAssets, setSelectedAssets] = useState([{}]);

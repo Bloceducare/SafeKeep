@@ -1,31 +1,43 @@
-import React from "react";
+import { ReactNode, useEffect } from "react";
 import "./global.css";
 import type { AppProps } from "next/app";
-import ProviderIndex from "../Providers/index";
+import type { NextPage } from "next";
+import SSRProvider from 'react-bootstrap/SSRProvider';
+import ProviderIndex from "../Providers";
 import DashboardLayout from "@components/DashboardLayout";
-import { AuthenticatedHe, UnAuthenticatedHeader } from "@components/Header";
+import { AuthenticatedHe } from "@components/Header";
 
-function MyApp({ Component, pageProps, router }: AppProps) {
-  React.useEffect(() => {
+type GetLayout = (page: ReactNode) => ReactNode;
+
+type Page<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: GetLayout;
+};
+
+type MyAppProps<P = {}> = AppProps<P> & {
+  Component: Page<P>;
+};
+
+const defaultGetLayout: GetLayout = (page: ReactNode): ReactNode => (
+  <>
+    <AuthenticatedHe>
+      <DashboardLayout>{page}</DashboardLayout>
+    </AuthenticatedHe>
+  </>
+);
+
+function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
+  useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
   }, []);
 
+  const getLayout = Component.getLayout ?? defaultGetLayout;
 
-  if ([`/`, '/about', '/road-map'].includes(router.pathname)) 
-  return <> 
-            <ProviderIndex>
-            <UnAuthenticatedHeader />
-            <Component {...pageProps} />
-            </ProviderIndex>
-          </>;
-  
   return (
     <>
-      <ProviderIndex>
-        <AuthenticatedHe />
-        <DashboardLayout>
-        <Component {...pageProps} />
-        </DashboardLayout>
+      <ProviderIndex>  
+        <SSRProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </SSRProvider>
       </ProviderIndex>
     </>
   );

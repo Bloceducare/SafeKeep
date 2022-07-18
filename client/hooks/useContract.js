@@ -15,8 +15,6 @@ import safeKeepAbi from "../config/abi/safekeep.json";
 //   };
 
 export const useContract = (name, ...args) => {
- 
-
   //await Moralis.enableWeb3();
   const runContract = async () => {
     //   const tx = await Moralis.executeFunction({ functionName: name, ...args, ...options })

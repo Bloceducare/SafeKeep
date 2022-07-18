@@ -13,11 +13,11 @@ import { getDate } from "../../utils/formatter";
 import styled from "styled-components";
 import WrapAddress from "../../components/WrapAddress";
 // import { useMoralisDapp } from "../../Providers/MoralisProvider/DappProvider";
-import { useAccount } from 'wagmi'
+import { useAccount } from "wagmi";
 
 function BackupAddress() {
   const dispatch = useDispatch();
-  const { address:walletAddress } = useAccount()
+  const { address: walletAddress } = useAccount();
   // const { walletAddress } = useMoralisDapp();
 
   const id = useSelector(vaultId);

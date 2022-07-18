@@ -19,16 +19,26 @@ function About() {
         <section className="row container">
           <div className="col-lg-4">
             {" "}
-            <img src='./assets/eth.png' alt="eth" width={"100%"} className="about-us-eth" />
-          </div>
-          <div className="col-lg-4">
-            {" "}
-            <img src='./assets/bitcoin.png' alt="btc" width={"100%"} className="about-us-btc" />
+            <img
+              src="./assets/eth.png"
+              alt="eth"
+              width={"100%"}
+              className="about-us-eth"
+            />
           </div>
           <div className="col-lg-4">
             {" "}
             <img
-              src={'./assets/shield.png'}
+              src="./assets/bitcoin.png"
+              alt="btc"
+              width={"100%"}
+              className="about-us-btc"
+            />
+          </div>
+          <div className="col-lg-4">
+            {" "}
+            <img
+              src={"./assets/shield.png"}
               alt="monero"
               width={"100%"}
               className="about-us-monero"
@@ -40,7 +50,11 @@ function About() {
       <section className="row align-items-center my-5">
         <div className="col-lg-6 img">
           <div className="d-flex align-items-center">
-            <img src='./assets/shield.png' alt="connect" className="shield-scale-down" />
+            <img
+              src="./assets/shield.png"
+              alt="connect"
+              className="shield-scale-down"
+            />
             <p className="p-2 opacity-7 fs-0-9">
               This is the question that brought about SafeKeep. What happens to
               you cryptocurrencies when you die? What happens to your
@@ -52,7 +66,11 @@ function About() {
         </div>
         <div className="col-lg-6 img">
           <div className="d-flex align-items-center">
-            <img src='./assets/shield.png' alt="connect" className="shield-scale-down" />
+            <img
+              src="./assets/shield.png"
+              alt="connect"
+              className="shield-scale-down"
+            />
             <p className="p-2 opacity-7 fs-0-9">
               With the SafeKeep Dapp, you can be rest assured that your crypto
               is not lost forever, no matter what happens.
