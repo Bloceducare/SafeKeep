@@ -87,7 +87,32 @@ library Guards {
 
     function _activeInheritor(address _inheritor)
         internal
-        view
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       view
         returns (bool active_)
     {
         VaultStorage storage vs = LibDiamond.vaultStorage();
