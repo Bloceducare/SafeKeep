@@ -11,6 +11,7 @@ import "../interfaces/IERC20.sol";
 contract VaultFacet is IVaultFacet, StorageStead {
   error NotInheritor();
   error AmountMismatch();
+  error initialized(uint256 _nonce);
 
   ///////////////////
   //VIEW FUNCTIONS//
@@ -58,6 +59,7 @@ contract VaultFacet is IVaultFacet, StorageStead {
   //////////////////////
   ///WRITE FUNCTIONS///
   ////////////////////
+
   //note: owner restriction is in external fns
   function addInheritors(
     address[] calldata _newInheritors,
@@ -74,7 +76,7 @@ contract VaultFacet is IVaultFacet, StorageStead {
 
   function depositEther(uint256 _amount) external payable {
     if (_amount != msg.value) revert AmountMismatch();
-    emit EthDeposited(_amount,vs.vaultID);
+    emit EthDeposited(_amount, vs.vaultID);
   }
 
   function withdrawEther(uint256 _amount, address _to) external {
