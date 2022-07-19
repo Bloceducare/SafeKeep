@@ -63,7 +63,6 @@ struct VaultStorage {
   //GLOBAL
   mapping(address => mapping(address => uint256[])) inheritorAllocatedTokenIds;
   mapping(address => bool) claimed;
-  uint256 nonce;
 }
 
 abstract contract StorageStead {

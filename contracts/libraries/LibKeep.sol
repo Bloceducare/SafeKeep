@@ -218,8 +218,6 @@ library LibKeep {
     }
   }
 
-  //reset ERC721
-
   //INHERITOR MUTATING OPERATIONS
 
   function _addInheritors(
