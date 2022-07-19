@@ -601,7 +601,8 @@ library LibKeep {
           //     vs.inheritorAllocatedERC20Tokens[msg.sender],
           //     token
           // );
-          vs.inheritorTokenShares[msg.sender][token] = 0;
+          
+          vs.inheritorAllocatedERC20Tokens[msg.sender][i];
           IERC20(token).transfer(msg.sender, amountToClaim);
           emit ERC20TokensClaimed(msg.sender, token, amountToClaim, _vaultID());
         }
@@ -629,7 +630,9 @@ library LibKeep {
             if (tokenID == 0) {
               //check for whitelist
               if (vs.whitelist[msg.sender][token]) {
+
                 vs.whitelist[msg.sender][token] = false;
+                
                 vs.inheritorAllocatedERC721TokenAddresses[msg.sender][i] = 0;
 
                 IERC721(token).transferFrom(address(this), msg.sender, 0);
