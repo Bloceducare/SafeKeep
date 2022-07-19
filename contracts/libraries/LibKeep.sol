@@ -136,7 +136,8 @@ library LibKeep {
   }
 
   function getCurrentAllocated1155tokens(address _token, uint256 _tokenID)
-    internal view
+    internal
+    view
     returns (uint256 alloc_)
   {
     VaultStorage storage vs = LibDiamond.vaultStorage();
@@ -170,12 +171,54 @@ library LibKeep {
           vs.inheritorAllocatedERC20Tokens[_inheritor][x]
         ] = false;
       }
-      //TO-DO Also reset for relevant ERC721 and ERC1155 Storage vars too
-      //@Abims-Web3bridge //@Falilah
-      //remove all token addresses
       delete vs.inheritorAllocatedERC20Tokens[_inheritor];
     }
+
+    if (vs.inheritorAllocatedERC721TokenAddresses[_inheritor].length > 0) {
+      for (
+        uint256 x;
+        x < vs.inheritorAllocatedERC721TokenAddresses[_inheritor].length;
+        x++
+      ) {
+        uint256 tokenAllocated = vs.inheritorERC721Tokens[_inheritor][
+          vs.inheritorAllocatedERC721TokenAddresses[_inheritor][x]
+        ];
+        if (tokenAllocated == 0) {
+          vs.whitelist[_inheritor][
+            vs.inheritorAllocatedERC721TokenAddresses[_inheritor][x]
+          ] = false;
+        }
+        vs.inheritorERC721Tokens[_inheritor][
+          vs.inheritorAllocatedERC721TokenAddresses[_inheritor][x]
+        ] = type(uint256).max - 2;
+        vs.allocatedERC721Tokens[
+          vs.inheritorAllocatedERC721TokenAddresses[_inheritor][x]
+        ][tokenAllocated] = false;
+      }
+
+      delete vs.inheritorAllocatedERC721TokenAddresses[_inheritor];
+    }
+
+    if (vs.inheritorAllocatedERC1155TokenAddresses[_inheritor].length > 0) {
+      for (
+        uint256 x;
+        x < vs.inheritorAllocatedERC1155TokenAddresses[_inheritor].length;
+        x++
+      ) {
+        vs.inheritorERC1155TokenAllocations[_inheritor][
+          vs.inheritorAllocatedERC1155TokenAddresses[_inheritor][x]
+        ][
+            vs.inheritorAllocatedTokenIds[_inheritor][
+              vs.inheritorAllocatedERC1155TokenAddresses[_inheritor][x]
+            ][x]
+          ] = type(uint256).max - 2;
+      }
+
+      delete vs.inheritorAllocatedERC1155TokenAddresses[_inheritor];
+    }
   }
+
+  //reset ERC721
 
   //INHERITOR MUTATING OPERATIONS
 
