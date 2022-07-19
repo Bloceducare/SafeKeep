@@ -85,17 +85,17 @@ library Guards {
     if (msg.sender != vs.backupAddress) revert NotBackupAddress();
   }
 
-  function _activeInheritor(address _inheritor)
-    internal
-    view
-    returns (bool active_)
-  {
-    VaultStorage storage vs = LibDiamond.vaultStorage();
-    if (_inheritor == address(0)) {
-      active_ == true;
-    } else {
-      active_ = (vs.activeInheritors[_inheritor]);
-    }
+
+    function _activeInheritor(address _inheritor)
+        internal view
+        returns (bool active_)
+    {
+        VaultStorage storage vs = LibDiamond.vaultStorage();
+        if (_inheritor == address(0)) {
+            active_ == true;
+        } else {
+            active_ = (vs.activeInheritors[_inheritor]);
+        }    
   }
 
   function _anInheritor(address _inheritor) internal view returns (bool inh) {
