@@ -1,12 +1,11 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist'
 import {store as reducer} from './reducers'
-
 import storage from 'redux-persist/lib/storage'
 
 let store:any;
 
-const PERSISTED_KEYS: string[] = [""]
+const PERSISTED_KEYS: string[] = []
 
 const persistConfig: any = {
   key: 'root-safekeep@0.0.0.4',
@@ -14,6 +13,7 @@ const persistConfig: any = {
   storage,
   // stateReconciler: false,
 }
+
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 

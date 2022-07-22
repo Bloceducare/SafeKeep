@@ -12,12 +12,15 @@ import {
   MobileNav,
 } from "./style";
 
-import { AuthenticatedHe, UnAuthenticatedHeader } from "@components/Header";
+import { AuthenticatedHe} from "@components/Header";
 import { isMobile, isTablet } from "react-device-detect";
 import { useAccount } from "wagmi";
+import useAuth from "@hooks/useAuth";
 
 function DashboardLayout({ children }) {
-  const { data: isAuthenticated } = useAccount();
+ //  const {isAuthenticated, fetchingUser} = useAuth()
+
+ // if(fetchingUser) return 'Loading...'
 
   const _MobileNav = (
     <MobileNav>
@@ -91,11 +94,12 @@ function DashboardLayout({ children }) {
   return (
     <div>
       {(isMobile || isTablet) && _MobileNav}
-      {isAuthenticated && <AuthenticatedHe />}
       <DashboardWrapper>
         {(!isMobile || !isTablet) && _DesktopNav}
         <OtherDashboardSection>
-          <OtherSectionWrapper>{children}</OtherSectionWrapper>
+          <OtherSectionWrapper>
+           {children}
+          </OtherSectionWrapper>
         </OtherDashboardSection>
       </DashboardWrapper>
     </div>

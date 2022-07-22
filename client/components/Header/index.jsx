@@ -3,12 +3,15 @@ import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import ConnectModal from "./Components/ConnectModal";
 import { maskAddress } from "../../utils/maskAddress";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount } from "wagmi";
 import useAuth from "@hooks/useAuth";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 export function AuthenticatedHe({ children }) {
   const { address } = useAccount();
-  const { logout } = useAuth();
+  const { logout} = useAuth();
+
 
   return (
     <>
@@ -32,8 +35,6 @@ export function AuthenticatedHe({ children }) {
 }
 
 export function UnAuthenticatedHeader({ children }) {
-  // const connector = useAccount()
-
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="md">
@@ -80,3 +81,6 @@ export function UnAuthenticatedHeader({ children }) {
     </>
   );
 }
+
+
+

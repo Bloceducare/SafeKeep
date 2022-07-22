@@ -5,13 +5,7 @@ import  { ironOptions} from "../../config/constants"
 
 
 
-  interface ExtendedNextApiRequest extends NextApiRequest {
-    // IronSessionData: {
-    //  nonce: number;
-    // };
-  }
-
-const handler = async (req: ExtendedNextApiRequest , res: NextApiResponse) => {
+const handler = async (req:  NextApiRequest , res: NextApiResponse) => {
   const { method } = req
   switch (method) {
     case 'GET':

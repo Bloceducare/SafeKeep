@@ -9,10 +9,19 @@ import sharedTxn from "./shared";
 import userReducer from "./user";
 import auth from "./auth"
 import { Api } from "../services/api";
+import storage from 'redux-persist/lib/storage'
+import { persistReducer } from 'redux-persist'
+
+
+const authPersistConfig = {
+    key: 'auth',
+    storage: storage,
+    // blacklist: ['fetchingUser']
+  }
 
 export const store = combineReducers({
     [Api.reducerPath]: Api.reducer,
-    auth,
+    auth: persistReducer(authPersistConfig, auth),
     backup: backupAddressReducer,
     user: userReducer,
     vault: vaultReducer,
