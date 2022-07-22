@@ -48,7 +48,6 @@ router.post(async (req, res) => {
         message: "User doesn't exist",
       });
     }
-    // console.log(user);
 
     for (let i = 0; i < addresses.length; i++) {
       let inheritor = new inheritordb({

@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createRouter } from "next-connect";
 import connectDB from "@servers/config/database";
-import mongoose from "mongoose";
 import userdb from "@servers/model/user";
-import inheritordb from "@servers/model/inheritor";
 
 connectDB();
 
@@ -11,8 +9,8 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 
 // create a user
 router.post(async (req, res) => {
-  const { address } = req.body.data;
-  console.log(address);
+  console.log(req.body)
+  const { address } = req.body;
   if (req.method === "POST") {
     !address
       ? res.status(423).json({
@@ -54,6 +52,7 @@ router.post(async (req, res) => {
 
 // Get all the inheritors of an address (convert address query to lower case before sending it)
 router.get(async (req, res) => {
+  console.log(req.query)
   const { address } = req.query;
   try {
     await userdb
