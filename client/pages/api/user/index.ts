@@ -9,7 +9,6 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 
 // create a user
 router.post(async (req, res) => {
-  console.log(req.body)
   const { address } = req.body;
   if (req.method === "POST") {
     !address
