@@ -5,7 +5,7 @@ import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useDisconnect, useNetwork, useSignMessage } from 'wagmi'
 import {  userSelector, } from "@selectors/index";
 import { hideConnectModal } from "@state/ui";
-import { fetchNonceAsync, fetchUserAsync, logoutAsync, verifyNonceAsync } from "@state/auth";
+import { fetchNonceAsync, fetchUserAsync, logoutAsync, verifyNonceAsync, authenticate } from "@state/auth";
 import { signMessage } from "config/constants";
 
 
@@ -29,7 +29,7 @@ const useAuth =()=>{
 
    // Fetch user when:
   const mounted = useRef(false)
-  const { error:loadingError, fetchingUser:loading, nonce} = useSelector(userSelector)
+  const { isAuthenticated, nonce, fetchingUser} = useSelector(userSelector)
 
   const handler = async ()=>{
       await dispatch(fetchUserAsync())
@@ -100,11 +100,10 @@ const useAuth =()=>{
         setIsError({message:'error connecting wallet'})
         return
       }
-       await router.push('/dashboard')
-       .then(()=> {
-        dispatch(hideConnectModal())
-        setIsLoading(false)
-       })
+      dispatch(authenticate())
+      dispatch(hideConnectModal())
+      setIsLoading(false)
+      router.push('/dashboard')
      
 
     }
@@ -117,7 +116,7 @@ const useAuth =()=>{
     const disconnect =async()=>{
         await disconnectAsync()
         .then(()=> dispatch(logoutAsync()) ) // disconnect wallet then signout user 
-        await router.push('/')
+        // await router.push('/')
      
     }
   
@@ -128,7 +127,9 @@ const useAuth =()=>{
         pendingConnector,
         connectors,
         error:isError,
-        isLoading,   
+        isLoading, 
+        isAuthenticated,
+        fetchingUser
     }
 }
 

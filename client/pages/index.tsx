@@ -1,10 +1,12 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { UnAuthenticatedHeader } from "@components/Header";
+import { userSelector } from "@selectors/index";
 const HomeComponent = dynamic(() => import("@views/index"), { ssr: false });
 import axios from "axios";
 
 const Home = () => {
+
   return (
     <div>
       <Head>
@@ -32,3 +34,4 @@ Home.getLayout = function getLayout(page) {
 };
 
 export default Home;
+

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { AuthenticatedHead, HeadWrapper, Logo } from "./style";
 import { maskAddress } from "../../utils/maskAddress";
-import { useAccount, useDisconnect } from "wagmi";
+import { useAccount } from "wagmi";
 import useAuth from "@hooks/useAuth";
 import { ConnectWalletModal } from "./Components/ConnectModal";
 import styled from "styled-components";
@@ -12,6 +12,8 @@ import {
   DrawerCloseButton,
   DrawerTrigger,
 } from "../Drawer";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 export function AuthenticatedHe({ children }) {
   const { address } = useAccount();
@@ -39,8 +41,6 @@ export function AuthenticatedHe({ children }) {
 }
 
 export function UnAuthenticatedHeader({ children }) {
-  // const connector = useAccount()
-
   return (
     <div style={{ position: "relative" }}>
       <Container>

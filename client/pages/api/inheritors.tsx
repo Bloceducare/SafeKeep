@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { createRouter } from "next-connect";
 import connectDB from "@servers/config/database";
-import mongoose from "mongoose";
 import userdb from "@servers/model/user";
 import inheritordb from "@servers/model/inheritor";
 
@@ -50,14 +49,12 @@ router.post(async (req, res) => {
         message: "User doesn't exist",
       });
     }
-    // console.log(user);
 
     for (let i = 0; i < addresses.length; i++) {
       let inheritor = new inheritordb({
         address: addresses[i].address.toLowerCase(),
         alias: addresses[i].alias.toLowerCase(),
       });
-      //   console.log(inheritor);
       await inheritor.users.push(user);
       const id = await inheritor._id;
       await inheritor.save();
@@ -131,6 +128,8 @@ router.delete(async (req, res) => {
     console.log(e);
   }
 });
+
+
 
 export default router.handler({
   onError: (err, req, res, next) => {

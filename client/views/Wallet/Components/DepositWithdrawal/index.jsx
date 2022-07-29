@@ -68,7 +68,7 @@ const nativeToken = (data) => {
 function Deposit({ showModal = false, operationType = "Deposit" }) {
   const dispatch = useDispatch();
   const {
-    data: { id, tokens },
+    data: { id, tokens=[] },
   } = useSelector(vault);
 
   const txnStatus = useSelector(transactionStatus);
@@ -151,7 +151,8 @@ function Deposit({ showModal = false, operationType = "Deposit" }) {
       clearFields();
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [modalStatus, dispatch, userWalletAssets, operationType, tokens]);
+    //modalStatus, dispatch, userWalletAssets, operationType, tokens
+  }, []);
 
   const tkValue = (coin, price) => {
     if (!price || !coin) return;

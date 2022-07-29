@@ -12,12 +12,9 @@ import { hideCreateVaultModal } from "@state/ui";
 import { vault } from "../../../selectors";
 import { toast, ToastContainer } from "react-toastify";
 import PlusIcon from "../../../../../components/PlusIcon";
-// import { useMoralisDapp } from "../../../../../Providers/MoralisProvider/DappProvider";
-// import validEthAddress from "../../../../../utils/validEthAddress";
 import { useAccount } from "wagmi";
 
 function CreateVaultModal() {
-  // const { walletAddress } = useMoralisDapp();
   const { address: walletAddress } = useAccount();
   const dispatch = useDispatch();
   const { createVaultModal } = useSelector((state) => state.ui);
@@ -112,9 +109,7 @@ function CreateVaultModal() {
                   name="_startingBal"
                   required
                 />
-                {/* <Form.Control.Feedback type="invalid">
-    Please choose a username.
-  </Form.Control.Feedback> */}
+               
               </Form.Group>
             </Row>
 
@@ -168,12 +163,6 @@ function CreateVaultModal() {
                   </Row>
                 </Fragment>
               ))}
-
-            {/* <MultiSelect
-              setChange={handleInheritors}
-              options={userInputs?.inheritors}
-              name="inheritors"
-            /> */}
 
             <div className="d-flex justify-content-center align-items-center">
               <CustomButton

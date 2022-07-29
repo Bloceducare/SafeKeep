@@ -72,7 +72,6 @@ export const verifyNonceAsync = createAsyncThunk(
 export const auth = createSlice({
   name: "auth",
   initialState: {
-    jwt:"bf",
     nonce:'',
     isLoggingOut:false,
     isAuthenticated:false,
@@ -84,6 +83,10 @@ export const auth = createSlice({
     setJwt: (state, { payload }) => {
       state.jwt = payload;
     },
+
+    authenticate:(state)=>{
+      state.isAuthenticated =true
+    }
   },
   extraReducers:(builder)=>{
     builder
@@ -94,6 +97,8 @@ export const auth = createSlice({
     .addCase(logoutAsync.fulfilled, (state)=>{
       state.isLoggingOut = false
       state.address=""
+      state.nonce=""
+      state.isAuthenticated=false
     })
     .addCase(logoutAsync.rejected, (state)=>{
       state.error= true
@@ -104,14 +109,13 @@ export const auth = createSlice({
       state.fetchingUser = true
     })
     .addCase(fetchUserAsync.fulfilled, (state, {payload})=>{
-      console.log(payload)
       state.fetchingUser = false
       state.address = payload.address
     })
     .addCase(fetchUserAsync.rejected, (state)=>{
       
       state.error= true
-      state.fetchingUser = false
+      state.fetchingUser = true
     })
     .addCase(fetchNonceAsync.pending, (state)=>{
       state.error= false
@@ -131,6 +135,6 @@ export const auth = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setJwt } = auth.actions;
+export const { setJwt, authenticate } = auth.actions;
 
 export default auth.reducer;
