@@ -32,7 +32,9 @@ export const Btn = styled.button`
   padding: 8px 30px;
   background-color: #2b5bcf;
   margin: ${(props) => (props.noMargin ? 0 : " 20px 20px")};
-
+  font-family: "clash grotesk regular";
+  font-size: "24px";
+  line-height: "29px";
   outline: 0.4px solid #2b5bcf;
   border: none;
   border-radius: 12px;

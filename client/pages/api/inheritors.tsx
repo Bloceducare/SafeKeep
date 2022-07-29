@@ -20,6 +20,7 @@ type allInheritors = {
 const router = createRouter<NextApiRequest, NextApiResponse>();
 // get inheritors data
 router.get(async (req, res) => {
+  console.log(req.query);
   const { address } = req.query;
   try {
     await inheritordb.findOne({ address: address }).then((data) => {
@@ -104,7 +105,7 @@ router.put(async (req, res) => {
         { new: true }
       )
       .then((data) => {
-        res.status(200).json({
+        return res.status(200).json({
           status: true,
           message: "inheritor alias modified successfully",
           data,
@@ -120,7 +121,7 @@ router.delete(async (req, res) => {
   const { address } = req.query;
   try {
     await inheritordb.findOneAndDelete({ address: address }).then((data) => {
-      res.status(200).json({
+      return res.status(200).json({
         status: true,
         message: "inheritors deleted successfully",
         data,

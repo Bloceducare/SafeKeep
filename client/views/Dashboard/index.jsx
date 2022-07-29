@@ -17,6 +17,7 @@ import {
   MobileNav,
 } from "./styles";
 import Wallet from "../Wallet";
+
 import CreateVaultModal from "../Wallet/Components/DepositWithdrawal/CreateVault";
 import TokenHistory from "../../components/TokenSingleHistory";
 import { AuthenticatedHea } from "../../components/Header";

@@ -10,6 +10,8 @@ import {
   OtherSectionWrapper,
   DashboardIcon,
   MobileNav,
+  ListText,
+  HeaderContainer,
 } from "./style";
 
 import { AuthenticatedHe, UnAuthenticatedHeader } from "@components/Header";
@@ -47,38 +49,56 @@ function DashboardLayout({ children }) {
 
   const _DesktopNav = (
     <DashboardSection>
-      <Header>Dashboard</Header>
+      <HeaderContainer>
+        <Header>Dashboard</Header>
+      </HeaderContainer>
       <TopSection>
         <List>
           <li>
             <Link href="/dashboard">
-              <a className="text-white ">
-                <DashboardIcon src="/assets/wallet.svg" alt="wallet" />
-                Wallet
+              <a style={{ display: "flex", alignItems: "center" }}>
+                <DashboardIcon
+                  src="/assets/wallet.svg"
+                  alt="wallet"
+                  style={{ height: "100%", marginRight: "15px" }}
+                />
+                <ListText>Wallet</ListText>
               </a>
             </Link>
           </li>
           <li>
             <Link href="/backup-address">
-              <a className="text-white ">
-                <DashboardIcon src="/assets/backup.svg" alt="backup" />
-                Backup Address
+              <a style={{ display: "flex", alignItems: "center" }}>
+                <DashboardIcon
+                  src="/assets/backup.svg"
+                  alt="backup"
+                  style={{ height: "100%", marginRight: "8px" }}
+                />
+                <ListText> Backup Address</ListText>
               </a>
             </Link>
           </li>
           <li>
             <Link href="/ping">
-              <a className="text-white ">
-                <DashboardIcon src="/assets/ping.svg" alt="ping" />
-                Ping
+              <a style={{ display: "flex", alignItems: "center" }}>
+                <DashboardIcon
+                  src="/assets/ping.svg"
+                  alt="ping"
+                  style={{ height: "100%", marginRight: "15px" }}
+                />
+                <ListText>Ping</ListText>
               </a>
             </Link>
           </li>
           <li>
             <Link href="/inheritors">
-              <a className="text-white ">
-                <DashboardIcon src="/assets/inherit.svg" alt="inherit" />
-                Inheritors
+              <a style={{ display: "flex", alignItems: "center" }}>
+                <DashboardIcon
+                  src="/assets/inherit.svg"
+                  alt="inherit"
+                  style={{ height: "100%", marginRight: "10px" }}
+                />
+                <ListText>Inheritors</ListText>
               </a>
             </Link>
           </li>
@@ -87,7 +107,7 @@ function DashboardLayout({ children }) {
       <BottomSection></BottomSection>
     </DashboardSection>
   );
-
+  console.log(isMobile);
   return (
     <div>
       {(isMobile || isTablet) && _MobileNav}

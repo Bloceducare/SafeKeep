@@ -17,7 +17,7 @@ const Token = ({ name, balance, symbol, logo, onGetAsset }) => {
           <div className="d-flex align-items-center">
             {_image}
             <div>
-              {symbol}
+              {symbol}v
               <br />
               <span className="text-muted"> {name}</span>
             </div>

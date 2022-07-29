@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Container } from "react-bootstrap";
 import { P } from "./style";
 import { showCreateVaultModal } from "@state/ui";
 import NoVault from "../NoVault";
@@ -9,6 +8,7 @@ import { checkVaultAsync } from "../../state";
 import CustomButton from "../../../../components/Button";
 import TokenPanel from "../../../../components/TokenPanel";
 import Link from "next/link";
+import styled from "styled-components";
 // import { useMoralisDapp } from "../../../../Providers/MoralisProvider/DappProvider";
 import { currentNetworkConfig } from "../../../../utils/networkConfig";
 import { useAccount } from "wagmi";
@@ -28,13 +28,18 @@ const Tokens = () => {
               : token.address
           }`}
           key={idx}
-          className="text-white"
+          // className="text-white"
         >
           <TokenPanel
             token={token}
             key={token.id}
-            className={`${idx === 0 ? "mt-5" : ""} py-2 mb-3 pb-3`}
-            style={{ borderBottom: "0.3px solid rgb(182 182 182 / 46%)" }}
+            style={{
+              borderBottom: "0.3px solid rgb(182 182 182 / 46%)",
+              marginTop: `${idx === 0 ? "5px" : ""}`,
+              paddingTop: "16px",
+              paddingBottom: "24px",
+              marginBottom: "24px",
+            }}
           />
         </Link>
       ))
@@ -75,6 +80,7 @@ function Assets() {
           </p>
         }
       />
+      <Tokens />
     </Container>
   );
 }
@@ -98,3 +104,10 @@ const Show = ({
   if (data?.id) return content;
   return loadingC;
 };
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;

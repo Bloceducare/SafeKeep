@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { BtnDiv } from "./style";
+import { BtnDiv, HeaderContainer, Column, NumberText } from "./style";
 import DepositWithdrawal from "./Components/DepositWithdrawal";
 import Assets from "./Components/Assets";
 import CustomButton from "../../components/Button";
@@ -9,7 +9,8 @@ import {
   showDepositWithdrawalModal,
   // showCreateVaultModal,
 } from "@state/ui";
-import { Row, Col, Tab, Nav } from "react-bootstrap";
+// import { Row, Col, Tab, Nav } from "react-bootstrap";
+import Tabs, { Tab, TabList, TabPanel, TabPanels } from "./Components/tabs";
 import TokenHistoryPanel from "../../components/TokenHistoryPanel";
 import { getTokensHistoryAsync } from "../Wallet/state";
 // import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -45,29 +46,35 @@ function Wallet() {
         showModal={showHideModal}
       />
       <BtnDiv>
-        <CustomButton text="Deposit" onClick={() => handleModal("Deposit")} />
+        <CustomButton
+          text="Deposit"
+          onClick={() => handleModal("Deposit")}
+          style={{ maxWidth: "210px", width: "100%", padding: "16px 20px" }}
+        />
         <CustomButton
           text="Withdraw"
           outline
           onClick={() => handleModal("Widthdraw")}
+          style={{ maxWidth: "210px", width: "100%", padding: "16px 20px" }}
         />
       </BtnDiv>
-      <Row className="p-3 mb-5" style={{ background: "#050913" }}>
-        <Col lg="5" md="5" sm="5">
-          <p>Total Balance</p>
-          <h5>USD {calcTotal(data?.tokens, "amount")} </h5>
-        </Col>
-        <Col lg="5" md="5" sm="5">
-          <p>Available Balance</p>
-          <h5>
+
+      <HeaderContainer>
+        <Column>
+          <p style={{ marginBottom: "6px" }}>Total Balance</p>
+          <NumberText>USD {calcTotal(data?.tokens, "amount")} </NumberText>
+        </Column>
+        <Column>
+          <p style={{ marginBottom: "6px" }}>Available Balance</p>
+          <NumberText>
             USD{" "}
             {(
               calcTotal(data?.tokens, "amount") -
               calcTotal(data.tokens, "allocated")
-            ).toFixed(4)}
-          </h5>
-        </Col>
-      </Row>
+            ).toFixed(4)}{" "}
+          </NumberText>
+        </Column>
+      </HeaderContainer>
 
       <WalletContent />
     </>
@@ -76,42 +83,42 @@ function Wallet() {
 
 export const WalletContent = () => {
   return (
-    <>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row>
-          <Col className="text-center">
-            <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey="first" className="text-center">
-                  Tokens
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-          <Col>
-            <Nav variant="pills" className="flex-column">
-              <Nav.Item>
-                <Nav.Link eventKey="second" className="text-center">
-                  History
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-        </Row>
-
-        <Tab.Content>
-          <Tab.Pane eventKey="first">
+    <div style={{ width: "100%" }}>
+      <Tabs>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            // "@media (max-width: 991px)": {
+            //   marginTop: "10px",
+            //   marginBottom: "22px",
+            //   flexDirection: "row",
+            // },
+          }}
+        >
+          <TabList
+            style={{
+              width: "50%",
+              display: "flex",
+              alignItems: "flex-start",
+            }}
+          >
+            <Tab>Tokens</Tab>
+            <Tab>History</Tab>
+          </TabList>
+        </div>
+        <TabPanels>
+          <TabPanel>
+            {" "}
             <Assets />
-          </Tab.Pane>
-
-          <Tab.Pane eventKey="second">
-            <div className="mt-5">
-              <TokensHistory />
-            </div>
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
-    </>
+          </TabPanel>
+          <TabPanel>
+            {" "}
+            <TokensHistory />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </div>
   );
 };
 

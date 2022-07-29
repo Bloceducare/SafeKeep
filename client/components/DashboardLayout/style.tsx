@@ -14,9 +14,19 @@ export const iconStyle = {
 };
 export const DashboardWrapper = styled.div`
   display: flex;
+  justify-content: flex-end;
+  min-height: 100vh;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
-export const TopSection = styled.div``;
+export const TopSection = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
 
 export const BalanceDiv = styled.div`
   background: #2b5bcf;
@@ -39,41 +49,73 @@ export const BottomSection = styled.div`
   align-self: flex-end;
 `;
 export const DashboardSection = styled.div`
-  flex: 1;
+  max-width: 29%;
+  width: 100%;
   padding-left: 3rem;
   background: #0b0d2e;
 `;
 export const OtherDashboardSection = styled.div`
-  flex: 4;
+  max-width: 71%;
+  width: 100%;
   /* border:1px solid red; */
   background: #101010;
 `;
 
 export const OtherSectionWrapper = styled.div`
   max-width: 60rem;
+  width: "100%";
   margin: auto;
   padding: 1.5rem;
   padding-top: 4rem;
 `;
 export const otherSectionContent = styled.div``;
 
-export const Header = styled.p`
-  font-size: 1.5rem;
-  font-weight: bold;
+export const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-left: 36px;
 `;
 
-export const List = styled.ul`
+export const Header = styled.p`
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 44px;
+  padding-top: 40px;
+  font-family: "clash grotesk regular";
+  margin-bottom: 90px;
+  max-width: 331px;
+  width: 100%;
+`;
+
+export const List = styled.div`
   margin: 0;
   padding: 0;
+  max-width: 331px;
+  width: 100%;
   & li {
     align-items: center;
     list-style: none;
-    margin: 2rem 0;
+    margin-bottom: 50px;
+    display: flex;
+    &:hover {
+      background: rgba(254, 254, 255, 0.06);
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    padding: 13px 19px;
   }
 `;
 
+export const ListText = styled.span`
+  font-family: "clash grotesk regular";
+  line-height: 28px;
+  font-size: 27px;
+  line-spacing: 0.15px;
+  color: #fff;
+`;
+
 export const MobileNav = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -87,4 +129,7 @@ export const MobileNav = styled.div`
   width: 100%;
   height: 5rem;
   z-index: 100;
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
