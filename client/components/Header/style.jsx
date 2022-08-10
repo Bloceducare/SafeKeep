@@ -16,5 +16,4 @@ export const AuthenticatedHead = styled.div`
 
 export const HeadWrapper = styled.div`
   border-bottom: 1px solid white;
-  margin-bottom: 2rem;
 `;
